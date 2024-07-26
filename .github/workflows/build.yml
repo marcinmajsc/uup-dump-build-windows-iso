@@ -2,8 +2,7 @@ name: build
 on:
   workflow_dispatch:
   schedule:
-    #- cron: '0 * * * *' # hourly.
-    - cron: '0 0 17 * *' # every month, the 17th day.
+    - cron: '15 17 * * *'  # Run at 5:15 pm every day.
 jobs:
   build:
     strategy:
