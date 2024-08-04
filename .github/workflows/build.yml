@@ -54,9 +54,29 @@ jobs:
         shell: pwsh
         run: |
           $isoFile = Get-ChildItem -Path c:/output -Filter *.iso | Select-Object -First 1
-          $chunkSizeBytes = 1932735283  # 1.8 GiB in bytes
-          $isoFilePath = $isoFile.FullName.Replace("\", "/")
-          bash -c "split -b $chunkSizeBytes -d -a 3 /$isoFilePath /$isoFilePath.part"
+          $chunkSize = 1.8GB
+          $bufferSize = 1MB
+          $outputDir = 'c:/output'
+          $fileNumber = 0
+          $fileStream = [System.IO.File]::OpenRead($isoFile.FullName)
+          $buffer = New-Object byte[] $bufferSize
+
+          while ($fileStream.Position -lt $fileStream.Length) {
+              $outputFile = "{0}\{1}.part{2:000}" -f $outputDir, $isoFile.BaseName, $fileNumber
+              $outputStream = [System.IO.File]::OpenWrite($outputFile)
+              $bytesRemaining = $chunkSize
+
+              while ($bytesRemaining -gt 0 -and $fileStream.Position -lt $fileStream.Length) {
+                  $bytesRead = $fileStream.Read($buffer, 0, [Math]::Min($bufferSize, $bytesRemaining))
+                  $outputStream.Write($buffer, 0, $bytesRead)
+                  $bytesRemaining -= $bytesRead
+              }
+
+              $outputStream.Close()
+              $fileNumber++
+          }
+
+          $fileStream.Close()
 
       - name: Create GitHub Release
         id: create_release
