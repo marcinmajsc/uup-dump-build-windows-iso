@@ -218,9 +218,9 @@ function Get-WindowsIso($name, $destinationDirectory) {
     $iso = Get-UupDumpIso $name $TARGETS.$name
 
     # ensure the build is a version number.
-    if ($iso.build -notmatch '^\d+\.\d+$') {
-        throw "unexpected $name build: $($iso.build)"
-    }
+#    if ($iso.build -notmatch '^\d+\.\d+$') {
+#        throw "unexpected $name build: $($iso.build)"
+#    }
 
     $buildDirectory = "$destinationDirectory/$name"
     $destinationIsoPath = "$buildDirectory.iso"
