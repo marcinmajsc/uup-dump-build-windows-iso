@@ -1,31 +1,37 @@
 name: build
+
 on:
   workflow_dispatch:
   #schedule:
     #- cron: '0 * * * *' # hourly.
     #- cron: '0 0 17 * *' # every month, the 17th day.
+
 jobs:
   build:
     strategy:
       matrix:
         include:
           - name: windows-10
-    #      - name: windows-11
+          - name: windows-11
     runs-on: windows-2022
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # log the available disk space, so we can inspect it later.
+
+      # Log the available disk space, so we can inspect it later.
       # NB GitHub-hosted runners have limited available disk space.
       #    see https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
       - name: Show available disk space before build
         run: Get-PSDrive -PSProvider FileSystem
+
       # NB we are writing outside of the current working/job directory
       #    because it does not have sufficient available disk space.
       - name: Build
         run: pwsh uup-dump-get-windows-iso.ps1 ${{ matrix.name }} c:/output
+
       - name: Show available disk space after build
         run: Get-PSDrive -PSProvider FileSystem
+
       - name: Build summary
         run: |
           $iso = Get-Content (Resolve-Path c:/output/*.json) | ConvertFrom-Json
@@ -38,42 +44,43 @@ jobs:
           $($iso.images | ForEach-Object {"| Image Name #$($_.index) | $($_.name) |"})
           | UUP dump | [$($iso.title)]($($iso.uupDump.downloadUrl)) |
           "@
-      - name: Upload artifact
+
+      - name: Install gh CLI
+        run: |
+          choco install gh -y
+        shell: cmd
+
+      - name: Split ISO into chunks
+        run: |
+          $isoFile = Get-ChildItem -Path c:/output -Filter *.iso | Select-Object -First 1
+          $chunkSize = 1.8GB
+          $splitCommand = "split -b $chunkSize -d -a 3 $($isoFile.FullName) $($isoFile.FullName).part"
+          bash -c $splitCommand
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          draft: false
+          prerelease: false
+
+      - name: Upload split files to release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          release_id=$(jq -r '.id' <<< "${{ steps.create_release.outputs.release_id }}")
+          for file in c:/output/*.part*; do
+            gh release upload $release_id $file
+          done
+
+      - name: Upload metadata artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.name }}
+          name: ${{ matrix.name }}-metadata
           path: |
             c:/output/*.json
-            c:/output/*.iso
             c:/output/*.iso.sha256.txt
-
-  release:
-    if: startsWith(github.ref, 'refs/tags/v')
-    name: Release
-    runs-on: ubuntu-22.04
-    needs:
-      - build
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: output
-      - name: Split ISO files
-        run: |
-          mkdir -p split_output
-          for iso in output/**/*.iso; do
-            split -b 1900M "$iso" "split_output/$(basename $iso)-part"
-          done
-      - name: Create release notes
-        run: |
-          cat >release-notes.md <<EOF
-          This release contains the split ISO files in 1.8GiB chunks.
-          EOF
-      - name: Release
-        uses: ncipollo/release-action@v1
-        with:
-          bodyFile: release-notes.md
-          artifacts: split_output/*
-          token: ${{ secrets.GITHUB_TOKEN }}
