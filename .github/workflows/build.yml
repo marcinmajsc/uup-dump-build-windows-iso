@@ -12,7 +12,7 @@ jobs:
       matrix:
         include:
           - name: windows-10
-    #      - name: windows-11
+          - name: windows-11
     runs-on: windows-2022
     steps:
       - name: Checkout
@@ -101,13 +101,12 @@ jobs:
           prerelease: false
 
       - name: Upload split files to release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
         run: |
-          release_id=$(jq -r '.id' <<< "${{ steps.create_release.outputs.release_id }}")
-          for file in c:/output/*.part*; do
-            gh release upload $release_id $file
-          done
+          $release_id = "${{ steps.create_release.outputs.release_id }}"
+          Get-ChildItem -Path c:/output -Filter *.part* | ForEach-Object {
+            gh release upload $release_id $_.FullName
+          }
 
       - name: Upload metadata artifacts
         uses: actions/upload-artifact@v4
