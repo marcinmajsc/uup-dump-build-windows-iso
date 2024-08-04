@@ -54,13 +54,13 @@ jobs:
         shell: pwsh
         run: |
           $isoFile = Get-ChildItem -Path c:/output -Filter *.iso | Select-Object -First 1
-          $chunkSize = 1.8GB
+          $chunkSize = 500MB  # Reduced chunk size
           $bufferSize = 1MB
           $outputDir = 'c:/output'
           $fileNumber = 0
           $fileStream = [System.IO.File]::OpenRead($isoFile.FullName)
           $buffer = New-Object byte[] $bufferSize
-          
+
           Write-Output "Starting file split operation..."
 
           try {
@@ -75,6 +75,7 @@ jobs:
                       $bytesRead = $fileStream.Read($buffer, 0, [Math]::Min($bufferSize, $bytesRemaining))
                       $outputStream.Write($buffer, 0, $bytesRead)
                       $bytesRemaining -= $bytesRead
+                      Write-Output "Written $bytesRead bytes to $outputFile, $bytesRemaining bytes remaining."
                   }
 
                   $outputStream.Close()
