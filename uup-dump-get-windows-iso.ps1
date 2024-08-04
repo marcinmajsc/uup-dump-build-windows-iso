@@ -15,18 +15,19 @@ trap {
 }
 
 $TARGETS = @{
+    # see https://en.wikipedia.org/wiki/Windows_10
+    # see https://en.wikipedia.org/wiki/Windows_10_version_history
+    "windows-10" = @{
+        search = "windows 10 19045 amd64" # aka 22H2. Mainstream EOL: October 13, 2025.
+        edition = "Professional"
+        virtualEdition = "ProfessionalWorkstation,Enterprise,IoTEnterprise"
+    }
     # see https://en.wikipedia.org/wiki/Windows_11
     # see https://en.wikipedia.org/wiki/Windows_11_version_history
     "windows-11" = @{
         search = "windows 11 22631 amd64" # aka 24H2. Enterprise EOL: November 10, 2026.
         edition = "Professional"
-        virtualEdition = "Enterprise"
-    }
-    # see https://en.wikipedia.org/wiki/Windows_Server_2022
-    "windows-2022" = @{
-        search = "feature update server operating system 26100 amd64" # aka 24H2. Mainstream EOL: October 13, 2026.
-        edition = "ServerStandard"
-        virtualEdition = $null
+        virtualEdition = "ProfessionalWorkstation,Enterprise,IoTEnterprise"
     }
 }
 
