@@ -12,7 +12,7 @@ jobs:
       matrix:
         include:
           - name: windows-10
-          - name: windows-11
+    #      - name: windows-11
     runs-on: windows-2022
     steps:
       - name: Checkout
@@ -60,23 +60,33 @@ jobs:
           $fileNumber = 0
           $fileStream = [System.IO.File]::OpenRead($isoFile.FullName)
           $buffer = New-Object byte[] $bufferSize
+          
+          Write-Output "Starting file split operation..."
 
-          while ($fileStream.Position -lt $fileStream.Length) {
-              $outputFile = "{0}\{1}.part{2:000}" -f $outputDir, $isoFile.BaseName, $fileNumber
-              $outputStream = [System.IO.File]::OpenWrite($outputFile)
-              $bytesRemaining = $chunkSize
+          try {
+              while ($fileStream.Position -lt $fileStream.Length) {
+                  $outputFile = "{0}\{1}.part{2:000}" -f $outputDir, $isoFile.BaseName, $fileNumber
+                  $outputStream = [System.IO.File]::OpenWrite($outputFile)
+                  $bytesRemaining = $chunkSize
+                  
+                  Write-Output "Creating part file: $outputFile"
 
-              while ($bytesRemaining -gt 0 -and $fileStream.Position -lt $fileStream.Length) {
-                  $bytesRead = $fileStream.Read($buffer, 0, [Math]::Min($bufferSize, $bytesRemaining))
-                  $outputStream.Write($buffer, 0, $bytesRead)
-                  $bytesRemaining -= $bytesRead
+                  while ($bytesRemaining -gt 0 -and $fileStream.Position -lt $fileStream.Length) {
+                      $bytesRead = $fileStream.Read($buffer, 0, [Math]::Min($bufferSize, $bytesRemaining))
+                      $outputStream.Write($buffer, 0, $bytesRead)
+                      $bytesRemaining -= $bytesRead
+                  }
+
+                  $outputStream.Close()
+                  Write-Output "Finished part file: $outputFile"
+                  $fileNumber++
               }
-
-              $outputStream.Close()
-              $fileNumber++
+          } catch {
+              Write-Error "Error during file split operation: $_"
+          } finally {
+              $fileStream.Close()
+              Write-Output "File split operation completed."
           }
-
-          $fileStream.Close()
 
       - name: Create GitHub Release
         id: create_release
