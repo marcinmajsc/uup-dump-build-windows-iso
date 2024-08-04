@@ -51,11 +51,11 @@ jobs:
         shell: cmd
 
       - name: Split ISO into chunks
+        shell: pwsh
         run: |
           $isoFile = Get-ChildItem -Path c:/output -Filter *.iso | Select-Object -First 1
-          $chunkSize = 1.8GB
-          $splitCommand = "split -b $chunkSize -d -a 3 $($isoFile.FullName) $($isoFile.FullName).part"
-          bash -c $splitCommand
+          $chunkSizeBytes = 1932735283  # 1.8 GiB in bytes
+          bash -c "split -b $chunkSizeBytes -d -a 3 $($isoFile.FullName) $($isoFile.FullName).part"
 
       - name: Create GitHub Release
         id: create_release
