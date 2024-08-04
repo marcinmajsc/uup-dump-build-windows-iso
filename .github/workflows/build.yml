@@ -55,7 +55,8 @@ jobs:
         run: |
           $isoFile = Get-ChildItem -Path c:/output -Filter *.iso | Select-Object -First 1
           $chunkSizeBytes = 1932735283  # 1.8 GiB in bytes
-          bash -c "split -b $chunkSizeBytes -d -a 3 $($isoFile.FullName) $($isoFile.FullName).part"
+          $isoFilePath = $isoFile.FullName.Replace("\", "/")
+          bash -c "split -b $chunkSizeBytes -d -a 3 /$isoFilePath /$isoFilePath.part"
 
       - name: Create GitHub Release
         id: create_release
