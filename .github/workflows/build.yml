@@ -1,15 +1,16 @@
 name: build
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '15 17 * * *'  # Run at 5:15 pm every day.
+#  schedule:
+    #- cron: '0 * * * *' # hourly.
+#    - cron: '0 0 17 * *' # every month, the 17th day.
 jobs:
   build:
     strategy:
       matrix:
         include:
           - name: windows-11
-          - name: windows-2022
+ #         - name: windows-2022
     runs-on: windows-2022
     steps:
       - name: Checkout
