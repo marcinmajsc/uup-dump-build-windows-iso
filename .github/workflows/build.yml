@@ -14,6 +14,8 @@ jobs:
           - name: windows-10
           - name: windows-11
     runs-on: windows-2022
+    permissions:
+        contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -88,12 +90,11 @@ jobs:
           Remove-Item ghcli.msi
 
       - name: Upload split parts to Release
-        run: |
-          $files = '${{ env.files }}'
-          $uploadUrl = '${{ steps.create_release.outputs.upload_url }}'
-          foreach ($file in $files) {
-            gh release upload $uploadUrl $file --repo ${{ github.repository }}
-          }
+        uses: nanoufo/action-upload-artifacts-and-release-assets@v2
+        with:
+          path: '${{ env.files }}'
+          upload-release-files: true
+          release-upload-url: '${{ steps.create_release.outputs.upload_url }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
