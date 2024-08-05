@@ -53,7 +53,7 @@ jobs:
       - name: Compress ISO into multipart zip
         run: |
           $isoName = "${{ steps.build_summary.outputs.iso_name }}"
-          7z a -v1g "c:/output/$isoName.zip" c:/output/*.iso
+          7z a -v1g "c:/output/$isoName.7z" c:/output/*.iso
 
       - name: Create Release
         id: create_release
@@ -71,12 +71,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-output
-          path: c:/output/${{ steps.build_summary.outputs.iso_name }}*.zip
+          path: c:/output/${{ steps.build_summary.outputs.iso_name }}*.7z
       - name: Find split parts
         id: find_parts
         run: |
           $isoName = "${{ steps.build_summary.outputs.iso_name }}"
-          $files = Get-ChildItem -Path "c:/output/$isoName*.zip.*"
+          $files = Get-ChildItem -Path "c:/output/$isoName*.7z.*"
           $filePaths = $files | ForEach-Object { $_.FullName }
           echo "::set-output name=files::$(echo $filePaths -join ',')"
 
