@@ -80,6 +80,7 @@ jobs:
           $files = Get-ChildItem -Path "c:/output/$isoName*.7z.*"
           $filePaths = $files | ForEach-Object { $_.FullName }
           echo "::set-output name=files::$(echo $filePaths -join ',')"
+          echo "::set-output name=filePaths::$(echo $filePaths)"
           echo $files
           echo "File paths: $filePaths"
 
@@ -91,7 +92,7 @@ jobs:
 
       - name: Upload split parts to Release
         run: |
-          $files = '${{ steps.find_parts.outputs.$filePaths }}'
+          $files = '${{ steps.find_parts.outputs.filePaths }}'
           $uploadUrl = '${{ steps.create_release.outputs.upload_url }}'
           foreach ($file in $files) {
             gh release upload $uploadUrl $file --repo ${{ github.repository }}
