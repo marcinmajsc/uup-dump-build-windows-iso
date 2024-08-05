@@ -3,7 +3,7 @@ name: build
 on:
   workflow_dispatch:
   #schedule:
-    #- cron: '0 */2 * * *' # hourly.
+    #- cron: '0 * * * *' # hourly.
     #- cron: '0 0 17 * *' # every month, the 17th day.
 
 jobs:
@@ -61,7 +61,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.build_summary.outputs.build }}
+          tag_name: "v${{ github.run_number }}"
           release_name: ${{ steps.build_summary.outputs.name }}
           body: ${{ steps.build_summary.outputs.title }}
           draft: false
@@ -80,9 +80,6 @@ jobs:
           $files = Get-ChildItem -Path "c:/output/$isoName*.7z.*"
           $filePaths = $files | ForEach-Object { $_.FullName }
           echo "::set-output name=files::$(echo $filePaths -join ',')"
-          echo "::set-output name=filePaths::$(echo $filePaths)"
-          echo $files
-          echo "File paths: $filePaths"
 
       - name: Install GitHub CLI
         run: |
@@ -92,11 +89,10 @@ jobs:
 
       - name: Upload split parts to Release
         run: |
-          $files = '${{ steps.find_parts.outputs.filePaths }}'
+          $files = '${{ steps.find_parts.outputs.files }}'.Split(',')
           $uploadUrl = '${{ steps.create_release.outputs.upload_url }}'
           foreach ($file in $files) {
             gh release upload $uploadUrl $file --repo ${{ github.repository }}
-          echo $file
           }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
