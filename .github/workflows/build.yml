@@ -61,7 +61,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.build_summary.outputs.build }}
+          tag_name: ${{ steps.build_summary.outputs.build }}_${{ github.run_number }}
           release_name: ${{ steps.build_summary.outputs.name }}
           body: ${{ steps.build_summary.outputs.title }}
           draft: false
