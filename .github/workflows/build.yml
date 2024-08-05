@@ -3,7 +3,7 @@ name: build
 on:
   workflow_dispatch:
   #schedule:
-    #- cron: '0 * * * *' # hourly.
+    #- cron: '0 */2 * * *' # every two hours.
     #- cron: '0 0 17 * *' # every month, the 17th day.
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
       matrix:
         include:
           - name: windows-10
-          - name: windows-11
+    #      - name: windows-11
     runs-on: windows-2022
     steps:
       - name: Checkout
@@ -50,10 +50,10 @@ jobs:
           echo "::set-output name=title::$(echo $iso.title)"
           echo "::set-output name=iso_name::$(echo $iso.name)"
 
-      - name: Compress ISO into multipart 7z
+      - name: Compress ISO into multipart zip
         run: |
           $isoName = "${{ steps.build_summary.outputs.iso_name }}"
-          7z a -v1g "c:/output/$isoName.7z" c:/output/*.iso
+          7z a -v1g "c:/output/$isoName.zip" c:/output/*.iso
 
       - name: Create Release
         id: create_release
@@ -71,13 +71,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-output
-          path: c:/output/${{ steps.build_summary.outputs.iso_name }}*.7z
-
+          path: c:/output/${{ steps.build_summary.outputs.iso_name }}*.zip
       - name: Find split parts
         id: find_parts
         run: |
           $isoName = "${{ steps.build_summary.outputs.iso_name }}"
-          $files = Get-ChildItem -Path "c:/output/$isoName*.7z.*"
+          $files = Get-ChildItem -Path "c:/output/$isoName*.zip.*"
           $filePaths = $files | ForEach-Object { $_.FullName }
           echo "::set-output name=files::$(echo $filePaths -join ',')"
 
@@ -91,7 +90,7 @@ jobs:
         run: |
           $files = '${{ steps.find_parts.outputs.files }}'.Split(',')
           foreach ($file in $files) {
-            gh release upload ${{ steps.create_release.outputs.upload_url }} $file --repo ${{ github.repository }}
+            & gh release upload ${{ steps.create_release.outputs.upload_url }} $file --repo ${{ github.repository }}
           }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
