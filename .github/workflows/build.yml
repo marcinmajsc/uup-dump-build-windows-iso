@@ -32,10 +32,6 @@ jobs:
       - name: Show available disk space after build
         run: Get-PSDrive -PSProvider FileSystem
 
-      # Ensure the GitHub CLI is installed
-      - name: Install GitHub CLI
-        uses: actions/setup-gh-cli@v2
-
       - name: Compress ISO into multipart 7z
         run: 7z a -v1g c:/output/compressed.7z c:/output/*.iso
 
@@ -81,11 +77,16 @@ jobs:
           $filePaths = $files | ForEach-Object { $_.FullName }
           echo "::set-output name=files::$(echo $filePaths -join ',')"
 
+      - name: Install GitHub CLI
+        run: |
+          Invoke-WebRequest -Uri https://github.com/cli/cli/releases/download/v2.0.0/gh_2.0.0_windows_amd64.msi -OutFile ghcli.msi
+          Start-Process msiexec.exe -ArgumentList '/i ghcli.msi /quiet /norestart' -NoNewWindow -Wait
+          Remove-Item ghcli.msi
+
       - name: Upload split parts to Release
         run: |
           $files = '${{ steps.find_parts.outputs.files }}'.Split(',')
           foreach ($file in $files) {
-            Write-Host "Uploading $file"
             gh release upload ${{ steps.create_release.outputs.tag_name }} $file --repo ${{ github.repository }}
           }
         env:
