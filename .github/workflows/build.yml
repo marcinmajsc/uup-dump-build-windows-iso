@@ -32,7 +32,15 @@ jobs:
       - name: Show available disk space after build
         run: Get-PSDrive -PSProvider FileSystem
 
+      # Ensure the GitHub CLI is installed
+      - name: Install GitHub CLI
+        uses: actions/setup-gh-cli@v2
+
+      - name: Compress ISO into multipart 7z
+        run: 7z a -v1g c:/output/compressed.7z c:/output/*.iso
+
       - name: Build summary
+        id: build_summary
         run: |
           $iso = Get-Content (Resolve-Path c:/output/*.json) | ConvertFrom-Json
           Add-Content $env:GITHUB_STEP_SUMMARY @"
@@ -44,78 +52,42 @@ jobs:
           $($iso.images | ForEach-Object {"| Image Name #$($_.index) | $($_.name) |"})
           | UUP dump | [$($iso.title)]($($iso.uupDump.downloadUrl)) |
           "@
+          echo "::set-output name=build::$(echo $iso.build)"
+          echo "::set-output name=name::$(echo $iso.name)"
+          echo "::set-output name=title::$(echo $iso.title)"
 
-      - name: Install gh CLI
-        run: |
-          choco install gh -y
-        shell: cmd
-
-      - name: Split ISO into chunks
-        shell: pwsh
-        run: |
-          $isoFile = Get-ChildItem -Path c:/output -Filter *.iso | Select-Object -First 1
-          $chunkSize = 500MB  # Reduced chunk size
-          $bufferSize = 1MB
-          $outputDir = 'c:/output'
-          $fileNumber = 0
-          $fileStream = [System.IO.File]::OpenRead($isoFile.FullName)
-          $buffer = New-Object byte[] $bufferSize
-
-          Write-Output "Starting file split operation..."
-
-          try {
-              while ($fileStream.Position -lt $fileStream.Length) {
-                  $outputFile = "{0}\{1}.part{2:000}" -f $outputDir, $isoFile.BaseName, $fileNumber
-                  $outputStream = [System.IO.File]::OpenWrite($outputFile)
-                  $bytesRemaining = $chunkSize
-                  
-                  Write-Output "Creating part file: $outputFile"
-
-                  while ($bytesRemaining -gt 0 -and $fileStream.Position -lt $fileStream.Length) {
-                      $bytesRead = $fileStream.Read($buffer, 0, [Math]::Min($bufferSize, $bytesRemaining))
-                      $outputStream.Write($buffer, 0, $bytesRead)
-                      $bytesRemaining -= $bytesRead
-                      Write-Output "Written $bytesRead bytes to $outputFile, $bytesRemaining bytes remaining."
-                  }
-
-                  $outputStream.Close()
-                  Write-Output "Finished part file: $outputFile"
-                  $fileNumber++
-              }
-          } catch {
-              Write-Error "Error during file split operation: $_"
-          } finally {
-              $fileStream.Close()
-              Write-Output "File split operation completed."
-          }
-
-      - name: Create GitHub Release
+      - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
+          tag_name: ${{ steps.build_summary.outputs.build }}
+          release_name: ${{ steps.build_summary.outputs.name }}
+          body: ${{ steps.build_summary.outputs.title }}
           draft: false
           prerelease: false
 
-      - name: Upload split files to release
-        shell: pwsh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          $release_id = "${{ steps.create_release.outputs.release_id }}"
-          Get-ChildItem -Path c:/output -Filter *.part* | ForEach-Object {
-            gh release upload $release_id $_.FullName
-          }
-
-      - name: Upload metadata artifacts
-        uses: actions/upload-artifact@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.name }}-metadata
-          path: |
-            c:/output/*.json
-            c:/output/*.iso.sha256.txt
+          name: build-output
+          path: c:/output/compressed*.7z
+
+      - name: Find split parts
+        id: find_parts
+        run: |
+          $files = Get-ChildItem -Path c:/output/compressed*.7z.*
+          $filePaths = $files | ForEach-Object { $_.FullName }
+          echo "::set-output name=files::$(echo $filePaths -join ',')"
+
+      - name: Upload split parts to Release
+        run: |
+          $files = '${{ steps.find_parts.outputs.files }}'.Split(',')
+          foreach ($file in $files) {
+            Write-Host "Uploading $file"
+            gh release upload ${{ steps.create_release.outputs.tag_name }} $file --repo ${{ github.repository }}
+          }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
