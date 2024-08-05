@@ -32,9 +32,6 @@ jobs:
       - name: Show available disk space after build
         run: Get-PSDrive -PSProvider FileSystem
 
-      - name: Compress ISO into multipart 7z
-        run: 7z a -v1g c:/output/compressed.7z c:/output/*.iso
-
       - name: Build summary
         id: build_summary
         run: |
@@ -51,6 +48,12 @@ jobs:
           echo "::set-output name=build::$(echo $iso.build)"
           echo "::set-output name=name::$(echo $iso.name)"
           echo "::set-output name=title::$(echo $iso.title)"
+          echo "::set-output name=iso_name::$(echo $iso.name)"
+
+      - name: Compress ISO into multipart 7z
+        run: |
+          $isoName = "${{ steps.build_summary.outputs.iso_name }}"
+          7z a -v1g "c:/output/$isoName.7z" c:/output/*.iso
 
       - name: Create Release
         id: create_release
@@ -68,12 +71,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-output
-          path: c:/output/compressed*.7z
+          path: c:/output/${{ steps.build_summary.outputs.iso_name }}*.7z
 
       - name: Find split parts
         id: find_parts
         run: |
-          $files = Get-ChildItem -Path c:/output/compressed*.7z.*
+          $isoName = "${{ steps.build_summary.outputs.iso_name }}"
+          $files = Get-ChildItem -Path "c:/output/$isoName*.7z.*"
           $filePaths = $files | ForEach-Object { $_.FullName }
           echo "::set-output name=files::$(echo $filePaths -join ',')"
 
@@ -87,7 +91,7 @@ jobs:
         run: |
           $files = '${{ steps.find_parts.outputs.files }}'.Split(',')
           foreach ($file in $files) {
-            gh release upload ${{ steps.create_release.outputs.tag_name }} $file --repo ${{ github.repository }}
+            gh release upload ${{ steps.create_release.outputs.upload_url }} $file --repo ${{ github.repository }}
           }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
