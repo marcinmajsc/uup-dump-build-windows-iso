@@ -33,12 +33,22 @@ jobs:
         run: Get-PSDrive -PSProvider FileSystem
 
       - name: Upload artifact
+        id: upload_artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.name }}
-          path: |
-            c:/output/*.iso
-            c:/output/*.iso.sha256.txt
+          path: c:/output/*.iso
+
+      - name: Install GitHub CLI
+        run: |
+          Invoke-WebRequest -Uri https://github.com/cli/cli/releases/download/v2.0.0/gh_2.0.0_windows_amd64.msi -OutFile ghcli.msi
+          Start-Process msiexec.exe -ArgumentList '/i ghcli.msi /quiet /norestart' -NoNewWindow -Wait
+          Remove-Item ghcli.msi
+
+      - name: Get artifact URL
+        run: |
+          artifact.url=$(gh run artifact list --json artifacts | ConvertFrom-Json | ForEach-Object { $_.archive_download_url })
+          echo "artifact.url=$artifact.url" >> $env:GITHUB_ENV
 
       - name: Build summary
         id: build_summary
@@ -51,23 +61,13 @@ jobs:
           | Build | $($iso.build) |
           | Checksum | $($iso.checksum) |
           $($iso.images | ForEach-Object {"| Image Name #$($_.index) | $($_.name) |"})
+          | Iso | ${{ env.artifact.url }} |
           | UUP dump | [$($iso.title)]($($iso.uupDump.downloadUrl)) |
           "@
           echo "build=$($iso.build)" >> $env:GITHUB_ENV
           echo "name=$($iso.name)" >> $env:GITHUB_ENV
           echo "title=$($iso.title)" >> $env:GITHUB_ENV
           echo "iso_name=$($iso.name)" >> $env:GITHUB_ENV
-
-      - name: Find iso file
-        id: find_iso
-        run: |
-          $isoName = "${{ env.iso_name }}"
-          $files = Get-ChildItem -Path "c:/output/*.iso*"
-          $filePaths = $files | ForEach-Object { $_.FullName }
-          # Build artifact links and append to summary
-          $fileLinks = $filePaths | ForEach-Object { "| Artifact | [$(($_.Split('/'))[-1])]($_)" }
-          Add-Content $env:GITHUB_STEP_SUMMARY "`n| Artifacts |`n$fileLinks`n"
-          echo "files=$(echo $filePaths -join ',')" >> $env:GITHUB_ENV
 
       - name: Create Release
         id: create_release
