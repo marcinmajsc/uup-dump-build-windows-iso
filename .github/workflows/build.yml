@@ -46,9 +46,11 @@ jobs:
           Remove-Item ghcli.msi
 
       - name: Get artifact URL
+        id: get_artifact_url
         run: |
-          artifact.url=$(gh run artifact list --json artifacts | ConvertFrom-Json | ForEach-Object { $_.archive_download_url })
-          echo "artifact.url=$artifact.url" >> $env:GITHUB_ENV
+          $artifact = gh run artifact list --json artifacts | ConvertFrom-Json
+          $artifact_url = $artifact.artifacts[0].archive_download_url
+          echo "artifact_url=$artifact_url" >> $env:GITHUB_ENV
 
       - name: Build summary
         id: build_summary
@@ -61,9 +63,11 @@ jobs:
           | Build | $($iso.build) |
           | Checksum | $($iso.checksum) |
           $($iso.images | ForEach-Object {"| Image Name #$($_.index) | $($_.name) |"})
-          | Iso | ${{ env.artifact.url }} |
+          | Iso | [$($iso.name)]($env:artifact_url) |
           | UUP dump | [$($iso.title)]($($iso.uupDump.downloadUrl)) |
           "@
+          # Save the GITHUB_STEP_SUMMARY contents to a file
+          (Get-Content $env:GITHUB_STEP_SUMMARY) | Set-Content summary.md
           echo "build=$($iso.build)" >> $env:GITHUB_ENV
           echo "name=$($iso.name)" >> $env:GITHUB_ENV
           echo "title=$($iso.title)" >> $env:GITHUB_ENV
@@ -77,9 +81,10 @@ jobs:
         with:
           tag_name: "v${{ env.build }}.${{ github.run_number }}"
           release_name: ${{ env.name }}
-          body: ${{ steps.build_summary.outputs.summary }}
+          body_path: summary.md
           draft: false
           prerelease: false
+
       - name: Remove old artifacts
         uses: c-hive/gha-remove-artifacts@v1
         with:
