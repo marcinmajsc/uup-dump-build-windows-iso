@@ -32,6 +32,14 @@ jobs:
       - name: Show available disk space after build
         run: Get-PSDrive -PSProvider FileSystem
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}
+          path: |
+            c:/output/*.iso
+            c:/output/*.iso.sha256.txt
+
       - name: Build summary
         id: build_summary
         run: |
@@ -54,7 +62,7 @@ jobs:
         id: find_iso
         run: |
           $isoName = "${{ env.iso_name }}"
-          $files = Get-ChildItem -Path "c:/output/$isoName.iso"
+          $files = Get-ChildItem -Path "c:/output/*.iso*"
           $filePaths = $files | ForEach-Object { $_.FullName }
           # Build artifact links and append to summary
           $fileLinks = $filePaths | ForEach-Object { "| Artifact | [$(($_.Split('/'))[-1])]($_)" }
