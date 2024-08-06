@@ -2,9 +2,8 @@ name: build
 
 on:
   workflow_dispatch:
-  #schedule:
-    #- cron: '0 */2 * * *' # hourly.
-    #- cron: '0 0 17 * * *' # every month, the 17th day.
+  schedule:
+    - cron: '0 0 * * Sun' # every sunday at 0:00.
 
 jobs:
   build:
@@ -12,7 +11,7 @@ jobs:
       matrix:
         include:
           - name: windows-10
-          #- name: windows-11
+          - name: windows-11
     runs-on: windows-2022
     steps:
       - name: Checkout
@@ -53,7 +52,7 @@ jobs:
           | Name | $($iso.name) |
           | Build | $($iso.build) |
           | Checksum | $($iso.checksum) |
-          $($iso.images | ForEach-Object {"| Image Name #$($_.index) | $($_.name) |"})
+          $($iso.images | ForEach-Object {"| Image Name | $($_.name) |"})
           | Iso | [$($iso.name)]($env:artifact_url) |
           | UUP dump | [$($iso.title)]($($iso.uupDump.downloadUrl)) |
           "@
@@ -79,7 +78,7 @@ jobs:
       - name: Remove old artifacts
         uses: c-hive/gha-remove-artifacts@v1
         with:
-          age: '30 days' # '<number> <unit>', e.g. 5 days, 2 years, 90 seconds, parsed by Moment.js
+          age: '7 days' # '<number> <unit>', e.g. 5 days, 2 years, 90 seconds, parsed by Moment.js
               # Optional inputs
               # skip-tags: true
               # skip-recent: 5
