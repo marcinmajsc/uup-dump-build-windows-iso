@@ -1,4 +1,4 @@
-#!/usr/bin/pwsh
+er#!/usr/bin/pwsh
 param(
     [string]$windowsTargetName,
     [string]$destinationDirectory='output'
@@ -30,7 +30,7 @@ $TARGETS = @{
         virtualEdition = "ProfessionalWorkstation,Enterprise,IoTEnterprise"
     }
     # see https://en.wikipedia.org/wiki/Windows_Server_2022
-    "windows-2022" = @{
+    "server-2022" = @{
         search = "feature update server operating system 20348 amd64" # aka 21H2. Mainstream EOL: October 13, 2026.
         edition = "ServerStandard"
         virtualEdition = $null
