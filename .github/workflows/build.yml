@@ -12,7 +12,7 @@ jobs:
       matrix:
         include:
           - name: windows-10
-          - name: windows-11
+          #- name: windows-11
     runs-on: windows-2022
     steps:
       - name: Checkout
@@ -64,7 +64,8 @@ jobs:
           $isoName = "${{ env.iso_name }}"
           $files = Get-ChildItem -Path "c:/output/$isoName*.7z.*"
           $filePaths = $files | ForEach-Object { $_.FullName }
-          echo "files=$(echo $filePaths -join ',')" >> $env:GITHUB_ENV
+          #echo "files=$(echo $filePaths -join ',')" >> $env:GITHUB_ENV
+          echo "files=$(echo $filePaths)" >> $env:GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -72,7 +73,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "v${{ env.iso_build }}.${{ github.run_number }}"
+          tag_name: "v${{ env.build }}.${{ github.run_number }}"
           release_name: ${{ env.name }}
           body: ${{ env.title }}
           draft: false
