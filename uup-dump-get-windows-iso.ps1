@@ -1,4 +1,4 @@
-er#!/usr/bin/pwsh
+#!/usr/bin/pwsh
 param(
     [string]$windowsTargetName,
     [string]$destinationDirectory='output'
