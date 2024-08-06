@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   #schedule:
     #- cron: '0 */2 * * *' # hourly.
-    #- cron: '0 0 17 * *' # every month, the 17th day.
+    #- cron: '0 0 17 * * *' # every month, the 17th day.
 
 jobs:
   build:
@@ -50,22 +50,16 @@ jobs:
           echo "title=$($iso.title)" >> $env:GITHUB_ENV
           echo "iso_name=$($iso.name)" >> $env:GITHUB_ENV
 
-      - name: Compress ISO into multipart 7z
-        run: |
-          $isoName = "${{ env.iso_name }}"
-          7z a -v1g "c:/output/$isoName.7z" c:/output/*.iso
-
-      - name: List generated files
-        run: Get-ChildItem -Path "c:/output"
-
-      - name: Find split parts
-        id: find_parts
+      - name: Find iso file
+        id: find_iso
         run: |
           $isoName = "${{ env.iso_name }}"
           $files = Get-ChildItem -Path "c:/output/$isoName*.7z.*"
           $filePaths = $files | ForEach-Object { $_.FullName }
-          #echo "files=$(echo $filePaths -join ',')" >> $env:GITHUB_ENV
-          echo "files=$(echo $filePaths)" >> $env:GITHUB_ENV
+          # Build artifact links and append to summary
+          $fileLinks = $filePaths | ForEach-Object { "| Artifact | [$(($_.Split('/'))[-1])]($_)" }
+          Add-Content $env:GITHUB_STEP_SUMMARY "`n| Artifacts |`n$fileLinks`n"
+          echo "files=$(echo $filePaths -join ',')" >> $env:GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -75,26 +69,13 @@ jobs:
         with:
           tag_name: "v${{ env.build }}.${{ github.run_number }}"
           release_name: ${{ env.name }}
-          body: ${{ env.title }}
+          body: ${{ steps.build_summary.outputs.summary }}
           draft: false
           prerelease: false
-
-      - name: Install GitHub CLI
-        run: |
-          Invoke-WebRequest -Uri https://github.com/cli/cli/releases/download/v2.0.0/gh_2.0.0_windows_amd64.msi -OutFile ghcli.msi
-          Start-Process msiexec.exe -ArgumentList '/i ghcli.msi /quiet /norestart' -NoNewWindow -Wait
-          Remove-Item ghcli.msi
-
-      - name: Upload split parts to Release
-        uses: nanoufo/action-upload-artifacts-and-release-assets@v2
+      - name: Remove old artifacts
+        uses: c-hive/gha-remove-artifacts@v1
         with:
-          path: ${{ env.files }}
-          upload-release-files: true
-          release-upload-url: ${{ steps.create_release.outputs.upload_url }}
-          if-no-files-found: warn
-          compression-level: 6
-          retry-limit: 3
-          retry-interval: 3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          age: '30 days' # '<number> <unit>', e.g. 5 days, 2 years, 90 seconds, parsed by Moment.js
+              # Optional inputs
+              # skip-tags: true
+              # skip-recent: 5
