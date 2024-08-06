@@ -54,7 +54,7 @@ jobs:
         id: find_iso
         run: |
           $isoName = "${{ env.iso_name }}"
-          $files = Get-ChildItem -Path "c:/output/$isoName*.7z.*"
+          $files = Get-ChildItem -Path "c:/output/$isoName.iso"
           $filePaths = $files | ForEach-Object { $_.FullName }
           # Build artifact links and append to summary
           $fileLinks = $filePaths | ForEach-Object { "| Artifact | [$(($_.Split('/'))[-1])]($_)" }
