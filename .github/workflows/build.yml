@@ -3,7 +3,7 @@ name: build
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * Sun' # every sunday at 0:00.
+    - cron: '0 10 * * Mon' # every monday at 10:00.
 
 jobs:
   build:
@@ -63,7 +63,6 @@ jobs:
           echo "name=$($iso.name)" >> $env:GITHUB_ENV
           echo "title=$($iso.title)" >> $env:GITHUB_ENV
           echo "iso_name=$($iso.name)" >> $env:GITHUB_ENV
-
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
