@@ -76,9 +76,10 @@ jobs:
           prerelease: false
 
       - name: Remove old artifacts
-        uses: c-hive/gha-remove-artifacts@v1
+      - uses: actions/checkout@v3
+      - uses: Nats-ji/delete-old-releases@v1
         with:
-          age: '7 days' # '<number> <unit>', e.g. 5 days, 2 years, 90 seconds, parsed by Moment.js
-              # Optional inputs
-              # skip-tags: true
-              # skip-recent: 5
+          token: ${{ secrets.GITHUB_TOKEN }}
+          keep-count: 1
+          keep-old-minor-releases: false
+          keep-old-minor-releases-count: 0
