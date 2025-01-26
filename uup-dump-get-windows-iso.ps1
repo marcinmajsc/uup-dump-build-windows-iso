@@ -37,7 +37,7 @@ $TARGETS = @{
     }
     # see https://en.wikipedia.org/wiki/Windows_Server_2025
     "server-2022" = @{
-        search = "Cumulative Update for Microsoft server operating system version 24H2 (26100.2894) amd64" # aka 24h2. Mainstream EOL: October 10, 2034.
+        search = "Windows Server 2025 (26100.2314) amd64 " # aka 24H2. Mainstream EOL: October 10, 2034.
         edition = "ServerStandard"
         virtualEdition = $null
     }
