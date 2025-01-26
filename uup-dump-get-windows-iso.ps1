@@ -37,7 +37,7 @@ $TARGETS = @{
     }
     # see https://en.wikipedia.org/wiki/Windows_Server_2025
     "server-2025" = @{
-        search = "windows Server 2025 26100 amd64" # aka 24H2. Mainstream EOL: October 10, 2034.
+        search = "windows Server 2025 26100 amd64" # aka 24H2. Mainstream EOL: October 9, 2029.
         edition = "ServerStandard"
         virtualEdition = $null
     }
