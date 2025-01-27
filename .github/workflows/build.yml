@@ -74,11 +74,3 @@ jobs:
           body_path: summary.md
           draft: false
           prerelease: false
-
-      - name: Remove old artifacts
-        uses: Nats-ji/delete-old-releases@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          keep-count: 2
-          keep-old-minor-releases: false
-          keep-old-minor-releases-count: 0
