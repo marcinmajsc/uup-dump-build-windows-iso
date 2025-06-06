@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.versions }}
-          path: c:/output/${{ inputs.versions }}/*.iso
+          path: c:/output/${{ inputs.versions }}/*.ISO
       
       - name: Set artifact_url
         id: set_artifact_url
