@@ -3,12 +3,15 @@ name: build
 on:
   workflow_dispatch:
     inputs:
-
       versions:
         description: "Windows version to build"
-        default: "windows-10 windows-11old windows-11"
+        type: choice
+        options:
+        - windows-10
+        - windows-11old
+        - windows-11
+        default: windows-11
         required: true
-        type: string
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -39,8 +42,8 @@ jobs:
         id: upload_artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.name }}
-          path: c:/output/*.iso
+          name: ${{ inputs.versions }}
+          path: c:/output/${{ inputs.versions }}/*.iso
       
       - name: Set artifact_url
         id: set_artifact_url
