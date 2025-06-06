@@ -18,27 +18,22 @@ $TARGETS = @{
     # see https://en.wikipedia.org/wiki/Windows_10
     # see https://en.wikipedia.org/wiki/Windows_10_version_history
     "windows-10" = @{
-        search = "windows 10 19045 amd64" # aka 22H2. Mainstream EOL: October 13, 2025.
+        search = "windows 10 19045 amd64" # aka 22H2.
         edition = "Professional"
-        virtualEdition = "ProfessionalWorkstation,Enterprise,IoTEnterprise"
+        virtualEdition = $null
+    }
+    # see https://en.wikipedia.org/wiki/Windows_11
+    # see https://en.wikipedia.org/wiki/Windows_11_version_history
+    "windows-11old" = @{
+        search = "windows 11 22631 amd64" # aka 23H2.
+        edition = "Professional"
+        virtualEdition = $null
     }
     # see https://en.wikipedia.org/wiki/Windows_11
     # see https://en.wikipedia.org/wiki/Windows_11_version_history
     "windows-11" = @{
-        search = "windows 11 26100 amd64" # aka 24H2. Enterprise EOL: November 10, 2026.
+        search = "windows 11 26100 amd64" # aka 24H2.
         edition = "Professional"
-        virtualEdition = "ProfessionalWorkstation,Enterprise,IoTEnterprise"
-    }
-    # see https://en.wikipedia.org/wiki/Windows_Server_2022
-    "server-2022" = @{
-        search = "feature update server operating system 20348 amd64" # aka 21H2. Mainstream EOL: October 13, 2026.
-        edition = "ServerStandard"
-        virtualEdition = $null
-    }
-    # see https://en.wikipedia.org/wiki/Windows_Server_2025
-    "server-2025" = @{
-        search = "windows Server 2025 26100 amd64" # aka 24H2. Mainstream EOL: October 9, 2029.
-        edition = "ServerStandard"
         virtualEdition = $null
     }
 }
@@ -122,15 +117,15 @@ function Get-UupDumpIso($name, $target) {
                 info = $result.response.updateInfo
             }
             $langs = $_.Value.langs.PSObject.Properties.Name
-            $editions = if ($langs -contains 'de-de') {
+            $editions = if ($langs -contains 'pl-pl') {
                 Write-Host "Getting the $name $id editions metadata"
                 $result = Invoke-UupDumpApi listeditions @{
                     id = $id
-                    lang = 'de-de'
+                    lang = 'pl-pl'
                 }
                 $result.response.editionFancyNames
             } else {
-                Write-Host "Skipping. Expected langs=de-de. Got langs=$($langs -join ',')."
+                Write-Host "Skipping. Expected langs=pl-pl. Got langs=$($langs -join ',')."
                 [PSCustomObject]@{}
             }
             $_.Value | Add-Member -NotePropertyMembers @{
@@ -156,8 +151,8 @@ function Get-UupDumpIso($name, $target) {
                 Write-Host "Skipping. Expected ring=$expectedRing. Got ring=$ring."
                 $result = $false
             }
-            if ($langs -notcontains 'de-de') {
-                Write-Host "Skipping. Expected langs=de-de. Got langs=$($langs -join ',')."
+            if ($langs -notcontains 'pl-pl') {
+                Write-Host "Skipping. Expected langs=pl-pl. Got langs=$($langs -join ',')."
                 $result = $false
             }
             if ($editions -notcontains $target.edition) {
@@ -178,13 +173,13 @@ function Get-UupDumpIso($name, $target) {
                 virtualEdition = $target.virtualEdition
                 apiUrl = 'https://api.uupdump.net/get.php?' + (New-QueryString @{
                     id = $id
-                    lang = 'de-de'
+                    lang = 'pl-pl'
                     edition = $target.edition
                     #noLinks = '1' # do not return the files download urls.
                 })
                 downloadUrl = 'https://uupdump.net/download.php?' + (New-QueryString @{
                     id = $id
-                    pack = 'de-de'
+                    pack = 'pl-pl'
                     edition = $target.edition
                 })
                 # NB you must use the HTTP POST method to invoke this packageUrl
@@ -194,7 +189,7 @@ function Get-UupDumpIso($name, $target) {
                 #           autodl=3 updates=1 cleanup=1 virtualEditions[]=Enterprise
                 downloadPackageUrl = 'https://uupdump.net/get.php?' + (New-QueryString @{
                     id = $id
-                    pack = 'de-de'
+                    pack = 'pl-pl'
                     edition = $target.edition
                 })
             }
@@ -283,7 +278,9 @@ function Get-WindowsIso($name, $destinationDirectory) {
     $convertConfig = (Get-Content $buildDirectory/ConvertConfig.ini) `
         -replace '^(AutoExit\s*)=.*','$1=1' `
         -replace '^(ResetBase\s*)=.*','$1=1' `
-        -replace '^(SkipWinRE\s*)=.*','$1=1'
+        -replace '^(AddDrivers\s*)=.*','$1=1' `
+        -replace '^(NetFx3\s*)=.*','$1=1' `
+        -replace '^(Cleanup\s*)=.*','$1=1'
     if ($iso.virtualEdition) {
         $convertConfig = $convertConfig `
             -replace '^(StartVirtual\s*)=.*','$1=1' `
@@ -294,6 +291,9 @@ function Get-WindowsIso($name, $destinationDirectory) {
         -Encoding ascii `
         -Path $buildDirectory/ConvertConfig.ini `
         -Value $convertConfig
+
+    Write-Host "Copy Dell drivers to $buildDirectory directory"	
+    Copy-Item -Path Drivers -Destination $buildDirectory/Drivers -Recurse
 
     Write-Host "Creating the $title iso file inside the $buildDirectory directory"
     Push-Location $buildDirectory
