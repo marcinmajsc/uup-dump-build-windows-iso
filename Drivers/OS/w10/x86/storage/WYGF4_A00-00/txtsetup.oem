@@ -1,0 +1,38 @@
+
+[Disks]
+megasas2 = "LSI MegaRAID SAS RAID Controller Driver", \megasas2.sys, \
+
+[Defaults]
+scsi = megasas2
+
+[scsi]
+megasas2 = "LSI MegaRAID SAS RAID Controller Driver", megasas2
+
+[HardwareIds.scsi.megasas2]
+megasas2 = "PCI\VEN_1028&DEV_0015", "megasas2"
+megasas2 = "PCI\VEN_1000&DEV_005B", "megasas2"
+megasas2 = "PCI\VEN_1000&DEV_005D", "megasas2"
+megasas2 = "PCI\VEN_1000&DEV_005F", "megasas2"
+megasas2 = "PCI\VEN_1000&DEV_0060", "megasas2"
+megasas2 = "PCI\VEN_1000&DEV_0071", "megasas2"
+megasas2 = "PCI\VEN_1000&DEV_0073", "megasas2"
+megasas2 = "PCI\VEN_1000&DEV_0078", "megasas2"
+megasas2 = "PCI\VEN_1000&DEV_0079", "megasas2"
+megasas2 = "PCI\VEN_1000&DEV_0409", "megasas2"
+megasas2 = "PCI\VEN_1000&DEV_0411", "megasas2"
+megasas2 = "PCI\VEN_1000&DEV_0413", "megasas2"
+
+[Files.scsi.megasas2]
+driver  = megasas2, megasas2.sys, megasas2
+inf     = megasas2, megasas2.inf, megasas2
+catalog = megasas2, megasas2.cat
+
+
+[Config.megasas2]
+value = "", Tag, REG_DWORD, 20
+
+
+
+
+
+

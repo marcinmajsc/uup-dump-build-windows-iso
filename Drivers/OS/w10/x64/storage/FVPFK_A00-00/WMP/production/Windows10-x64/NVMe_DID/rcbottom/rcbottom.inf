@@ -1,0 +1,102 @@
+;-----------------------------------------------------------------------------
+;
+; rcbottom.inf = Installation for AMD-RAID device driver
+;
+; Copyright (c)2012-2022 Advanced Micro Devices, Inc.
+;
+;-----------------------------------------------------------------------------
+; - Class and ClassGUID specify the type of driver and must match
+;     (see $DDKPATH/inc/api/devguid.h).
+; - Driver provided by Advanced Micro Devices, Inc. for AMD-RAID 9.3 software.
+;   (9.3.2-00127)
+;-----------------------------------------------------------------------------
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=SCSIAdapter
+ClassGUID = {4D36E97B-E325-11CE-BFC1-08002BE10318}
+Provider=%AMD%
+CatalogFile=rcbottom.cat
+DriverVer = 06/12/2022,9.3.2.00127
+
+; ================= Class section =====================
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%AMD% = AMD,ntamd64
+
+;-----------------------------------------------------------------------------
+[AMD.ntamd64]
+%rcbottom_Desc%=rcbottom_Inst,PCI\VEN_1022&DEV_7905&CC_0104
+%rcbottom_Desc%=rcbottom_Inst,PCI\VEN_1022&DEV_43BD&CC_0104
+%rcbottom_Desc%=rcbottom_Inst,PCI\VEN_1022&DEV_7916&CC_0104
+%rcbottom_Desc%=rcbottom_Inst,PCI\VEN_1022&DEV_7917&CC_0104
+%rcbottom_Desc%=rcbottom_Inst,PCI\VEN_1022&DEV_B000&CC_0108
+
+[rcbottom_Inst.NT]
+CopyFiles=Drivers_Dir
+
+[rcbottom_Inst.NT.HW]
+AddReg=RCBOTTOM_MSI_INTERRUPTS
+
+[Drivers_Dir]
+rcbottom.sys,,,0x00002008
+
+[RCBOTTOM_MSI_INTERRUPTS]
+HKR,"WDF","WdfDirectedPowerTransitionEnable",0x00010001,1
+HKR,Interrupt Management,,0x00000010
+HKR,Interrupt Management\MessageSignaledInterruptProperties,,0x00000010
+HKR,Interrupt Management\MessageSignaledInterruptProperties,MSISupported,0x00010001,1
+HKR,Interrupt Management\MessageSignaledInterruptProperties,MessageNumberLimit,0x00010001,5
+HKR, Interrupt Management\Affinity Policy, 0x00000010
+HKR, Interrupt Management\Affinity Policy, DevicePolicy, 0x00010001, 5 ;IrqPolicySpreadMessagesAcrossAllProcessors
+
+
+
+
+;-------------- Service installation
+[rcbottom_Inst.NT.Services]
+AddService = rcbottom,%SPSVCINST_ASSOCSERVICE%, rcbottom_Service_Inst
+
+; -------------- rcbottom driver install sections
+[rcbottom_Service_Inst]
+DisplayName    = %rcbottom.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 0               ; SERVICE_BOOT_START
+ErrorControl   = 2               ; SERVICE_ERROR_SEVERE
+ServiceBinary  = %12%\rcbottom.sys
+LoadOrderGroup = SCSI miniport
+DelReg = rcbottom_Inst_DelReg
+AddReg = rcbottom_Inst_AddReg
+
+;-----------------------------------------------------------------------------
+[rcbottom_Inst_DelReg]
+HKR, "Parameters\Device", "EnableHIPM"
+HKR, "Parameters\Device", "EnableDIPM"
+
+;-----------------------------------------------------------------------------
+[rcbottom_Inst_AddReg]
+HKR, "Parameters\Device", "EnableHIPM", 0x00010001, 0xFFFFFFFF 
+HKR, "Parameters\Device", "EnableDIPM", 0x00010001, 0X00000000 
+HKR,"WDF","WdfDirectedPowerTransitionEnable",0x00010001,1
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[SourceDisksFiles]
+rcbottom.sys  = 1,,
+
+
+[Strings]
+AMD = "Advanced Micro Devices, Inc."
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ClassName="ADAPTER" ; TODO: edit ClassName
+DiskName = "AMD-RAID Bottom Device Installation Disk"
+rcbottom_Desc = "AMD-RAID Bottom Device"
+rcbottom.SVCDESC = "AMD-RAID Bottom Service"

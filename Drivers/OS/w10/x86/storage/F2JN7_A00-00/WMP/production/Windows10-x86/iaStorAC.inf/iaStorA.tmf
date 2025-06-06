@@ -1,0 +1,2328 @@
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+601a4c61-db33-bb5c-6611-59e0371fb642 Implementation // SRC=raidportism.cpp MJ= MN=
+#typev raidportism_cpp1790 29 "%0warning: trace formatting failed (%10!s!)" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_ISM FUNC=host::logDiagnostic
+{
+format, ItemString -- 10
+}
+#typev raidportism_cpp1785 28 "%0%10!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_ISM FUNC=host::logDiagnostic
+{
+messageBuffer, ItemString -- 10
+}
+#typev raidportism_cpp1752 26 "%0%10!s!" //   LEVEL=level FLAGS=ETW_ISM FUNC=host::logMessage
+{
+&messageBuffer[0], ItemString -- 10
+}
+#typev raidportism_cpp790 11 "%0%10!s!: physicalDisk=%11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=host::logicalDeviceRemoved
+{
+__FUNCTION__, ItemString -- 10
+physicalDisk, ItemLong -- 11
+}
+#typev raidportism_cpp866 13 "%0Raidport could not find RAID volume specified by ISM." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=host::raidDevReplaceFinish
+{
+}
+#typev raidportism_cpp846 12 "%0Raidport could not find RAID volume specified by ISM." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=host::raidDevReplaceStart
+{
+}
+#typev raidportism_cpp1016 25 "%0%10!s!: the disk state was changed to D3, portNumber=%11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=host::sendRtd3
+{
+__FUNCTION__, ItemString -- 10
+targetId, ItemLong -- 11
+}
+#typev raidportism_cpp1010 24 "%0%10!s!: cannot enable the port, portNumber=%11!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=host::sendRtd3
+{
+__FUNCTION__, ItemString -- 10
+targetId, ItemLong -- 11
+}
+#typev raidportism_cpp1004 23 "%0%10!s!: cannot turn off the disk, portNumber=%11!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=host::sendRtd3
+{
+__FUNCTION__, ItemString -- 10
+targetId, ItemLong -- 11
+}
+#typev raidportism_cpp997 22 "%0%10!s!: cannot disable the port, portNumber=%11!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=host::sendRtd3
+{
+__FUNCTION__, ItemString -- 10
+targetId, ItemLong -- 11
+}
+#typev raidportism_cpp989 21 "%0%10!s!: the disk state was changed to D0, portNumber=%11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=host::sendRtd3
+{
+__FUNCTION__, ItemString -- 10
+targetId, ItemLong -- 11
+}
+#typev raidportism_cpp983 20 "%0%10!s!: cannot turn off the disk, portNumber=%11!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=host::sendRtd3
+{
+__FUNCTION__, ItemString -- 10
+targetId, ItemLong -- 11
+}
+#typev raidportism_cpp978 19 "%0%10!s!: cannot enable the port, portNumber=%11!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=host::sendRtd3
+{
+__FUNCTION__, ItemString -- 10
+targetId, ItemLong -- 11
+}
+#typev raidportism_cpp970 18 "%0%10!s!: cannot turn on the disk, portNumber=%11!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=host::sendRtd3
+{
+__FUNCTION__, ItemString -- 10
+targetId, ItemLong -- 11
+}
+#typev raidportism_cpp946 17 "%0%10!s!: can't get RTD3 mask for PTL=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=host::sendRtd3
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+}
+#typev raidportism_cpp938 16 "%0%10!s! entered, powerOn=%11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=host::sendRtd3
+{
+__FUNCTION__, ItemString -- 10
+powerOn, ItemLong -- 11
+}
+#typev raidportism_cpp934 15 "%0%10!s!: Attempt to call sendRtd3 on not compatible OS" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=host::sendRtd3
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev raidportism_cpp887 14 "%0%10!s!: raidportTarget is null." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=host::setComponentLatency
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev raidportism_cpp477 10 "%0ISM_GET_SMART_ATTRIBUTES: target is smart capable." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=host::startIo
+{
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+705bdaf2-4840-4a94-d61d-ddbdf405c068 Implementation // SRC=transportpath.cpp MJ= MN=
+#typev transportpath_cpp633 21 "%0RAIDPORT: Transportpath: DiskRemoveDone -- freeing target %10!p! -- DeviceType %11!d! -- Path %12!d! -- Target %13!d! -- Lun %14!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportPath::DiskRemoveDone
+{
+target, ItemPtr -- 10
+target->getDeviceType(), ItemLong -- 11
+getPathId(), ItemLong -- 12
+mCurrentTargetId, ItemLong -- 13
+mCurrentLun, ItemLong -- 14
+}
+#typev transportpath_cpp88 11 "%0RAIDPORT: Transportpath: An attempt to clear target on invalid Pathid %10!d! - TargetId %11!d! - LUN %12!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportPath::clearTarget
+{
+getPathId(), ItemLong -- 10
+targetId, ItemLong -- 11
+lun, ItemLong -- 12
+}
+#typev transportpath_cpp551 20 "%0RAIDPORT: Transportpath: freeing target %10!p! -- DeviceType %11!d! -- Path %12!d! -- Target %13!d! -- Lun %14!d! " //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportPath::completionCallback
+{
+endDeviceTarget, ItemPtr -- 10
+endDeviceTarget->getDeviceType(), ItemLong -- 11
+getPathId(), ItemLong -- 12
+targetId, ItemLong -- 13
+lun, ItemLong -- 14
+}
+#typev transportpath_cpp537 19 "%0RAIDPORT: Transportpath: freeing NOT_PRESENT_DEVICE target %10!p! -- DeviceType %11!d! -- Path %12!d! -- Target %13!d! -- Lun %14!d! " //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportPath::completionCallback
+{
+endDeviceTarget, ItemPtr -- 10
+endDeviceTarget->getDeviceType(), ItemLong -- 11
+getPathId(), ItemLong -- 12
+targetId, ItemLong -- 13
+lun, ItemLong -- 14
+}
+#typev transportpath_cpp490 17 "%0RAIDPORT: Transportpath: Report Luns reported LUN device of higher index than allowed maximum logical unit number on Pathid %10!d! - TargetId %11!d! - LUN %12!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportPath::completionCallback
+{
+getPathId(), ItemLong -- 10
+targetId, ItemLong -- 11
+lun, ItemLong -- 12
+}
+#typev transportpath_cpp499 18 "%0RAIDPORT: Transportpath: Report Luns reported more LUN devices than allowed maximum logical unit number on Pathid %10!d! - TargetId %11!d! - LUN %12!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportPath::completionCallback
+{
+getPathId(), ItemLong -- 10
+targetId, ItemLong -- 11
+lun, ItemLong -- 12
+}
+#typev transportpath_cpp481 16 "%0RAIDPORT: Transportpath: Report Luns has not reported zero LUN device on Pathid %10!d! - TargetId %11!d! - LUN %12!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=TransportPath::completionCallback
+{
+getPathId(), ItemLong -- 10
+targetId, ItemLong -- 11
+lun, ItemLong -- 12
+}
+#typev transportpath_cpp232 12 "%0Could not allocate end Device Target on Pathid %10!d! - TargetId %11!d! - LUN %12!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=TransportPath::dpcRoutine
+{
+getPathId(), ItemLong -- 10
+mCurrentTargetId, ItemLong -- 11
+mCurrentLun, ItemLong -- 12
+}
+#typev transportpath_cpp259 13 "%0Invalid enumeration substate %10!d! on Pathid %11!d! - TargetId %12!d! - LUN %13!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportPath::dpcRoutine
+{
+mEnumerationSubstate, ItemLong -- 10
+getPathId(), ItemLong -- 11
+mCurrentTargetId, ItemLong -- 12
+mCurrentLun, ItemLong -- 13
+}
+#typev transportpath_cpp703 22 "%0Could not allocate end Device Target on Pathid %10!d! - TargetId %11!d! - LUN %12!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportPath::fastEnumCreateEndDeviceTarget
+{
+getPathId(), ItemLong -- 10
+mCurrentTargetId, ItemLong -- 11
+lun, ItemLong -- 12
+}
+#typev transportpath_cpp70 10 "%0RAIDPORT: Transportpath: An attempt to place target on invalid Pathid %10!d! - TargetId %11!d! - LUN %12!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=TransportPath::placeTarget
+{
+getPathId(), ItemLong -- 10
+targetId, ItemLong -- 11
+lun, ItemLong -- 12
+}
+#typev transportpath_cpp387 15 "%0RAIDPORT: Transportpath: IdentifyComplete - freeing target %10!p! -- DeviceType %11!d! -- PathId %12!d! -- TargetId %13!d! -- Lun %14!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportPath::targetIdentifyComplete
+{
+target, ItemPtr -- 10
+target->getDeviceType(), ItemLong -- 11
+getPathId(), ItemLong -- 12
+mCurrentTargetId, ItemLong -- 13
+mCurrentLun, ItemLong -- 14
+}
+#typev transportpath_cpp335 14 "%0RAIDPORT: Transportpath: IdentifyComplete - freeing target %10!p! -- DeviceType %11!d! -- PathId %12!d! -- TargetId %13!d! -- Lun %14!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportPath::targetIdentifyComplete
+{
+target, ItemPtr -- 10
+target->getDeviceType(), ItemLong -- 11
+getPathId(), ItemLong -- 12
+mCurrentTargetId, ItemLong -- 13
+mCurrentLun, ItemLong -- 14
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+06f91efb-f580-8ee6-ec0b-8ddbf73f310d Implementation // SRC=powerRequest.cpp MJ= MN=
+#typev powerrequest_cpp111 10 "%0PowerRequest::constructIoRequest - NULL Request or Srb pointer!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=PowerRequest::construct
+{
+}
+#typev powerrequest_cpp165 12 "%0%10!s!: PTL=%11!d!%12!d!%13!d!, SrbPowerFlags=%14!x!, DevPwrState=%15!s! PwrAction=%16!s!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=PowerRequest::start
+{
+__FUNCTION__, ItemString -- 10
+pPowerSrb->PathId, ItemLong -- 11
+pPowerSrb->TargetId, ItemLong -- 12
+pPowerSrb->Lun, ItemLong -- 13
+pPowerSrb->SrbPowerFlags, ItemLong -- 14
+enum2str(pPowerSrb->DevicePowerState), ItemString -- 15
+enum2str(pPowerSrb->PowerAction), ItemString -- 16
+}
+#typev powerrequest_cpp249 15 "%0%10!s!: unhandled mpPowerAction=%11!s!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=PowerRequest::start
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mpPowerAction), ItemString -- 11
+}
+#typev powerrequest_cpp227 14 "%0%10!s!: mpPowerAction=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=PowerRequest::start
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mpPowerAction), ItemString -- 11
+}
+#typev powerrequest_cpp220 13 "%0%10!s!: unhandled PowerAction %11!s!!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=PowerRequest::start
+{
+__FUNCTION__, ItemString -- 10
+enum2str(pPowerSrb->PowerAction), ItemString -- 11
+}
+#typev powerrequest_cpp159 11 "%0%10!s!: for adapter, SrbPowerFlags=%11!x!, DevPwrState=%12!s!, PwrAction=%13!s!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=PowerRequest::start
+{
+__FUNCTION__, ItemString -- 10
+pPowerSrb->SrbPowerFlags, ItemLong -- 11
+enum2str(pPowerSrb->DevicePowerState), ItemString -- 12
+enum2str(pPowerSrb->PowerAction), ItemString -- 13
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+c832c266-268d-4c3c-97b1-e5b9f7ef2e24 Implementation // SRC=raidporttarget.cpp MJ= MN=
+#typev raidporttarget_cpp1327 44 "%0%10!s!: mType=%11!s!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=PassthroughFromRaidTarget::PassthroughFromRaidTarget
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mType), ItemString -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp344 23 "%0%10!s!: mType=%11!s!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=PassthroughTarget::PassthroughTarget
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mType), ItemString -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp372 25 "%0%10!s!: mType=%11!s!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=RaidTarget::RaidTarget
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mType), ItemString -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp1153 42 "%0%10!s!: mType=%11!s!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=ReadOnlyPassthroughTarget::ReadOnlyPassthroughTarget
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mType), ItemString -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp1340 45 "%0%10!s!: mType=%11!s!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=PassthroughFromRaidTarget::~PassthroughFromRaidTarget
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mType), ItemString -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp350 24 "%0%10!s!: mType=%11!s!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=PassthroughTarget::~PassthroughTarget
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mType), ItemString -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp403 26 "%0%10!s!: mType=%11!s!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=RaidTarget::~RaidTarget
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mType), ItemString -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp1169 43 "%0%10!s!: mType=%11!s!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=ReadOnlyPassthroughTarget::~ReadOnlyPassthroughTarget
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mType), ItemString -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp1127 41 "%0%10!s!: StorPortInitializePoFxPower returned 0x%11!x!, d3ColdAllowed=%12!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RaidTarget::initializeScsiUnitPoFxPowerInfo
+{
+__FUNCTION__, ItemString -- 10
+status, ItemLong -- 11
+d3ColdAllowed, ItemLong -- 12
+}
+#typev raidporttarget_cpp1033 40 "%0%10!s!: cannot allocate memory for STOR_POFX_DEVICE structure" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=RaidTarget::initializeScsiUnitPoFxPowerInfo
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev raidporttarget_cpp990 39 "%0%10!s! entered, PTL=%11!d!%12!d!%13!d!, d3ColdAllowed=%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RaidTarget::initializeScsiUnitPoFxPowerInfo
+{
+__FUNCTION__, ItemString -- 10
+storAddrBtl8->Path, ItemLong -- 11
+storAddrBtl8->Target, ItemLong -- 12
+storAddrBtl8->Lun, ItemLong -- 13
+d3ColdAllowed, ItemLong -- 14
+}
+#typev raidporttarget_cpp1501 53 "%0%10!s!: RTD3 RAID port mask for PTL=%11!d!%12!d!%13!d! sent to BIOS, rtd3AcpiPortMask=0x%14!x!, volNumber=%15!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=PassthroughFromRaidTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+mRtd3masks[volNumber], ItemLong -- 14
+volNumber, ItemLong -- 15
+}
+#typev raidporttarget_cpp1495 52 "%0%10!s!: can't send RTD3 RAID port mask for PTL=%11!d!%12!d!%13!d! to BIOS, rtd3AcpiPortMask=0x%14!x!, volNumber=%15!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=PassthroughFromRaidTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+mRtd3masks[volNumber], ItemLong -- 14
+volNumber, ItemLong -- 15
+}
+#typev raidporttarget_cpp1487 51 "%0%10!s!: RTD3 is not supported for volNumber=%11!d!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=PassthroughFromRaidTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+volNumber, ItemLong -- 11
+pathId, ItemLong -- 12
+targetId, ItemLong -- 13
+lun, ItemLong -- 14
+}
+#typev raidporttarget_cpp1480 50 "%0%10!s!: can't get RTD3 mask for PTL=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=PassthroughFromRaidTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+}
+#typev raidporttarget_cpp1471 49 "%0%10!s!: can't get expected raid dev index for disk PTL=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=PassthroughFromRaidTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+mPathId, ItemLong -- 11
+mTargetId, ItemLong -- 12
+mLun, ItemLong -- 13
+}
+#typev raidporttarget_cpp1450 48 "%0%10!s!: nothing to do for PTL=%11!d!%12!d!%13!d! if raid is not going to be deleted" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=PassthroughFromRaidTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+mPathId, ItemLong -- 11
+mTargetId, ItemLong -- 12
+mLun, ItemLong -- 13
+}
+#typev raidporttarget_cpp1444 47 "%0%10!s!: entered, deleteTarget=%11!d!, PTL=%12!d!%13!d!%14!d!, endDevice PTL=%15!d!%16!d!%17!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=PassthroughFromRaidTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+deleteTarget, ItemLong -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+mEndDeviceTargetPtl.mPathId, ItemLong -- 15
+mEndDeviceTargetPtl.mTargetId, ItemLong -- 16
+mEndDeviceTargetPtl.mLun, ItemLong -- 17
+}
+#typev raidporttarget_cpp939 38 "%0%10!s!: RTD3 RAID port mask for PTL=%11!d!%12!d!%13!d! sent to BIOS, rtd3AcpiPortMask=0x%14!x!, volNumber=%15!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=PassthroughTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+mPathId, ItemLong -- 11
+mTargetId, ItemLong -- 12
+mLun, ItemLong -- 13
+mRtd3masks[volNumber], ItemLong -- 14
+volNumber, ItemLong -- 15
+}
+#typev raidporttarget_cpp933 37 "%0%10!s!: can't send RTD3 RAID port mask for PTL=%11!d!%12!d!%13!d! to BIOS, rtd3AcpiPortMask=0x%14!x!, volNumber=%15!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=PassthroughTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+mPathId, ItemLong -- 11
+mTargetId, ItemLong -- 12
+mLun, ItemLong -- 13
+mRtd3masks[volNumber], ItemLong -- 14
+volNumber, ItemLong -- 15
+}
+#typev raidporttarget_cpp925 36 "%0%10!s!: can't get RTD3 mask for PTL=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=PassthroughTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+mPathId, ItemLong -- 11
+mTargetId, ItemLong -- 12
+mLun, ItemLong -- 13
+}
+#typev raidporttarget_cpp917 35 "%0%10!s!: RTD3 is not supported for volNumber=%11!d!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=PassthroughTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+volNumber, ItemLong -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp908 34 "%0%10!s!: can't get expected raid dev index for disk PTL=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=PassthroughTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+mPathId, ItemLong -- 11
+mTargetId, ItemLong -- 12
+mLun, ItemLong -- 13
+}
+#typev raidporttarget_cpp899 33 "%0%10!s!: nothing to do for PTL=%11!d!%12!d!%13!d! if raid is not going to be deleted" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=PassthroughTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+mPathId, ItemLong -- 11
+mTargetId, ItemLong -- 12
+mLun, ItemLong -- 13
+}
+#typev raidporttarget_cpp887 32 "%0%10!s!: entered, deleteTarget=%11!d!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=PassthroughTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+deleteTarget, ItemLong -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp840 31 "%0%10!s!: RTD3 RAID port mask for PTL=%11!d!%12!d!%13!d! sent to BIOS, rtd3AcpiPortMask=0x%14!x!, volNumber=%15!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RaidTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+mPathId, ItemLong -- 11
+mTargetId, ItemLong -- 12
+mLun, ItemLong -- 13
+mRtd3masks[volNumber], ItemLong -- 14
+volNumber, ItemLong -- 15
+}
+#typev raidporttarget_cpp834 30 "%0%10!s!: can't send RTD3 RAID port mask for PTL=%11!d!%12!d!%13!d! to BIOS, rtd3AcpiPortMask=0x%14!x!, volNumber=%15!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=RaidTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+mPathId, ItemLong -- 11
+mTargetId, ItemLong -- 12
+mLun, ItemLong -- 13
+mRtd3masks[volNumber], ItemLong -- 14
+volNumber, ItemLong -- 15
+}
+#typev raidporttarget_cpp826 29 "%0%10!s!: No RTD3 RAID mask for PTL=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RaidTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+mPathId, ItemLong -- 11
+mTargetId, ItemLong -- 12
+mLun, ItemLong -- 13
+}
+#typev raidporttarget_cpp810 28 "%0%10!s!: RTD3 is not supported for volNumber=%11!d!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=RaidTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+volNumber, ItemLong -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp792 27 "%0%10!s!: entered, deleteTarget=%11!d!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RaidTarget::sendRtd3AcpiPortMaskToBios
+{
+__FUNCTION__, ItemString -- 10
+deleteTarget, ItemLong -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp124 12 "%0%10!s!: returnValue=%11!u!d" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=RaidportTarget::setComponentLatency
+{
+__FUNCTION__, ItemString -- 10
+returnValue, ItemLong -- 11
+}
+#typev raidporttarget_cpp111 11 "%0%10!s! entered: latency=%11!I64d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=RaidportTarget::setComponentLatency
+{
+__FUNCTION__, ItemString -- 10
+latency, ItemLongLong -- 11
+}
+#typev raidporttarget_cpp107 10 "%0%10!s! Attempt to call StorPortPoFxSetComponentLatency on not compatible OS" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=RaidportTarget::setComponentLatency
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev raidporttarget_cpp1432 46 "%0%10!s! entered: controlType=%11!s!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=PassthroughFromRaidTarget::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp303 22 "%0%10!s! entered: controlType=%11!s!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=PassthroughTarget::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp294 21 "%0%10!s!: %11!s!: returning status=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=RaidTarget::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+enum2str(status), ItemString -- 12
+}
+#typev raidporttarget_cpp191 18 "%0%10!s!: %11!s!: ignore the request, raid dev is not transiting into rtd3 (ScsiUnitPoFxPowerRequired wasn't requested), returning status=%12!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RaidTarget::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+enum2str(status), ItemString -- 12
+}
+#typev raidporttarget_cpp185 17 "%0%10!s!: %11!s!: PowerAction=%12!s!, PowerState=%13!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RaidTarget::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+enum2str(pwr->PowerAction), ItemString -- 12
+enum2str(pwr->PowerState), ItemString -- 13
+}
+#typev raidporttarget_cpp282 20 "%0%10!s!: %11!s!: raid dev is srt, extra space, recovery volume or matrix volume, D3 is not allowed, nvCacheMode=%12!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RaidTarget::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+nvCacheMode, ItemLong -- 12
+}
+#typev raidporttarget_cpp271 19 "%0%10!s!: %11!s!: returning status=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=RaidTarget::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+enum2str(status), ItemString -- 12
+}
+#typev raidporttarget_cpp171 16 "%0%10!s!: %11!s!: ignore the request, raid dev is srt, extra space, recovery volume or matrix volume, nvCacheMode=%12!d!, returning status=%13!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RaidTarget::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+nvCacheMode, ItemLong -- 12
+enum2str(status), ItemString -- 13
+}
+#typev raidporttarget_cpp161 15 "%0%10!s!: %11!s!: ignore the request, raid dev is not in normal state, returning status=%12!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RaidTarget::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+enum2str(status), ItemString -- 12
+}
+#typev raidporttarget_cpp147 14 "%0%10!s! entered: controlType=%11!s!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=RaidTarget::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+#typev raidporttarget_cpp139 13 "%0%10!s! entered: controlType=%11!s!, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=RaidportTarget::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+mPathId, ItemLong -- 12
+mTargetId, ItemLong -- 13
+mLun, ItemLong -- 14
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+7743d252-9a1e-d090-a945-8744526974b4 Implementation // SRC=transport.cpp MJ= MN=
+#typev transport_cpp598 14 "%0RAIDPORT: Transport: BCD detected. Transport NOT enumerating. start Raidport enumeration" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=Transport::busChangeDetected
+{
+}
+#typev transport_cpp590 13 "%0RAIDPORT: Transport: BCD detected. Timer not started so in middle of enumeration. Set reenumeration flag" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=Transport::busChangeDetected
+{
+}
+#typev transport_cpp672 17 "%0RAIDPORT: Transport: Enumeration Complete." //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Transport::checkTransportEnumerationComplete
+{
+}
+#typev transport_cpp667 16 "%0RAIDPORT: Transport: Initiating re-enumeration." //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Transport::checkTransportEnumerationComplete
+{
+}
+#typev transport_cpp463 10 "%0RAIDPORT: Transport: device Added to fastlist - Pathid %10!d! -- target ID %11!d! -- %12!p!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Transport::deviceAdded
+{
+target->getPathId(), ItemLong -- 10
+target->getTargetId(), ItemLong -- 11
+target, ItemPtr -- 12
+}
+#typev transport_cpp506 12 "%0RAIDPORT: Transport: calling Raidport device removed - Pathid %10!d! -- target ID %11!d! -- Lun %12!d! -- %13!p!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Transport::deviceRemoved
+{
+target->getPathId(), ItemLong -- 10
+target->getTargetId(), ItemLong -- 11
+target->getLun(), ItemLong -- 12
+target, ItemPtr -- 13
+}
+#typev transport_cpp496 11 "%0RAIDPORT: Transport: device removed from fastlist - Pathid %10!d! -- target ID %11!d! -- Lun %12!d! -- %13!p!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Transport::deviceRemoved
+{
+target->getPathId(), ItemLong -- 10
+target->getTargetId(), ItemLong -- 11
+target->getLun(), ItemLong -- 12
+target, ItemPtr -- 13
+}
+#typev transport_cpp626 15 "%0RAIDPORT: Invoking enumerate() for path %10!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Transport::enumerate
+{
+path, ItemLong -- 10
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+aa02d51b-e496-a1e9-90d9-f420eb9b7470 Implementation // SRC=transportrequest.cpp MJ= MN=
+#typev transportrequest_cpp351 10 "%0Request returned SRB_STATUS=%10!x!: request=%11!p! scsiop=0x%12!x! path=0x%13!x! target=0x%14!x! RetryRemaining=%15!u! " //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportRequest::requiresRetry
+{
+srbStatus, ItemLong -- 10
+this, ItemPtr -- 11
+getTransportSrb()->Cdb[0], ItemLong -- 12
+getTransportSrb()->PathId, ItemLong -- 13
+getTransportSrb()->TargetId, ItemLong -- 14
+mNumRetryRemaining, ItemLong -- 15
+}
+#typev transportrequest_cpp427 14 "%0Valid sense data: request=%10!p! key=0x%11!x! asc=0x%12!x! ascq=0x%13!x!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=TransportRequest::requiresRetry
+{
+this, ItemPtr -- 10
+senseKey, ItemLong -- 11
+asc, ItemLong -- 12
+ascq, ItemLong -- 13
+}
+#typev transportrequest_cpp403 13 "%0Request returned SRB_STATUS_ERROR: request=%10!p! scsiop=0x%11!x! scsistatus=0x%12!x! path=0x%13!x! target=0x%14!x!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=TransportRequest::requiresRetry
+{
+this, ItemPtr -- 10
+getTransportSrb()->Cdb[0], ItemLong -- 11
+scsiStatus, ItemLong -- 12
+getTransportSrb()->PathId, ItemLong -- 13
+getTransportSrb()->TargetId, ItemLong -- 14
+}
+#typev transportrequest_cpp381 12 "%0Request returned SRB_STATUS_BUSY, but no more reties left; changing SrbStatus to SRB_STATUS_TIMEOUT: request=%10!p! scsiop=0x%11!x! path=0x%12!x! target=0x%13!x!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=TransportRequest::requiresRetry
+{
+this, ItemPtr -- 10
+getTransportSrb()->Cdb[0], ItemLong -- 11
+getTransportSrb()->PathId, ItemLong -- 12
+getTransportSrb()->TargetId, ItemLong -- 13
+}
+#typev transportrequest_cpp372 11 "%0Request returned SRB_STATUS_BUSY: request=%10!p! scsiop=0x%11!x! path=0x%12!x! target=0x%13!x!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportRequest::requiresRetry
+{
+this, ItemPtr -- 10
+getTransportSrb()->Cdb[0], ItemLong -- 11
+getTransportSrb()->PathId, ItemLong -- 12
+getTransportSrb()->TargetId, ItemLong -- 13
+}
+#typev transportrequest_cpp538 15 "%0Completed I/O must be retried" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=TransportRequest::retry
+{
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+f40ac5b8-559d-3198-4fc3-69819141e6b4 Implementation // SRC=enddevicetarget.cpp MJ= MN=
+#typev enddevicetarget_cpp899 14 "%0%10!s!: entered" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=EndDeviceTarget::checkClaimForRaidDone
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev enddevicetarget_cpp844 13 "%0%10!s!: entered" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=EndDeviceTarget::claimForRaid
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev enddevicetarget_cpp549 12 "%0EndDeviceTarget::completionCallback, #2: identifierSize = 0x%10!02x!, identifierBuffer = 0x%11!p!, pageLength = 0x%12!02x!, identifierType = 0x%13!02x!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=EndDeviceTarget::completionCallback
+{
+identifierSize, ItemLong -- 10
+identifierBuffer, ItemPtr -- 11
+pageLength, ItemLong -- 12
+identifier->IdentifierType, ItemLong -- 13
+}
+#typev enddevicetarget_cpp538 11 "%0EndDeviceTarget::completionCallback, vendor specific descriptor: %10!.20s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=EndDeviceTarget::completionCallback
+{
+reinterpret_cast<const char*>(devSerialNumber), ItemString -- 10
+}
+#typev enddevicetarget_cpp508 10 "%0EndDeviceTarget::completionCallback, #1: vpdIdentification = 0x%10!p!, pageLength = 0x%11!02x!, identifierBuffer = 0x%12!p!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=EndDeviceTarget::completionCallback
+{
+vpdIdentification, ItemPtr -- 10
+pageLength, ItemLong -- 11
+identifierBuffer, ItemPtr -- 12
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+26a60990-cd49-4e3d-7b56-41f00c58b09f Implementation // SRC=transporttarget.cpp MJ= MN=
+#typev transporttarget_cpp276 11 "%0Dispatch failed: request=%10!p! attributes=0x%11!08x! state=0x%12!08x!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=TransportTarget::dispatchIo
+{
+request, ItemPtr -- 10
+request->getDispatchAttributes(), ItemLong -- 11
+mTransportTargetState, ItemLong -- 12
+}
+#typev transporttarget_cpp239 10 "%0%10!s! request is nullptr" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=TransportTarget::dispatchIo
+{
+__FUNCTION__, ItemString -- 10
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+d61f4392-f11c-50ac-ce6c-5fbd336f01d6 Implementation // SRC=rpi.cpp MJ= MN=
+#typev rpi_cpp622 13 "%0%10!s!, Calling StorPortInitializePoFxPower for NON-RaidTarget, PTL=%11!d!%12!d!%13!d!, D3ColdEnabled=%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RpiInitializePoFxPower
+{
+__FUNCTION__, ItemString -- 10
+storAddrBtl8->Path, ItemLong -- 11
+storAddrBtl8->Target, ItemLong -- 12
+storAddrBtl8->Lun, ItemLong -- 13
+*D3ColdEnabled, ItemLong -- 14
+}
+#typev rpi_cpp628 14 "%0%10!s!, raidportTarget=%11!d!%12!d!%13!d!, D3ColdEnabled=%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RpiInitializePoFxPower
+{
+__FUNCTION__, ItemString -- 10
+raidportTarget->getPathId(), ItemLong -- 11
+raidportTarget->getTargetId(), ItemLong -- 12
+raidportTarget->getLun(), ItemLong -- 13
+*D3ColdEnabled, ItemLong -- 14
+}
+#typev rpi_cpp605 12 "%0%10!s!, storAddrBtl8=%11!d!%12!d!%13!d!, D3ColdEnabled=%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RpiInitializePoFxPower
+{
+__FUNCTION__, ItemString -- 10
+storAddrBtl8->Path, ItemLong -- 11
+storAddrBtl8->Target, ItemLong -- 12
+storAddrBtl8->Lun, ItemLong -- 13
+*D3ColdEnabled, ItemLong -- 14
+}
+#typev rpi_cpp262 11 "%0RPI: completing internal request path=%10!x!, target=%11!x!, lun=%12!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RpiNotification
+{
+Srb->PathId, ItemLong -- 10
+Srb->TargetId, ItemLong -- 11
+Srb->Lun, ItemLong -- 12
+}
+#typev rpi_cpp217 10 "%0RPI: bus change detected path=%10!x!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=RpiNotification
+{
+PathId, ItemLong -- 10
+}
+#typev rpi_cpp667 16 "%0%10!s!, storAddrOut=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RpiPoFxActivateComponent
+{
+__FUNCTION__, ItemString -- 10
+storAddrOut.Path, ItemLong -- 11
+storAddrOut.Target, ItemLong -- 12
+storAddrOut.Lun, ItemLong -- 13
+}
+#typev rpi_cpp655 15 "%0%10!s!, storAddrIn=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RpiPoFxActivateComponent
+{
+__FUNCTION__, ItemString -- 10
+storAddrIn->Path, ItemLong -- 11
+storAddrIn->Target, ItemLong -- 12
+storAddrIn->Lun, ItemLong -- 13
+}
+#typev rpi_cpp708 18 "%0%10!s!, storAddrOut=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RpiPoFxIdleComponent
+{
+__FUNCTION__, ItemString -- 10
+storAddrOut.Path, ItemLong -- 11
+storAddrOut.Target, ItemLong -- 12
+storAddrOut.Lun, ItemLong -- 13
+}
+#typev rpi_cpp696 17 "%0%10!s!, storAddrIn=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RpiPoFxIdleComponent
+{
+__FUNCTION__, ItemString -- 10
+storAddrIn->Path, ItemLong -- 11
+storAddrIn->Target, ItemLong -- 12
+storAddrIn->Lun, ItemLong -- 13
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+28950547-f69c-a29b-bea2-9381599c9808 Implementation // SRC=raidport.cpp MJ= MN=
+#typev raidport_cpp956 14 "%0FindAdapter %10!p!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=RaidportFindAdapter
+{
+DeviceExtension, ItemPtr -- 10
+}
+#typev raidport_cpp1338 16 "%0%10!s!, ScsiAdapterSystemPowerHints, SystemPower=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::adapterControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(powerHints->SystemPower), ItemString -- 11
+}
+#typev raidport_cpp1328 15 "%0%10!s! called, ControlType=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::adapterControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+}
+#typev raidport_cpp575 11 "%0SRB_STATUS_INVALID_REQUEST:CDB length of 0 on path %10!x! target %11!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=Raidport::buildIo
+{
+target->getPathId(), ItemLong -- 10
+pSrb->TargetId, ItemLong -- 11
+}
+#typev raidport_cpp643 12 "%0%10!s!: the slow disk is off, fail the IOCTL" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::buildIo
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev raidport_cpp746 13 "%0Raidport::buildIo - invalid Storport SRB function: %10!x!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Raidport::buildIo
+{
+pSrb->Function, ItemLong -- 10
+}
+#typev raidport_cpp2382 38 "%0RAIDPORT: Initiating re-enumeration." //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Raidport::completeRaidEnumeration
+{
+}
+#typev raidport_cpp2373 37 "%0RAIDPORT: Enumeration complete." //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Raidport::completeRaidEnumeration
+{
+}
+#typev raidport_cpp1415 18 "%0%10!s!: CS is disabled by registry, csSrtEnabledInRegistry=%11!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::connectedStandbyNotify
+{
+__FUNCTION__, ItemString -- 10
+csSrtEnabledInRegistry, ItemLong -- 11
+}
+#typev raidport_cpp1380 17 "%0%10!s!: powerHints.SystemPower=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::connectedStandbyNotify
+{
+__FUNCTION__, ItemString -- 10
+enum2str(powerHints.SystemPower), ItemString -- 11
+}
+#typev raidport_cpp2069 28 "%0%10!s!: created raidport target with PTL=%11!d!%12!d!%13!d!, type=%14!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=Raidport::createPassthroughTarget
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+enum2str(target->getType()), ItemString -- 14
+}
+#typev raidport_cpp2033 27 "%0%10!s!: target is null for PTL=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=Raidport::createPassthroughTarget
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+}
+#typev raidport_cpp1947 26 "%0%10!s!: created raidport target with PTL=%11!d!%12!d!%13!d!, type=%14!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=Raidport::createRaidTarget
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+target->getLun(), ItemLong -- 13
+enum2str(target->getType()), ItemString -- 14
+}
+#typev raidport_cpp1902 25 "%0%10!s!: target is null for PTL=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=Raidport::createRaidTarget
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+}
+#typev raidport_cpp2203 31 "%0%10!s!: created raidport target with PTL=%11!d!%12!d!%13!d!, type=%14!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=Raidport::createReadOnlyPassthroughTarget
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+enum2str(target->getType()), ItemString -- 14
+}
+#typev raidport_cpp2188 30 "%0%10!s!: target is null for PTL=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=Raidport::createReadOnlyPassthroughTarget
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+}
+#typev raidport_cpp2223 32 "%0%10!s!: deleting raidport target with PTL=%11!d!%12!d!%13!d!, type=%14!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=Raidport::deleteTarget
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+enum2str(raidportTarget->getType()), ItemString -- 14
+}
+#typev raidport_cpp2248 33 "%0Added device: type = %10!d!, path = %11!d!, target = %12!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Raidport::deviceAdded
+{
+target->getDeviceType(), ItemLong -- 10
+target->getPathId(), ItemLong -- 11
+target->getTargetId(), ItemLong -- 12
+}
+#typev raidport_cpp2267 34 "%0Removed device: path = %10!d!, target = %11!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Raidport::deviceRemoved
+{
+target->getPathId(), ItemLong -- 10
+target->getTargetId(), ItemLong -- 11
+}
+#typev raidport_cpp3427 63 "%0%10!s!: entered, enterS0=%11!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::enterExitS0
+{
+__FUNCTION__, ItemString -- 10
+enterS0, ItemLong -- 11
+}
+#typev raidport_cpp490 10 "%0Raidport: %10!s! entered for invalid raidportTarget(P=%11!d!, T=%12!d!, L=%13!d!)" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=Raidport::getRaidportTarget
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+}
+#typev raidport_cpp1520 20 "%0%10!s!: PTL=%11!d!%12!d!%13!d! is not SATA or remapped disk" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=Raidport::getRtd3AcpiPortMaskForDisk
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+}
+#typev raidport_cpp1446 19 "%0%10!s! entered" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=Raidport::passiveInitialization
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev raidport_cpp2737 39 "%0Raidport::remove" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Raidport::remove
+{
+}
+#typev raidport_cpp3279 60 "%0%10!s!: exiting, mPowerState=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::removeSubstateTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mPowerState), ItemString -- 11
+}
+#typev raidport_cpp3255 59 "%0%10!s!: entered, success=%11!d!, mPowerState=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::removeSubstateTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+success, ItemLong -- 11
+enum2str(mPowerState), ItemString -- 12
+}
+#typev raidport_cpp3249 58 "%0%10!s!: exiting, mPowerState=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::removeTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mPowerState), ItemString -- 11
+}
+#typev raidport_cpp3220 57 "%0%10!s!: entered, success=%11!d!, mPowerState=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::removeTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+success, ItemLong -- 11
+enum2str(mPowerState), ItemString -- 12
+}
+#typev raidport_cpp2929 40 "%0%10!s!: entered, powerAction=%11!s!, devicePowerState=%12!s!, mPowerState=%13!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::resume
+{
+__FUNCTION__, ItemString -- 10
+enum2str(powerAction), ItemString -- 11
+enum2str(devicePowerState), ItemString -- 12
+enum2str(mPowerState), ItemString -- 13
+}
+#typev raidport_cpp3145 52 "%0%10!s!: exiting, mPowerState=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::resumeSubstateTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mPowerState), ItemString -- 11
+}
+#typev raidport_cpp3121 51 "%0%10!s!: entered, success=%11!d!, mPowerState=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::resumeSubstateTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+success, ItemLong -- 11
+enum2str(mPowerState), ItemString -- 12
+}
+#typev raidport_cpp3115 50 "%0%10!s!: exiting, mPowerState=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::resumeTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mPowerState), ItemString -- 11
+}
+#typev raidport_cpp3080 49 "%0%10!s!: entered, success=%11!d!, mPowerState=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::resumeTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+success, ItemLong -- 11
+enum2str(mPowerState), ItemString -- 12
+}
+#typev raidport_cpp2147 29 "%0%10!s!: created raidport target with PTL=%11!d!%12!d!%13!d!, type=%14!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=Raidport::revertToPassthroughTarget
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+enum2str(raidportTarget->getType()), ItemString -- 14
+}
+#typev raidport_cpp3363 61 "%0RAIDPORT: setBootLocation PTL = %10!d!:%11!d!:%12!d!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Raidport::setBootLocation
+{
+path, ItemLong -- 10
+target, ItemLong -- 11
+lun, ItemLong -- 12
+}
+#typev raidport_cpp3403 62 "%0%10!s!: entered, action=%11!I64u!, arg=%12!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::setPowerState
+{
+__FUNCTION__, ItemString -- 10
+action, ItemULongLong -- 11
+arg, ItemLong -- 12
+}
+#typev raidport_cpp3214 56 "%0%10!s!: exiting, mPowerState=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::shutdownSubstateTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mPowerState), ItemString -- 11
+}
+#typev raidport_cpp3190 55 "%0%10!s!: entered, success=%11!d!, mPowerState=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::shutdownSubstateTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+success, ItemLong -- 11
+enum2str(mPowerState), ItemString -- 12
+}
+#typev raidport_cpp3184 54 "%0%10!s!: exiting, mPowerState=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::shutdownTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mPowerState), ItemString -- 11
+}
+#typev raidport_cpp3151 53 "%0%10!s!: entered, success=%11!d!, mPowerState=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::shutdownTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+success, ItemLong -- 11
+enum2str(mPowerState), ItemString -- 12
+}
+#typev raidport_cpp2330 36 "%0Re-enumeration requested." //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Raidport::startEnumeration
+{
+}
+#typev raidport_cpp2316 35 "%0Starting enumeration" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=Raidport::startEnumeration
+{
+}
+#typev raidport_cpp3023 44 "%0%10!s!: exiting, mPowerState=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::startSubstateTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mPowerState), ItemString -- 11
+}
+#typev raidport_cpp3002 43 "%0%10!s!: entered, success=%11!d!, mPowerState=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::startSubstateTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+success, ItemLong -- 11
+enum2str(mPowerState), ItemString -- 12
+}
+#typev raidport_cpp2996 42 "%0%10!s!: exiting, mPowerState=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::startTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mPowerState), ItemString -- 11
+}
+#typev raidport_cpp2987 41 "%0%10!s!: entered, success=%11!d!, mPowerState=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::startTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+success, ItemLong -- 11
+enum2str(mPowerState), ItemString -- 12
+}
+#typev raidport_cpp3074 48 "%0%10!s!: exiting, mPowerState=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::suspendSubstateTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mPowerState), ItemString -- 11
+}
+#typev raidport_cpp3050 47 "%0%10!s!: entered, success=%11!d!, mPowerState=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::suspendSubstateTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+success, ItemLong -- 11
+enum2str(mPowerState), ItemString -- 12
+}
+#typev raidport_cpp3044 46 "%0%10!s!: exiting, mPowerState=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::suspendTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mPowerState), ItemString -- 11
+}
+#typev raidport_cpp3029 45 "%0%10!s!: entered, success=%11!d!, mPowerState=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::suspendTransitionComplete
+{
+__FUNCTION__, ItemString -- 10
+success, ItemLong -- 11
+enum2str(mPowerState), ItemString -- 12
+}
+#typev raidport_cpp1583 22 "%0%10!s!: %11!s!: returning status=%12!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=Raidport::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+enum2str(status), ItemString -- 12
+}
+#typev raidport_cpp1662 24 "%0%10!s! exit: ControlType=%11!s!, returning status=%12!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+enum2str(status), ItemString -- 12
+}
+#typev raidport_cpp1623 23 "%0%10!s!: %11!s!: returning status=%12!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=Raidport::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+enum2str(status), ItemString -- 12
+}
+#typev raidport_cpp1548 21 "%0%10!s! entered: ControlType=%11!s!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=Raidport::unitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+05fae172-63bf-c60c-a935-e5b35fefb07d Implementation // SRC=pnpRequest.cpp MJ= MN=
+#typev pnprequest_cpp93 11 "%0AdapterPnpRequest::build: SrbPnPFlags: %10!x!: PnPAction %11!x!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=AdapterPnpRequest::build
+{
+pnpSrb->SrbPnPFlags, ItemLong -- 10
+pnpSrb->PnPAction, ItemLong -- 11
+}
+#typev pnprequest_cpp62 10 "%0AdapterPnpRequest::constructIoRequest - NULL Request or Srb pointer!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=AdapterPnpRequest::construct
+{
+}
+#typev pnprequest_cpp130 12 "%0AdapterPnpRequest::start: SrbPnPFlags: %10!x!: PnPAction %11!x!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_RAIDPORT FUNC=AdapterPnpRequest::start
+{
+pnpSrb->SrbPnPFlags, ItemLong -- 10
+pnpSrb->PnPAction, ItemLong -- 11
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+d25bf65a-4709-fcd0-3953-ceed823694ff ISM // SRC=hostIsmIntf.cpp MJ= MN=
+#typev hostismintf_cpp1299 16 "%0%10!s!: can't get RTD3 mask for PTL=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=raidIsmCreateRtd3AcpiPortMask
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+}
+#typev hostismintf_cpp1307 17 "%0%10!s!: the mask is set to 0x%11!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=raidIsmCreateRtd3AcpiPortMask
+{
+__FUNCTION__, ItemString -- 10
+rtd3AcpiPortMask, ItemLong -- 11
+}
+#typev hostismintf_cpp1292 15 "%0%10!s!: disk in RAID, PTL=%11!d!%12!d!%13!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=raidIsmCreateRtd3AcpiPortMask
+{
+__FUNCTION__, ItemString -- 10
+pathId, ItemLong -- 11
+targetId, ItemLong -- 12
+lun, ItemLong -- 13
+}
+#typev hostismintf_cpp1279 14 "%0%10!s!: skip rtd3 mask for SRT (it will be set in RaidIsm::readyNotify)" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=raidIsmCreateRtd3AcpiPortMask
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev hostismintf_cpp1271 13 "%0%10!s!: there's no rtd3 for SRT Extra Space, the mask is set to 0x%11!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_RAIDPORT FUNC=raidIsmCreateRtd3AcpiPortMask
+{
+__FUNCTION__, ItemString -- 10
+rtd3AcpiPortMask, ItemLong -- 11
+}
+#typev hostismintf_cpp1266 12 "%0%10!s!: raidType=%11!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=raidIsmCreateRtd3AcpiPortMask
+{
+__FUNCTION__, ItemString -- 10
+raidType, ItemLong -- 11
+}
+#typev hostismintf_cpp1261 11 "%0%10!s!: raid dev is null" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_RAIDPORT FUNC=raidIsmCreateRtd3AcpiPortMask
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev hostismintf_cpp1255 10 "%0%10!s! entered" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_RAIDPORT FUNC=raidIsmCreateRtd3AcpiPortMask
+{
+__FUNCTION__, ItemString -- 10
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+53445a42-c29b-c027-853c-07351186d546 Implementation // SRC=HotPlugTimer.cpp MJ= MN=
+#typev hotplugtimer_cpp59 11 "%0AHCI: HHDAoacTimer Timer timed out. Port# %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=HHDAoacTimer::timeout
+{
+mAhciPort->ChannelNumber, ItemLong -- 10
+}
+#typev hotplugtimer_cpp44 10 "%0AHCI: HotPlugTimer Timer timed out. call handleAsr for Port# %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=HotPlugTimer::timeout
+{
+mAhciPort->ChannelNumber, ItemLong -- 10
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+bfacb552-25bb-198b-efb5-45dbfbb4f779 Implementation // SRC=HwStorImpl.cpp MJ= MN=
+#typev hwstorimpl_cpp95 11 "%0AhciHwStorAdapterControl ScsiStopAdapter: Entry" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorAdapterControl
+{
+}
+#typev hwstorimpl_cpp101 12 "%0AhciHwStorAdapterControl ScsiRestartAdapter: Entry" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorAdapterControl
+{
+}
+#typev hwstorimpl_cpp109 13 "%0AhciHwStorAdapterControl ScsiSetRunningConfig: Entry" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorAdapterControl
+{
+}
+#typev hwstorimpl_cpp120 14 "%0AhciController::connectedStandbyNotify - SystemPower value (0x%10!x!) - %11!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorAdapterControl
+{
+powerHints->SystemPower, ItemLong -- 10
+enum2str(powerHints->SystemPower), ItemString -- 11
+}
+#typev hwstorimpl_cpp147 15 "%0AhciHwStorAdapterControl: Unhandled Control Type 0x%10!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorAdapterControl
+{
+ControlType, ItemLong -- 10
+}
+#typev hwstorimpl_cpp67 10 "%0AhciHwStorAdapterControl: ControlType=%10!s!,  DevXtensn=%11!p!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=AhciHwStorAdapterControl
+{
+enum2str(ControlType), ItemString -- 10
+DeviceExtension, ItemPtr -- 11
+}
+#typev hwstorimpl_cpp1046 47 "%0Failed to setup channel %10!u!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+ahciPort->ChannelNumber, ItemLong -- 10
+}
+#typev hwstorimpl_cpp1038 46 "%0Failed to init channel %10!u!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+ahciPort->ChannelNumber, ItemLong -- 10
+}
+#typev hwstorimpl_cpp976 45 "%0AhciHwStorFindAdapter: Unable to allocate uncached extension." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+}
+#typev hwstorimpl_cpp956 44 "%0AhciHwStorFindAdapter: UncachedExtensionSize: %10!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+totalUncachedSize, ItemLong -- 10
+}
+#typev hwstorimpl_cpp949 43 "%0AhciHwStorFindAdapter: uncachedExtensionInitializer: %10!p!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+uncachedExtensionInitializer, ItemPtr -- 10
+}
+#typev hwstorimpl_cpp815 42 "%0AhciHwStorFindAdapter: Couldn't map ABAR 0x%10!X! for 0x%11!X! bytes" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+pciConfigInfo->u.type0.BaseAddresses[5], ItemLong -- 10
+static_cast<int>(sizeof(AHCI_MEMORY_REGISTERS)), ItemLong -- 11
+}
+#typev hwstorimpl_cpp778 41 "%0Driver running in normal mode" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+}
+#typev hwstorimpl_cpp775 40 "%0Driver running in crashdump/hibernate mode" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+}
+#typev hwstorimpl_cpp753 35 "%0Driver running in crashdump mode" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+}
+#typev hwstorimpl_cpp757 36 "%0Driver running in hibernate mode" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+}
+#typev hwstorimpl_cpp761 37 "%0Driver running in mark memory mode" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+}
+#typev hwstorimpl_cpp765 38 "%0Driver running in resume mode" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+}
+#typev hwstorimpl_cpp769 39 "%0Driver running in normal mode" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+}
+#typev hwstorimpl_cpp725 34 "%0AhciHwStorFindAdapter: DeviceExtension: %10!p!." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorFindAdapter
+{
+DeviceExtension, ItemPtr -- 10
+}
+#typev hwstorimpl_cpp557 31 "%0AhciHwStorInitialize: MSI NOT enabled" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorInitialize
+{
+}
+#typev hwstorimpl_cpp554 30 "%0AhciHwStorInitialize: MSI enabled %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorInitialize
+{
+controller->readMSIInfo(), ItemLong -- 10
+}
+#typev hwstorimpl_cpp547 29 "%0AhciHwStorInitialize: ABAR == NULL, cannot initialize" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorInitialize
+{
+}
+#typev hwstorimpl_cpp544 28 "%0AhciHwStorInitialize: Entered" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorInitialize
+{
+}
+#typev hwstorimpl_cpp501 27 "%0AhciHwStorPassiveInitialization: entered" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorPassiveInitialization
+{
+}
+#typev hwstorimpl_cpp461 26 "%0AhciHwStorResetBus: entered, PathId: %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorResetBus
+{
+PathId, ItemLong -- 10
+}
+#typev hwstorimpl_cpp653 33 "%0%10!s!: [AHCI Port %11!d!] Completing SRB at StartIo (%12!p!). Function=0x%13!x! Status=0x%14!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorStartIo
+{
+__FUNCTION__, ItemString -- 10
+srb->TargetId, ItemLong -- 11
+srb, ItemPtr -- 12
+srb->Function, ItemLong -- 13
+srb->SrbStatus, ItemLong -- 14
+}
+#typev hwstorimpl_cpp649 32 "%0%10!s!: [AHCI Port %11!d!] Not completing SRB (%12!p!) while drive powers up." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorStartIo
+{
+__FUNCTION__, ItemString -- 10
+srb->TargetId, ItemLong -- 11
+srb, ItemPtr -- 12
+}
+#typev hwstorimpl_cpp365 24 "%0%10!s!: %11!s!: D3Cold is not supported on this port, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorUnitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+storAddrBtl8->Path, ItemLong -- 12
+storAddrBtl8->Target, ItemLong -- 13
+storAddrBtl8->Lun, ItemLong -- 14
+}
+#typev hwstorimpl_cpp358 23 "%0%10!s!: %11!s!: Unsupported power state: PowerState=%12!s!, PTL=%13!d!%14!d!%15!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorUnitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+enum2str(pwr->PowerState), ItemString -- 12
+storAddrBtl8->Path, ItemLong -- 13
+storAddrBtl8->Target, ItemLong -- 14
+storAddrBtl8->Lun, ItemLong -- 15
+}
+#typev hwstorimpl_cpp350 22 "%0%10!s!: %11!s!: D0, but current power is already D0, nothing to do, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorUnitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+storAddrBtl8->Path, ItemLong -- 12
+storAddrBtl8->Target, ItemLong -- 13
+storAddrBtl8->Lun, ItemLong -- 14
+}
+#typev hwstorimpl_cpp328 21 "%0%10!s!: %11!s!: Runtime D3 to D0, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorUnitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+storAddrBtl8->Path, ItemLong -- 12
+storAddrBtl8->Target, ItemLong -- 13
+storAddrBtl8->Lun, ItemLong -- 14
+}
+#typev hwstorimpl_cpp311 19 "%0%10!s!: %11!s!: D3, PowerAction is not StorPowerActionNone, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorUnitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+storAddrBtl8->Path, ItemLong -- 12
+storAddrBtl8->Target, ItemLong -- 13
+storAddrBtl8->Lun, ItemLong -- 14
+}
+#typev hwstorimpl_cpp318 20 "%0%10!s!: %11!s!: D3, nothing to do, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorUnitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+storAddrBtl8->Path, ItemLong -- 12
+storAddrBtl8->Target, ItemLong -- 13
+storAddrBtl8->Lun, ItemLong -- 14
+}
+#typev hwstorimpl_cpp290 18 "%0%10!s!: %11!s!: Runtime D0 to D3, PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorUnitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+storAddrBtl8->Path, ItemLong -- 12
+storAddrBtl8->Target, ItemLong -- 13
+storAddrBtl8->Lun, ItemLong -- 14
+}
+#typev hwstorimpl_cpp278 17 "%0%10!s!: %11!s!: no AHCI port found for PTL=%12!d!%13!d!%14!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_AHCI FUNC=AhciHwStorUnitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+storAddrBtl8->Path, ItemLong -- 12
+storAddrBtl8->Target, ItemLong -- 13
+storAddrBtl8->Lun, ItemLong -- 14
+}
+#typev hwstorimpl_cpp271 16 "%0%10!s!: %11!s!: PowerState=%12!s!, PowerAction=%13!s!, PTL=%14!d!%15!d!%16!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorUnitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+enum2str(pwr->PowerState), ItemString -- 12
+enum2str(pwr->PowerAction), ItemString -- 13
+storAddrBtl8->Path, ItemLong -- 14
+storAddrBtl8->Target, ItemLong -- 15
+storAddrBtl8->Lun, ItemLong -- 16
+}
+#typev hwstorimpl_cpp378 25 "%0%10!s!: %11!s!: PowerRequired=%12!s!, PTL=%13!d!%14!d!%15!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciHwStorUnitControl
+{
+__FUNCTION__, ItemString -- 10
+enum2str(ControlType), ItemString -- 11
+powerRequired->PowerRequired ? 'TRUE' : 'FALSE', ItemString -- 12
+storAddrBtl8->Path, ItemLong -- 13
+storAddrBtl8->Target, ItemLong -- 14
+storAddrBtl8->Lun, ItemLong -- 15
+}
+#typev hwstorimpl_cpp1143 49 "%0ICH9RDriverEntry: DeviceExtensionSize: %10!x! SrbExtensionSize: %11!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciDriverEntry
+{
+hwInitializationData.DeviceExtensionSize, ItemLong -- 10
+hwInitializationData.SrbExtensionSize, ItemLong -- 11
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+4f70e4e1-ab84-6bf8-7341-63355fd90f0e Implementation // SRC=AhciController.cpp MJ= MN=
+#typev ahcicontroller_cpp297 12 "%0Port busy on port %10!u!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciController::portRestarted
+{
+port->ChannelNumber, ItemLong -- 10
+}
+#typev ahcicontroller_cpp356 13 "%0No AHCI BIOS-BCFS table found!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_AHCI FUNC=AhciController::readAndSetBcfsFeatures
+{
+}
+#typev ahcicontroller_cpp155 10 "%0%10!s!: SRB_FUNCTION_POWER: SrbPowerFlags=%11!x!, DevPwrState=%12!s!, PwrAction=%13!s!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_AHCI FUNC=AhciController::startIo
+{
+__FUNCTION__, ItemString -- 10
+powerSrb->SrbPowerFlags, ItemLong -- 11
+enum2str(powerSrb->DevicePowerState), ItemString -- 12
+enum2str(powerSrb->PowerAction), ItemString -- 13
+}
+#typev ahcicontroller_cpp200 11 "%0AhciController::startIo SrbPnPFlags: %10!x!: PnPAction %11!x!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_AHCI FUNC=AhciController::startIo
+{
+pnpSrb->SrbPnPFlags, ItemLong -- 10
+pnpSrb->PnPAction, ItemLong -- 11
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+d850d349-887d-cd8f-b0b3-88a370300bee Implementation // SRC=AhciPort.cpp MJ= MN=
+#typev ahciport_cpp2214 42 "%0AhciPort::activateComponent - call wrapper_StorPortPoFxActivateComponent" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::activateComponent
+{
+}
+#typev ahciport_cpp1283 25 "%0[AHCI Port %10!d!] Invalid CdbLength %11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::buildIo
+{
+ChannelNumber, ItemLong -- 10
+srb->CdbLength, ItemLong -- 11
+}
+#typev ahciport_cpp1272 24 "%0[AHCI Port %10!d!] Invalid Lun %11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::buildIo
+{
+ChannelNumber, ItemLong -- 10
+srb->Lun, ItemLong -- 11
+}
+#typev ahciport_cpp215 11 "%0channelSetup: Waing for CR/FR to clear on Port# %10!d! - **** TIMEOUT **** PxSerr: 0x%11!.8x! PxIS: 0x%12!.8x! PxCmd: 0x%13!.8x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::channelSetup
+{
+ChannelNumber, ItemLong -- 10
+readPxSerr(), ItemLong -- 11
+readPxIs(), ItemLong -- 12
+readPxCmd(), ItemLong -- 13
+}
+#typev ahciport_cpp163 10 "%0%10!s!: channelNumber=%11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::channelSetup
+{
+__FUNCTION__, ItemString -- 10
+ChannelNumber, ItemLong -- 11
+}
+#typev ahciport_cpp2195 41 "%0%10!s!: ChannelNumber=%11!d!, allowed=%12!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::checkD3ColdAllowed
+{
+__FUNCTION__, ItemString -- 10
+ChannelNumber, ItemLong -- 11
+allowed ? 'TRUE' : 'FALSE', ItemString -- 12
+}
+#typev ahciport_cpp580 16 "%0[AHCI Port %10!d!] Force Complete SRB %11!p! with status %12!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::completeAllRequests
+{
+ChannelNumber, ItemLong -- 10
+Slot[i].Srb, ItemPtr -- 11
+status, ItemLong -- 12
+}
+#typev ahciport_cpp540 15 "%0!!! completeRequests => slotIndex = %10!d! is higher  than maximum = %11!d!, CommandsIssued = %12!d! SACT = %13!d! CI = %14!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_AHCI FUNC=AhciPort::completeRequests
+{
+i, ItemLong -- 10
+MAX_COMMAND_SLOTS, ItemLong -- 11
+SlotManager.CommandsIssued, ItemLong -- 12
+SlotManager.SACT, ItemLong -- 13
+SlotManager.CI, ItemLong -- 14
+}
+#typev ahciport_cpp2416 47 "%0Port %10!d!:  PxCMD.APSTE = %11!d! (APS) " //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::configureAps
+{
+ChannelNumber, ItemLong -- 10
+pxcmd.APSTE, ItemLong -- 11
+}
+#typev ahciport_cpp2618 50 "%0configureDevSlp: PxDevslp(DITO(%10!d!)*DM(%11!d!)=%12!d!ms,DETO:%13!d!ms,MDAT:%14!d!ms,ADSE:%15!d!,DSP:%16!d!) on Port# %17!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::configureDevSlp
+{
+pxdevslp.DITO, ItemLong -- 10
+pxdevslp.DM, ItemLong -- 11
+pxdevslp.DITO * (pxdevslp.DM + 1), ItemLong -- 12
+pxdevslp.DETO, ItemLong -- 13
+pxdevslp.MDAT, ItemLong -- 14
+pxdevslp.ADSE, ItemLong -- 15
+pxdevslp.DSP, ItemLong -- 16
+ChannelNumber, ItemLong -- 17
+}
+#typev ahciport_cpp2524 48 "%0configureDevSlp: DevSlp disabled by regkey on Port# %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::configureDevSlp
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp2528 49 "%0configureDevSlp: BIOS controls DevSlp configuration on port# %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::configureDevSlp
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp2658 51 "%0disableDevSlp: PxSsts: 0x%10!.8x!, PxDevslp(ADSE:%11!d!, DSP:%12!d!) on Port# %13!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::disableDevSlp
+{
+readPxSsts(), ItemLong -- 10
+pxdevslp.ADSE, ItemLong -- 11
+pxdevslp.DSP, ItemLong -- 12
+ChannelNumber, ItemLong -- 13
+}
+#typev ahciport_cpp2953 63 "%0%10!s!: setPortOffline=%11!d!, channelNumber=%12!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::disablePort
+{
+__FUNCTION__, ItemString -- 10
+setPortOffline, ItemLong -- 11
+ChannelNumber, ItemLong -- 12
+}
+#typev ahciport_cpp2979 64 "%0%10!s!: channelNumber=%11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::enablePort
+{
+__FUNCTION__, ItemString -- 10
+ChannelNumber, ItemLong -- 11
+}
+#typev ahciport_cpp2240 43 "%0AhciPort::idleComponent - call wrapper_StorPortPoFxIdleComponent" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::idleComponent
+{
+}
+#typev ahciport_cpp2359 46 "%0%10!s!: StorPortInitializePoFxPower returned 0x%11!x!, d3ColdAllowed=%12!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::initializeScsiUnitPoFxPowerInfo
+{
+__FUNCTION__, ItemString -- 10
+status, ItemLong -- 11
+d3ColdAllowed, ItemLong -- 12
+}
+#typev ahciport_cpp2294 45 "%0%10!s!: cannot allocate memory for STOR_POFX_DEVICE structure" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_AHCI FUNC=AhciPort::initializeScsiUnitPoFxPowerInfo
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev ahciport_cpp2265 44 "%0%10!s! entered, PTL=%11!d!%12!d!%13!d!, mD3ColdAllowed=%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::initializeScsiUnitPoFxPowerInfo
+{
+__FUNCTION__, ItemString -- 10
+storAddrBtl8->Path, ItemLong -- 11
+storAddrBtl8->Target, ItemLong -- 12
+storAddrBtl8->Lun, ItemLong -- 13
+mD3ColdAllowed, ItemLong -- 14
+}
+#typev ahciport_cpp2723 54 "%0AhciPort::isCsDeviceNotificationAllowed - not allowed, channelNumber=%10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::isCsDeviceNotificationAllowed
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp2719 53 "%0AhciPort::isCsDeviceNotificationAllowed - allowed, channelNumber=%10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::isCsDeviceNotificationAllowed
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp1126 22 "%0isZpoddSupportedOnPort: eSATA enable(0x%10!x!) . Don't enable ZPODD!!! 
+" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::isZpoddSupportedOnPort
+{
+cmd.ESP, ItemLong -- 10
+}
+#typev ahciport_cpp1119 21 "%0isZpoddSupportedOnPort: HotPlug(0x%10!x!) & Mech_Pres(0x%11!x!) unequal. Don't enable ZPODD!!! 
+" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::isZpoddSupportedOnPort
+{
+cmd.HPCP, ItemLong -- 10
+cmd.MPSP, ItemLong -- 11
+}
+#typev ahciport_cpp1165 23 "%0AhciPort::newDeviceFound with different signature on port %10!d! 
+" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::newDeviceFound
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp2683 52 "%0reenableDevSlp: PxSsts: 0x%10!.8x!, PxDevslp(ADSE:%11!d!, DSP:%12!d!) on Port# %13!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::reenableDevSlp
+{
+readPxSsts(), ItemLong -- 10
+pxdevslp.ADSE, ItemLong -- 11
+pxdevslp.DSP, ItemLong -- 12
+ChannelNumber, ItemLong -- 13
+}
+#typev ahciport_cpp906 20 "%0[AHCI Port %10!d!] Non-Success SRB completion (%11!p!). Function: %12!x! Status: %13!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::releaseSlot
+{
+ChannelNumber, ItemLong -- 10
+srb, ItemPtr -- 11
+srb->Function, ItemLong -- 12
+srb->SrbStatus, ItemLong -- 13
+}
+#typev ahciport_cpp375 12 "%0%10!s!: channelNumber=%11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::restartPort
+{
+__FUNCTION__, ItemString -- 10
+ChannelNumber, ItemLong -- 11
+}
+#typev ahciport_cpp640 18 "%0AhciPort::sendIdentifyRequest" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::sendIdentifyRequest
+{
+}
+#typev ahciport_cpp671 19 "%0AhciPort::sendIdleRequest" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::sendIdleRequest
+{
+}
+#typev ahciport_cpp608 17 "%0AhciPort::sendReadLogExt: LogAddr: 0x%10!x!, Page: 0x%11!x! to port# %12!d!." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::sendReadLogExt
+{
+logAddress, ItemLong -- 10
+page, ItemLong -- 11
+ChannelNumber, ItemLong -- 12
+}
+#typev ahciport_cpp2822 58 "%0Enter CS:CS APM level %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::setEnteringCsApmLevel
+{
+apmLevel, ItemLong -- 10
+}
+#typev ahciport_cpp2815 57 "%0APM already set, apm=%10!d!, channel=%11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::setEnteringCsApmLevel
+{
+apmLevel, ItemLong -- 10
+ChannelNumber, ItemLong -- 11
+}
+#typev ahciport_cpp2798 56 "%0Enter CS: Port %10!d! is not ready, do nothing" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_AHCI FUNC=AhciPort::setEnteringCsApmLevel
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp2793 55 "%0Enter CS:CS device notification allowed, channel=%10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::setEnteringCsApmLevel
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp2913 62 "%0Exit CS:CS APM level %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::setExitingCsApmLevel
+{
+apmLevel, ItemLong -- 10
+}
+#typev ahciport_cpp2906 61 "%0APM already set, apm=%10!d!, channel=%11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::setExitingCsApmLevel
+{
+apmLevel, ItemLong -- 10
+ChannelNumber, ItemLong -- 11
+}
+#typev ahciport_cpp2887 60 "%0Enter CS: Port %10!d! is not ready, do nothing" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_AHCI FUNC=AhciPort::setExitingCsApmLevel
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp2883 59 "%0Exit CS:CS device notification allowed, channel=%10!d!, force=%11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::setExitingCsApmLevel
+{
+ChannelNumber, ItemLong -- 10
+force, ItemLong -- 11
+}
+#typev ahciport_cpp1385 32 "%0Port %10!u! busy <tfd=%11!x!>, need comreset" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_AHCI FUNC=AhciPort::startIo
+{
+ChannelNumber, ItemLong -- 10
+tfd.Raw, ItemLong -- 11
+}
+#typev ahciport_cpp1375 31 "%0Port is OFFLINE, need comreset" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::startIo
+{
+}
+#typev ahciport_cpp1363 30 "%0Failed to setup channel %10!u!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::startIo
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp1356 29 "%0Failed to init channel %10!u!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::startIo
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp1405 33 "%0Port is D3Cold capable" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::startIo
+{
+}
+#typev ahciport_cpp1469 35 "%0Unhandled Srb function %10!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::startIo
+{
+srb->Function, ItemLong -- 10
+}
+#typev ahciport_cpp1335 28 "%0[AHCI Port %10!d!] Port Busy (%11!x!)" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::startIo
+{
+ChannelNumber, ItemLong -- 10
+mStateMachine->getCurrentMode(), ItemLong -- 11
+}
+#typev ahciport_cpp1327 27 "%0[AHCI Port %10!d!] Port Paused" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::startIo
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp1299 26 "%0[AHCI Port %10!d!] No Device" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::startIo
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp1453 34 "%0[AHCI Port %10!d!] COM RESET REQUESTED BY HOST" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::startIo
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp1560 37 "%0Restart completed on port %10!u!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::stateMachineComplete
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp1578 38 "%0Stop completed on port %10!u!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::stateMachineComplete
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciport_cpp1546 36 "%0portRequestCompleted::%10!d! mode%11!d! (%12!s!)" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::stateMachineComplete
+{
+ChannelNumber, ItemLong -- 10
+(ULONG)mode, ItemLong -- 11
+DbgModeIdStringMap[(ULONG)mode], ItemString -- 12
+}
+#typev ahciport_cpp1598 39 "%0[AHCI Port %10!d!] COMRESET occurred during mode %11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::stateMachineEventNotification
+{
+ChannelNumber, ItemLong -- 10
+mode, ItemLong -- 11
+}
+#typev ahciport_cpp1979 40 "%0updateDeviceSleepIdleTimeout: PxDevslp(DITO(%10!d!)*DM(%11!d!)=%12!d!ms,DETO:%13!d!ms,MDAT:%14!d!ms,ADSE:%15!d!,DSP:%16!d!) on Port# %17!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::updateDeviceSleepIdleTimeout
+{
+pxdevslp.DITO, ItemLong -- 10
+pxdevslp.DM, ItemLong -- 11
+pxdevslp.DITO * (pxdevslp.DM+1), ItemLong -- 12
+pxdevslp.DETO, ItemLong -- 13
+pxdevslp.MDAT, ItemLong -- 14
+pxdevslp.ADSE, ItemLong -- 15
+pxdevslp.DSP, ItemLong -- 16
+ChannelNumber, ItemLong -- 17
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+1330cd83-4d9f-f40e-0c4e-bfb29ead7f4f Implementation // SRC=AhciPortInterrupt.cpp MJ= MN=
+#typev ahciportinterrupt_cpp212 18 "%0AhciPort::handleAsr: Don't send COMRESET... HW handled the unsolicited COMINIT on Port %10!d! (ASR Count:%11!d!)" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_AHCI FUNC=AhciPort::handleAsr
+{
+ChannelNumber, ItemLong -- 10
+mAsrCount, ItemLong -- 11
+}
+#typev ahciportinterrupt_cpp221 19 "%0AhciPort::handleAsr: SW processing unsolicited COMINIT (PCS interrupt) on Port %10!d! (ASR Count:%11!d!)" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_AHCI FUNC=AhciPort::handleAsr
+{
+ChannelNumber, ItemLong -- 10
+mAsrCount, ItemLong -- 11
+}
+#typev ahciportinterrupt_cpp132 17 "%0[AHCI Port %10!d!] INFS set" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_AHCI FUNC=AhciPort::interruptDpc
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciportinterrupt_cpp111 16 "%0[AHCI Port %10!d!] Overflow error detected." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::interruptDpc
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciportinterrupt_cpp103 15 "%0[AHCI Port %10!d!] Hot Plug or ASR Detected." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::interruptDpc
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciportinterrupt_cpp93 14 "%0[AHCI Port %10!d!] Mechanical Presence Detected. COMRESET." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::interruptDpc
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciportinterrupt_cpp83 13 "%0[AHCI Port %10!d!] Cold Presence Detected. COMRESET." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::interruptDpc
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciportinterrupt_cpp76 12 "%0[AHCI Port %10!d!] Task File Error. ERROR RECOVERY." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::interruptDpc
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciportinterrupt_cpp68 11 "%0[AHCI Port %10!d!] Fatal error detected. COMRESET." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::interruptDpc
+{
+ChannelNumber, ItemLong -- 10
+}
+#typev ahciportinterrupt_cpp54 10 "%0[AHCI Port %10!d!] Error register set: 0x%11!x!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_AHCI FUNC=AhciPort::interruptDpc
+{
+ChannelNumber, ItemLong -- 10
+(U16)(pxserr.Raw), ItemLong -- 11
+}
+#typev ahciportinterrupt_cpp245 20 "%0AhciPort::portOrPhyChangeStatus: port or phy change status, channel=%10!u!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AhciPort::portOrPhyChangeStatus
+{
+ChannelNumber, ItemLong -- 10
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+16a0d503-9946-c786-2d5d-ea44299a4e17 Implementation // SRC=EndDevice.cpp MJ= MN=
+#typev enddevice_cpp99 10 "%0EndDevice::~EndDevice object destroyed!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=EndDevice::~EndDevice
+{
+}
+#typev enddevice_cpp626 19 "%0EndDevice::buildCsmiPassthrough CSMI SoftReset request %10!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=EndDevice::buildCsmiPassthrough
+{
+(srb->SrbStatus==SRB_STATUS_SUCCESS) ? 'SUCCESSFUL':'FAILED', ItemString -- 10
+}
+#typev enddevice_cpp610 18 "%0EndDevice::buildCsmiPassthrough getSgl() returned NULL ptr" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=EndDevice::buildCsmiPassthrough
+{
+}
+#typev enddevice_cpp593 17 "%0EndDevice::buildCsmiPassthrough FAILED to power up device on CSMI command" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=EndDevice::buildCsmiPassthrough
+{
+}
+#typev enddevice_cpp583 16 "%0EndDevice::buildCsmiPassthrough Powering up device on CSMI command" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=EndDevice::buildCsmiPassthrough
+{
+}
+#typev enddevice_cpp548 15 "%0EndDevice::buildCsmiPassthrough bCommandFIS type must NOT be 0x0" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=EndDevice::buildCsmiPassthrough
+{
+}
+#typev enddevice_cpp534 14 "%0EndDevice::buildCsmiPassthrough CSMI buffer too small." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=EndDevice::buildCsmiPassthrough
+{
+}
+#typev enddevice_cpp1005 20 "%0EndDevice::RetrieveDevicePowerStats: Srb=%10!p!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=EndDevice::retrieveDevicePowerStats
+{
+Srb, ItemPtr -- 10
+}
+#typev enddevice_cpp270 11 "%0EndDevice::setIdDataLogSataPage" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=EndDevice::setIdDataLogSataPage
+{
+}
+#typev enddevice_cpp287 12 "%0EndDevice::setIdentifyData" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=EndDevice::setIdentifyData
+{
+}
+#typev enddevice_cpp513 13 "%0SCSIOP_INQUIRY: Failed to set device[0x%10!X!] queue depth to %11!u!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=EndDevice::setQueueDepth
+{
+mPort->ChannelNumber, ItemLong -- 10
+min(getQueueDepth(). mPort->getController()->Capabilities.NCS), ItemLong -- 11
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+101e4b3e-bfee-4e02-ba79-6ccd16c2509e Implementation // SRC=AtaDevice.cpp MJ= MN=
+#typev atadevice_cpp838 14 "%0AtaDevice::connectedStandbyDeviceNotification - failed to send command to drive" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AtaDevice::connectedStandbyDeviceNotification
+{
+}
+#typev atadevice_cpp834 13 "%0AtaDevice::connectedStandbyDeviceNotification - command sent successfully" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AtaDevice::connectedStandbyDeviceNotification
+{
+}
+#typev atadevice_cpp789 12 "%0AtaDevice::connectedStandbyDeviceNotification - private Srb in use" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AtaDevice::connectedStandbyDeviceNotification
+{
+}
+#typev atadevice_cpp851 15 "%0AtaDevice::connectedStandbyDeviceNotificationCompletion - srb status = %10!u!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AtaDevice::connectedStandbyDeviceNotificationCompletion
+{
+srb->SrbStatus, ItemLong -- 10
+}
+#typev atadevice_cpp742 11 "%0AtaDevice::processSatiCompletion: IDENTIFY_DEVICE not submitted successfully" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AtaDevice::processSatiModeSelectCompletion
+{
+}
+#typev atadevice_cpp740 10 "%0AtaDevice::processSatiCompletion: IDENTIFY_DEVICE submitted successfully" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AtaDevice::processSatiModeSelectCompletion
+{
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+a7c53182-aca7-4062-f49e-20a64651ea37 Implementation // SRC=AtapiDevice.cpp MJ= MN=
+#typev atapidevice_cpp493 10 "%0AtapiDevice::AtapiSubmitRequestSense getLocalSgl() returned NULL ptr" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AtapiDevice::buildRequestSense
+{
+}
+#typev atapidevice_cpp559 11 "%0ZPODD device found but no support on port/platform: PortSupportsZpodd=%10!d!, ACPI-platformCapable=%11!d!, Registry=%12!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AtapiDevice::idDevice
+{
+mPort->PortSupportsZpodd(), ItemLong -- 10
+mPort->ZpoddAcpiCapable(), ItemLong -- 11
+mPort->getController()->getMiniportParams()->isZpoddAllowed(), ItemLong -- 12
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+89c2091d-e174-5b59-5d0f-4dfd35110080 Implementation // SRC=IntelAtaIoctl.cpp MJ= MN=
+#typev intelataioctl_cpp2100 23 "%0AHCI_IOCTL_ACCELEROMETER_BuildIo failed!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_Accelerometer_BuildIo
+{
+}
+#typev intelataioctl_cpp2094 22 "%0AHCI_IOCTL_ACCELEROMETER invalid command code!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_Accelerometer_BuildIo
+{
+}
+#typev intelataioctl_cpp2034 21 "%0Invalid private signature" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_Accelerometer_BuildIo
+{
+}
+#typev intelataioctl_cpp2030 20 "%0AHCI_IOCTL_ACCELEROMETER_BuildIo...accelIoctl->Code ?%10!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_Accelerometer_BuildIo
+{
+accelIoctl->Code, ItemLong -- 10
+}
+#typev intelataioctl_cpp2209 26 "%0StartIo exit" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_Accelerometer_StartIo
+{
+}
+#typev intelataioctl_cpp2206 25 "%0AHCI_IOCTL_ACCELEROMETER_StartIo failed!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_Accelerometer_StartIo
+{
+}
+#typev intelataioctl_cpp2127 24 "%0AHCI_IOCTL_ACCELEROMETER_StartIo...accelIoctl->Code ?%10!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_Accelerometer_StartIo
+{
+accelIoctl->Code, ItemLong -- 10
+}
+#typev intelataioctl_cpp2255 27 "%0AHCI_IOCTL_CSMI_Get_PhyInfo..." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_CSMI_Get_PhyInfo
+{
+}
+#typev intelataioctl_cpp2446 34 "%0NCQ tag is not available, AHCI_IOCTL_FW returned SRB_STATUS_BUSY" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_FW
+{
+}
+#typev intelataioctl_cpp2438 33 "%0Port is not ready. Completing AHCI_IOCTL_FW with status SRB_STATUS_BUSY" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_FW
+{
+}
+#typev intelataioctl_cpp2434 32 "%0AHCI_IOCTL_FW StartIo execute failed!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_FW
+{
+}
+#typev intelataioctl_cpp2426 31 "%0buildFwDownloadIoctl failed!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_FW
+{
+}
+#typev intelataioctl_cpp427 10 "%0AHCI_IOCTL_WhiteBoxTest" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IOCTL_GetSetCapabilities
+{
+}
+#typev intelataioctl_cpp1501 19 "%0Invalid private signature" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IoControl
+{
+}
+#typev intelataioctl_cpp1494 18 "%0Invalid private control code" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IoControl
+{
+}
+#typev intelataioctl_cpp1485 17 "%0Invalid request" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IoControl
+{
+}
+#typev intelataioctl_cpp1386 16 "%0Invalid request" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IoControl
+{
+}
+#typev intelataioctl_cpp1319 15 "%0Invalid Request" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IoControl_CSMISAS
+{
+}
+#typev intelataioctl_cpp1222 14 "%0Invalid Request" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_IoControl_MP
+{
+}
+#typev intelataioctl_cpp2406 30 "%0NCQ tag is not available, AHCI_PUBLIC_IOCTL_Smart return SRB_STATUS_BUSY" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_AHCI FUNC=AHCI_PUBLIC_IOCTL_Smart
+{
+}
+#typev intelataioctl_cpp2395 29 "%0AHCI_PUBLIC_IOCTL_Smart StartIo execute failed!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_PUBLIC_IOCTL_Smart
+{
+}
+#typev intelataioctl_cpp2389 28 "%0buildSmartIoctl failed!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_PUBLIC_IOCTL_Smart
+{
+}
+#typev intelataioctl_cpp1057 12 "%0IOCTL_SCSI_MINIPORT_IDENTIFY" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_PublicIoControl
+{
+}
+#typev intelataioctl_cpp1102 13 "%0Invalid Request" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_PublicIoControl
+{
+}
+#typev intelataioctl_cpp1019 11 "%0IOCTL_SCSI_MINIPORT_-SMART- returning SRB_STATUS_BUSY on port %10!x! " //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=AHCI_PublicIoControl
+{
+ahciPort->ChannelNumber, ItemLong -- 10
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+51855326-c8a8-e85a-c034-0301e663b6be Implementation // SRC=PortStateMachine.cpp MJ= MN=
+#typev portstatemachine_cpp332 18 "%0[PortStateMachine] {start state machine} Port: %10!d! TimeStamp: %11!I64u!(ms) Px(Tfd 0x%12!.8x! : Sig 0x%13!.8x! : Ssts 0x%14!.8x! : Sctl 0x%15!.8x! : Serr 0x%16!.8x! : IS 0x%17!.8x! : IE 0x%18!.8x! : Cmd 0x%19!.8x!)" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::abortIfTimedOut
+{
+mPort->ChannelNumber, ItemLong -- 10
+mCurrentStateStartTime.QuadPart/MSEC, ItemULongLong -- 11
+mPort->readPxTfd(), ItemLong -- 12
+mPort->readPxSig(), ItemLong -- 13
+mPort->readPxSsts(), ItemLong -- 14
+mPort->readPxSctl(), ItemLong -- 15
+mPort->readPxSerr(), ItemLong -- 16
+mPort->readPxIs(), ItemLong -- 17
+mPort->readPxIe(), ItemLong -- 18
+mPort->readPxCmd(), ItemLong -- 19
+}
+#typev portstatemachine_cpp329 17 "%0[PortStateMachine] {Time Out} Port: %10!d! State: %11!u! Start Time: %12!I64u! Current Time: %13!I64u! Retries: %14!u! Timeout: %15!u!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::abortIfTimedOut
+{
+mPort->ChannelNumber, ItemLong -- 10
+mCurrentState, ItemLong -- 11
+mCurrentStateStartTime.QuadPart, ItemULongLong -- 12
+currentTime.QuadPart, ItemULongLong -- 13
+mCurrentStateRetries, ItemLong -- 14
+time, ItemLong -- 15
+}
+#typev portstatemachine_cpp2002 26 "%0%10!s!: Taskfile error: 0x%11!x! on port %12!d!; ABORT %13!d! of %14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=PortStateMachine::handleErrors
+{
+DbgPortStateMachineStringMap[id], ItemString -- 10
+mPort->readPxTfd(), ItemLong -- 11
+mPort->ChannelNumber, ItemLong -- 12
+mPort->mSerialAbortedCommandCount, ItemLong -- 13
+MAX_ABORT_COMMANDS, ItemLong -- 14
+}
+#typev portstatemachine_cpp1970 25 "%0[PortStateMachine] {Complete} Port: %10!d! Elapsed Time: %11!I64u!(ms) Px(Tfd 0x%12!.8x! : Sig 0x%13!.8x! : Ssts 0x%14!.8x! : Sctl 0x%15!.8x! : Serr 0x%16!.8x! : IS 0x%17!.8x! : IE 0x%18!.8x! : Cmd 0x%19!.8x!)" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::handleEvents
+{
+mPort->ChannelNumber, ItemLong -- 10
+(mCurrentStateStopTime.QuadPart - mCurrentStateStartTime.QuadPart)/MSEC, ItemULongLong -- 11
+mPort->readPxTfd(), ItemLong -- 12
+mPort->readPxSig(), ItemLong -- 13
+mPort->readPxSsts(), ItemLong -- 14
+mPort->readPxSctl(), ItemLong -- 15
+mPort->readPxSerr(), ItemLong -- 16
+mPort->readPxIs(), ItemLong -- 17
+mPort->readPxIe(), ItemLong -- 18
+mPort->readPxCmd(), ItemLong -- 19
+}
+#typev portstatemachine_cpp1965 24 "%0[PortStateMachine] {Complete} prevMode: %10!s!(%11!d!) mCurrentMode: %12!s!(%13!d!) Port: %14!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::handleEvents
+{
+DbgModeIdStringMap[(ULONG)prevMode], ItemString -- 10
+prevMode, ItemLong -- 11
+DbgModeIdStringMap[(ULONG)mCurrentMode], ItemString -- 12
+mCurrentMode, ItemLong -- 13
+mPort->ChannelNumber, ItemLong -- 14
+}
+#typev portstatemachine_cpp1933 23 "%0[PortStateMachine] {Unknown State} Port: %10!d! State: %11!u!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::handleEvents
+{
+mPort->ChannelNumber, ItemLong -- 10
+mNextState, ItemLong -- 11
+}
+#typev portstatemachine_cpp1453 21 "%0PortStateMachine port %10!d!: Port Discovery Complete New Device Found... CurState=%11!u!, NextState=%12!u!, Retries=%13!u!, Start Time=%14!I64u!usec" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=PortStateMachine::handleStateDiscoveryComplete
+{
+mPort->ChannelNumber, ItemLong -- 10
+mCurrentState, ItemLong -- 11
+mNextState, ItemLong -- 12
+mCurrentStateRetries, ItemLong -- 13
+mCurrentStateStartTime.QuadPart, ItemULongLong -- 14
+}
+#typev portstatemachine_cpp1229 20 "%0Task File #%10!d! for Port %11!d!
+Features: %12!x!
+Sector Count: %13!x!
+Lba High: %14!x! Lba Mid: %15!x! Lba Low: %16!x!
+Device: %17!x!
+Command: %18!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=PortStateMachine::handleStateDiscoveryProgramAcpiTaskFile
+{
+mPort->mTaskFileIndx, ItemLong -- 10
+mPort->ChannelNumber, ItemLong -- 11
+taskFile->features, ItemLong -- 12
+taskFile->sector_count, ItemLong -- 13
+taskFile->lba_high, ItemLong -- 14
+taskFile->lba_mid, ItemLong -- 15
+taskFile->lba_low, ItemLong -- 16
+taskFile->device, ItemLong -- 17
+taskFile->command, ItemLong -- 18
+}
+#typev portstatemachine_cpp672 19 "%0[PortStateMachine] {COM RESET} Exceeded max resets on port: %10!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::handleStateReset
+{
+mPort->ChannelNumber, ItemLong -- 10
+}
+#typev portstatemachine_cpp1523 22 "%0PortStateMachine port %10!d!: Giving up No Device Found... PhyMode=%11!s!, CurState=%12!u!, NextState=%13!u!, Retries=%14!u!, Start Time=%15!I64u!usec" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=PortStateMachine::handleStateStoppedTrying
+{
+mPort->ChannelNumber, ItemLong -- 10
+(sctl.DET == SCTL_DET_DISABLE_PHY) ? 'OFFLINE' : ((cmd.SUD == 0) ? 'LISTEN' : 'ACTIVE' ), ItemString -- 11
+mCurrentState, ItemLong -- 12
+mNextState, ItemLong -- 13
+mCurrentStateRetries, ItemLong -- 14
+mCurrentStateStartTime.QuadPart, ItemULongLong -- 15
+}
+#typev portstatemachine_cpp213 13 "%0[PortStateMachine] {Reconfiguration Started} Port: %10!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::reConfigure
+{
+mPort->ChannelNumber, ItemLong -- 10
+}
+#typev portstatemachine_cpp184 11 "%0[PortStateMachine] {Fatal Error Recovery Started} Port: %10!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::recoverFromFatalError
+{
+mPort->ChannelNumber, ItemLong -- 10
+}
+#typev portstatemachine_cpp265 15 "%0[PortStateMachine] {State Change} Port: %10!d! Previous=%11!s!(%12!d!), Next=%13!s!(%14!d!), Retries=%15!u! Start Time=%16!I64u!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::setNextState
+{
+mPort->ChannelNumber, ItemLong -- 10
+DbgPortStateMachineStringMap[(ULONG)mNextState], ItemString -- 11
+mNextState, ItemLong -- 12
+DbgPortStateMachineStringMap[(ULONG)state], ItemString -- 13
+state, ItemLong -- 14
+mCurrentStateRetries, ItemLong -- 15
+mCurrentStateStartTime.QuadPart, ItemULongLong -- 16
+}
+#typev portstatemachine_cpp240 14 "%0[PortStateMachine] {Enumeration Started} Port: %10!d! Synchronous:%11!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::startEnumeration
+{
+mPort->ChannelNumber, ItemLong -- 10
+synchronous, ItemLong -- 11
+}
+#typev portstatemachine_cpp198 12 "%0[PortStateMachine] {Identify Started} Port: %10!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::startIdentify
+{
+mPort->ChannelNumber, ItemLong -- 10
+}
+#typev portstatemachine_cpp150 10 "%0[PortStateMachine] {start state machine} Port: %10!d! TimeStamp: %11!I64u!(ms) Px(Tfd 0x%12!.8x! : Sig 0x%13!.8x! : Ssts 0x%14!.8x! : Sctl 0x%15!.8x! : Serr 0x%16!.8x! : IS 0x%17!.8x! : IE 0x%18!.8x! : Cmd 0x%19!.8x!)" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::startStateMachine
+{
+mPort->ChannelNumber, ItemLong -- 10
+mCurrentStateStartTime.QuadPart/MSEC, ItemULongLong -- 11
+mPort->readPxTfd(), ItemLong -- 12
+mPort->readPxSig(), ItemLong -- 13
+mPort->readPxSsts(), ItemLong -- 14
+mPort->readPxSctl(), ItemLong -- 15
+mPort->readPxSerr(), ItemLong -- 16
+mPort->readPxIs(), ItemLong -- 17
+mPort->readPxIe(), ItemLong -- 18
+mPort->readPxCmd(), ItemLong -- 19
+}
+#typev portstatemachine_cpp286 16 "%0[PortStateMachine] {Timer Expired With Bad Mode} Port: %10!d!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_AHCI FUNC=PortStateMachine::timeout
+{
+mPort->ChannelNumber, ItemLong -- 10
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+a328b083-9fde-d60f-514f-58077b78d612 Implementation // SRC=MiniportParameters.cpp MJ= MN=
+#typev miniportparameters_cpp382 10 "%0MiniportParameters::readRegistryParameters - Parameter Out of Range: %10!s! != %11!d!, NOT set!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_AHCI FUNC=MiniportParameters::getSetDefaultRegDword
+{
+(PCHAR)key, ItemString -- 10
+*param, ItemLong -- 11
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+11e429c9-4e1d-0f43-83c1-ed1c49417590 Implementation // SRC=ZpoddDevice.cpp MJ= MN=
+#typev zpodddevice_cpp767 10 "%0ZPODD: ACPI event. State: %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=ZpoddDevice::acpiEventNotify
+{
+mState, ItemLong -- 10
+}
+#typev zpodddevice_cpp1087 15 "%0ZpoddDevice::buildPrivateAtaPacketCmd getSgl() returned NULL ptr" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=ZpoddDevice::buildPrivateAtaPacketCmd
+{
+}
+#typev zpodddevice_cpp785 12 "%0ZPODD: Restore State: %10!d! Previous: %11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=ZpoddDevice::enumerationComplete
+{
+mPreviousState, ItemLong -- 10
+mState, ItemLong -- 11
+}
+#typev zpodddevice_cpp777 11 "%0ZPODD: Enumeration complete. State: %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=ZpoddDevice::enumerationComplete
+{
+state, ItemLong -- 10
+}
+#typev zpodddevice_cpp1149 16 "%0Command 0x%10!x! has completed in privateZpoddCompletion(); SRB (%11!p!) " //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=ZpoddDevice::privateZpoddCompletion
+{
+srb->Cdb[0], ItemLong -- 10
+srb, ItemPtr -- 11
+}
+#typev zpodddevice_cpp1217 18 "%0  SCSI Sense Data:  Key 0x%10!X!, ASC 0x%11!x!, ASCQ 0x%12!X!, SKSV 0x%13!.2X!, SKS 0x%14!.4X!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=ZpoddDevice::privateZpoddRequestSenseCompletion
+{
+sense->SenseKey, ItemLong -- 10
+sense->AdditionalSenseCode, ItemLong -- 11
+sense->AdditionalSenseCodeQualifier, ItemLong -- 12
+sense->SenseKeySpecific[0], ItemLong -- 13
+( (sense->SenseKeySpecific[1] << 8) | (sense->SenseKeySpecific[2]) ), ItemLong -- 14
+}
+#typev zpodddevice_cpp1216 17 "%0Command 0x%10!x! has completed in privateZpoddRequestSenseCompletion(); SRB (%11!p!) " //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=ZpoddDevice::privateZpoddRequestSenseCompletion
+{
+srb->Cdb[0], ItemLong -- 10
+srb, ItemPtr -- 11
+}
+#typev zpodddevice_cpp1058 14 "%0Failed to send command 0x%10!x! to drive; SRB (%11!p!)" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=ZpoddDevice::sendPrivateCommand
+{
+mPrivateSrb.Cdb[0], ItemLong -- 10
+&mPrivateSrb, ItemPtr -- 11
+}
+#typev zpodddevice_cpp1050 13 "%0Send private command 0x%10!x! to drive; SRB (%11!p!) " //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=ZpoddDevice::sendPrivateCommand
+{
+mPrivateSrb.Cdb[0], ItemLong -- 10
+&mPrivateSrb, ItemPtr -- 11
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+102f5653-76dd-7f1c-9ec2-5f84f4357aaf Implementation // SRC=HybridAtaDevice.cpp MJ= MN=
+#typev hybridatadevice_cpp592 10 "%0SCSIOP_INQUIRY: Failed to set device[0x%10!X!] queue depth to %11!u!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_AHCI FUNC=HybridAtaDevice::setQueueDepth
+{
+mPort->ChannelNumber, ItemLong -- 10
+queueDepth, ItemLong -- 11
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+28371c32-7fb7-2944-e772-acbeeff4472b Implementation // SRC=remapport.cpp MJ= MN=
+#typev remapport_cpp487 10 "%0%10!s!: [transport %11!d!] Find adapter failed " //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_REMAPPORT FUNC=RemapPort::findRemappedAdapters
+{
+__FUNCTION__, ItemString -- 10
+cycleRouterIndex, ItemLong -- 11
+}
+#typev remapport_cpp717 13 "%0affinity MSI-X [%10!d!] = 0x%11!I64x!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_REMAPPORT FUNC=RemapPort::initialize
+{
+i, ItemLong -- 10
+mMessageTarget[i].Mask, ItemLongLongX -- 11
+}
+#typev remapport_cpp1471 15 "%0OS assigned 0x%10!x! messageIds." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_REMAPPORT FUNC=RemapPort::initializeMsiXInterrupts
+{
+assignedVectorsNum, ItemLong -- 10
+}
+#typev remapport_cpp1464 14 "%0MSI-X interrupts mode configuration ..." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_REMAPPORT FUNC=RemapPort::initializeMsiXInterrupts
+{
+}
+#typev remapport_cpp614 12 "%0[transport %10!d!] SPT config: error while reading ahci pci extend config" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_REMAPPORT FUNC=RemapPort::readSptConfig
+{
+transportNumber, ItemLong -- 10
+}
+#typev remapport_cpp595 11 "%0[transport %10!d!] SPT config: interruptMode = %11!s!, numOfMsiXVectors = %12!d!, mMSIxOffset = %13!d! " //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_REMAPPORT FUNC=RemapPort::readSptConfig
+{
+transportNumber, ItemLong -- 10
+enum2str(transport.mInterruptMode), ItemString -- 11
+transport.mNumOfMSsixInterruptsVectors, ItemLong -- 12
+transport.mMSIxOffset, ItemLong -- 13
+}
+#typev remapport_cpp1536 19 "%0%10!s!, Restore legacy interrupts table after D3" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_REMAPPORT FUNC=RemapPort::rtd3RemappedRebuildMsixTable
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev remapport_cpp1508 18 "%0%10!s!, Unable to read MSI-X interrupts vector zero of AHCI controller." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_REMAPPORT FUNC=RemapPort::rtd3RemappedRebuildMsixTable
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev remapport_cpp1500 17 "%0%10!s!, Rewrite MSI-X interrupts table after D3" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_REMAPPORT FUNC=RemapPort::rtd3RemappedRebuildMsixTable
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev remapport_cpp1495 16 "%0%10!s! entered, mMsixTable=%11!p!, Interrupt Mode=%12!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_REMAPPORT FUNC=RemapPort::rtd3RemappedRebuildMsixTable
+{
+__FUNCTION__, ItemString -- 10
+mMsixTable, ItemPtr -- 11
+enum2str(transport.mInterruptMode), ItemString -- 12
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+364ce0cb-3b6f-511d-b2ac-d57b451b3076 Implementation // SRC=async_event_mgr.cpp MJ= MN=
+#typev async_event_mgr_cpp367 13 "%0AER submission error" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_NVME FUNC=AsyncEventManager::addAerRequest
+{
+}
+#typev async_event_mgr_cpp319 12 "%0AER completed with CID: %10!u!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_NVME FUNC=AsyncEventManager::handleAsynchronousEventCompletion
+{
+completionQueueEntry.CID, ItemLong -- 10
+}
+#typev async_event_mgr_cpp186 11 "%0AsyncEventManager::handleAsynchronousEventStateMachineCompletion CID: %10!x!, mWaitForMaskAerType %11!x!, mWaitForGetLogPage %12!x!, mWaitForUnmaskAerType %13!x!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_NVME FUNC=AsyncEventManager::handleAsynchronousEventStateMachineCompletion
+{
+completionQueueEntry.CID, ItemLong -- 10
+mWaitForMaskAerType, ItemLong -- 11
+mWaitForGetLogPage, ItemLong -- 12
+mWaitForUnmaskAerType, ItemLong -- 13
+}
+#typev async_event_mgr_cpp166 10 "%0AsyncEventManager::startAerStateMachine eventType: %10!x!, eventInformation: %11!x!, logPage: %12!x! " //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_NVME FUNC=AsyncEventManager::startAerStateMachine
+{
+mCurrentAerCompletionD0.AsynchronousEventType, ItemLong -- 10
+mCurrentAerCompletionD0.AsynchronousEventInformation, ItemLong -- 11
+mCurrentAerCompletionD0.AssociatedLogPage, ItemLong -- 12
+}
+#typev async_event_mgr_cpp604 14 "%0" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_NVME FUNC=AsyncEventManager::unmaskAfterDelayCompletion
+{
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+7d39f785-ae88-91eb-e5a5-b4e53dcbc6fd Implementation // SRC=nvmeport.cpp MJ= MN=
+#typev nvmeport_cpp666 25 "%0Translate command failed, status %10!s!, srbFun %11!d!, CDB opCode: 0x%12!x!" //   LEVEL=TRACE_LEVEL_WARNING FLAGS=ETW_NVME FUNC=NvmePort::buildIo
+{
+Translator::statusToString(status), ItemString -- 10
+srb->Function, ItemLong -- 11
+scsiRequest->getCdb().CDB16.OperationCode, ItemLong -- 12
+}
+#typev nvmeport_cpp300 12 "%0NVMe D-AS force disable (controller %10!x!)" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::findAdapter
+{
+mControllerNumber, ItemLong -- 10
+}
+#typev nvmeport_cpp282 11 "%0Unable to start admin queues." //   LEVEL=TRACE_LEVEL_CRITICAL FLAGS=ETW_NVME FUNC=NvmePort::findAdapter
+{
+}
+#typev nvmeport_cpp277 10 "%0Unable to stop controller." //   LEVEL=TRACE_LEVEL_CRITICAL FLAGS=ETW_NVME FUNC=NvmePort::findAdapter
+{
+}
+#typev nvmeport_cpp1760 60 "%0Hardware error" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::hardwareError
+{
+}
+#typev nvmeport_cpp364 13 "%0Nvme%10!x! - affinity MSI-X [%11!d!] = 0x%12!I64x!" //   LEVEL=TRACE_LEVEL_VERBOSE FLAGS=ETW_NVME FUNC=NvmePort::initialize
+{
+mControllerNumber, ItemLong -- 10
+i, ItemLong -- 11
+mMessageTarget[i].Mask, ItemLongLongX -- 12
+}
+#typev nvmeport_cpp1887 63 "%0%10!s!: StorPortInitializePoFxPower returned 0x%11!x!, mD3ColdAllowed=%12!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::initializeScsiUnitPoFxPowerInfo
+{
+__FUNCTION__, ItemString -- 10
+status, ItemLong -- 11
+mD3ColdAllowed, ItemLong -- 12
+}
+#typev nvmeport_cpp1819 62 "%0%10!s!: cannot allocate memory for STOR_POFX_DEVICE structure" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::initializeScsiUnitPoFxPowerInfo
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev nvmeport_cpp1791 61 "%0%10!s! entered, mD3ColdAllowed=%11!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::initializeScsiUnitPoFxPowerInfo
+{
+__FUNCTION__, ItemString -- 10
+mD3ColdAllowed, ItemLong -- 11
+}
+#typev nvmeport_cpp402 17 "%0Unable to start IO queues." //   LEVEL=TRACE_LEVEL_CRITICAL FLAGS=ETW_NVME FUNC=NvmePort::passiveInitialize
+{
+}
+#typev nvmeport_cpp396 16 "%0Unable to start admin queues." //   LEVEL=TRACE_LEVEL_CRITICAL FLAGS=ETW_NVME FUNC=NvmePort::passiveInitialize
+{
+}
+#typev nvmeport_cpp391 15 "%0Unable to stop controller." //   LEVEL=TRACE_LEVEL_CRITICAL FLAGS=ETW_NVME FUNC=NvmePort::passiveInitialize
+{
+}
+#typev nvmeport_cpp387 14 "%0%10!s! entered" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::passiveInitialize
+{
+__FUNCTION__, ItemString -- 10
+}
+#typev nvmeport_cpp1281 53 "%0Reset failed - controller is not started" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::reset
+{
+}
+#typev nvmeport_cpp1238 50 "%0%10!s!: mState=%11!s!, exiting..." //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::shutdown
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mState), ItemString -- 11
+}
+#typev nvmeport_cpp1265 52 "%0Shutdown failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::shutdown
+{
+}
+#typev nvmeport_cpp1242 51 "%0%10!s!: mState=%11!s!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::shutdown
+{
+__FUNCTION__, ItemString -- 10
+enum2str(mState), ItemString -- 11
+}
+#typev nvmeport_cpp1012 37 "%0Identify namespace failed, status: %10!s!, sct: %11!d!, sc: %12!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startAdminQueues
+{
+ret.toString(), ItemString -- 10
+ret.getSct(), ItemLong -- 11
+ret.getSc(), ItemLong -- 12
+}
+#typev nvmeport_cpp1006 36 "%0Fail - we support only 1 namespace" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startAdminQueues
+{
+}
+#typev nvmeport_cpp1001 35 "%0NVMe Driver Assisted Striping detected, boundary 0x%10!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::startAdminQueues
+{
+mDriverStripingBoundary, ItemLong -- 10
+}
+#typev nvmeport_cpp985 34 "%0Identify controller failed, status: %10!s!, sct: %11!d!, sc: %12!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startAdminQueues
+{
+ret.toString(), ItemString -- 10
+ret.getSct(), ItemLong -- 11
+ret.getSc(), ItemLong -- 12
+}
+#typev nvmeport_cpp979 33 "%0Controller start failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startAdminQueues
+{
+}
+#typev nvmeport_cpp973 32 "%0Set command set failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startAdminQueues
+{
+}
+#typev nvmeport_cpp967 31 "%0Set memory page size failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startAdminQueues
+{
+}
+#typev nvmeport_cpp961 30 "%0Set arbitration mechanism failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startAdminQueues
+{
+}
+#typev nvmeport_cpp955 29 "%0Set ASQ failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startAdminQueues
+{
+}
+#typev nvmeport_cpp948 28 "%0Set ACQ failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startAdminQueues
+{
+}
+#typev nvmeport_cpp941 27 "%0Construct Queues failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startAdminQueues
+{
+}
+#typev nvmeport_cpp1649 56 "%0SQ push failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startIoExecuteScsi
+{
+}
+#typev nvmeport_cpp1642 55 "%0Queue full" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::startIoExecuteScsi
+{
+}
+#typev nvmeport_cpp1635 54 "%0Passthrough command dpc failed to schedule!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startIoExecuteScsi
+{
+}
+#typev nvmeport_cpp1669 57 "%0Reset failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startIoPower
+{
+}
+#typev nvmeport_cpp1686 58 "%0Shutdown failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startIoPower
+{
+}
+#typev nvmeport_cpp1695 59 "%0Stop failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startIoPower
+{
+}
+#typev nvmeport_cpp1140 45 "%0Create CQ%10!d! failed, status: %11!s!, sct : %12!d!, sc : %13!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startIoQueues
+{
+queueId, ItemLong -- 10
+ret.toString(), ItemString -- 11
+ret.getSct(), ItemLong -- 12
+ret.getSc(), ItemLong -- 13
+}
+#typev nvmeport_cpp1148 46 "%0Create SQ%10!d! failed, status: %11!s!, sct : %12!d!, sc : %13!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startIoQueues
+{
+queueId, ItemLong -- 10
+ret.toString(), ItemString -- 11
+ret.getSct(), ItemLong -- 12
+ret.getSc(), ItemLong -- 13
+}
+#typev nvmeport_cpp1156 47 "%0Set APST failed, status: %10!s!, sct : %11!d!, sc : %12!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startIoQueues
+{
+ret.toString(), ItemString -- 10
+ret.getSct(), ItemLong -- 11
+ret.getSc(), ItemLong -- 12
+}
+#typev nvmeport_cpp1107 44 "%0Fall back to 1 interrupt and 1 queue pair (grantedMsix: 0x%10!x!, set: 0x%11!x!, required: 0x%12!x!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::startIoQueues
+{
+numOfMsiXIVGranted, ItemLong -- 10
+numOfCompletionQueues, ItemLong -- 11
+mQueueManager.getNumberOfCompletionQueues(), ItemLong -- 12
+}
+#typev nvmeport_cpp1088 43 "%0Set number of queues failed, status: %10!s!, sct : %11!d!, sc : %12!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::startIoQueues
+{
+ret.toString(), ItemString -- 10
+ret.getSct(), ItemLong -- 11
+ret.getSc(), ItemLong -- 12
+}
+#typev nvmeport_cpp1085 42 "%0Number of configured submission queues = %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::startIoQueues
+{
+numOfSubmissionQueues, ItemLong -- 10
+}
+#typev nvmeport_cpp1084 41 "%0Number of configured completion queues = %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::startIoQueues
+{
+numOfCompletionQueues, ItemLong -- 10
+}
+#typev nvmeport_cpp1081 40 "%0Number of required submission queues = %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::startIoQueues
+{
+numOfSubmissionQueues, ItemLong -- 10
+}
+#typev nvmeport_cpp1080 39 "%0Number of required completion queues = %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::startIoQueues
+{
+numOfCompletionQueues, ItemLong -- 10
+}
+#typev nvmeport_cpp1064 38 "%0 mNumOfMsiXIVGranted = %10!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::startIoQueues
+{
+numOfMsiXIVGranted, ItemLong -- 10
+}
+#typev nvmeport_cpp1208 48 "%0Stopping controller failed" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::stop
+{
+}
+#typev nvmeport_cpp1221 49 "%0Surprise stop occured!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::surpriseStop
+{
+}
+#typev nvmeport_cpp576 24 "%0%10!s!: %11!s!: Unsupported power state: PowerState=%12!s!, mControllerNumber=%13!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::unitControl
+{
+__FUNCTION__, ItemString -- 10
+::enum2str(controlType), ItemString -- 11
+::enum2str(pwr->PowerState), ItemString -- 12
+mControllerNumber, ItemLong -- 13
+}
+#typev nvmeport_cpp568 23 "%0%10!s!: RESET failed, mControllerNumber=%11!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::unitControl
+{
+__FUNCTION__, ItemString -- 10
+mControllerNumber, ItemLong -- 11
+}
+#typev nvmeport_cpp564 22 "%0%10!s!: %11!s!: Runtime D3 to D0, mControllerNumber=%12!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::unitControl
+{
+__FUNCTION__, ItemString -- 10
+::enum2str(controlType), ItemString -- 11
+mControllerNumber, ItemLong -- 12
+}
+#typev nvmeport_cpp555 21 "%0%10!s!: SHUTDOWN failed, mControllerNumber=%11!d!" //   LEVEL=TRACE_LEVEL_ERROR FLAGS=ETW_NVME FUNC=NvmePort::unitControl
+{
+__FUNCTION__, ItemString -- 10
+mControllerNumber, ItemLong -- 11
+}
+#typev nvmeport_cpp546 20 "%0%10!s!: %11!s!: Runtime D0 to D3, mControllerNumber=%12!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::unitControl
+{
+__FUNCTION__, ItemString -- 10
+::enum2str(controlType), ItemString -- 11
+mControllerNumber, ItemLong -- 12
+}
+#typev nvmeport_cpp534 19 "%0%10!s!: %11!s!: PowerState=%12!s!, PowerAction=%13!s!, mControllerNumber=%14!d!" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmePort::unitControl
+{
+__FUNCTION__, ItemString -- 10
+::enum2str(controlType), ItemString -- 11
+::enum2str(pwr->PowerState), ItemString -- 12
+::enum2str(pwr->PowerAction), ItemString -- 13
+mControllerNumber, ItemLong -- 14
+}
+// PDB:  Output\Driver\x86\Release\iaStorA.pdb
+// PDB:  Last Updated :2016-10-21:9:51:8:273 (UTC) [tracepdb]
+45a57454-5d3e-131a-6451-f5b1391a5509 Implementation // SRC=request.cpp MJ= MN=
+#typev request_cpp71 12 "%0NULL SCSI REQUEST" //   LEVEL=TRACE_LEVEL_INFORMATION FLAGS=ETW_NVME FUNC=NvmRequest::complete
+{
+}
+#typev request_cpp61 11 "%0INVALID_STATUS cid: %10!u!, sct: %11!u!, sc: %12!u!" //   LEVEL=TRACE_LEVEL_FATAL FLAGS=ETW_NVME FUNC=NvmRequest::complete
+{
+completionQueueEntry.CID, ItemLong -- 10
+completionQueueEntry.SCT, ItemLong -- 11
+completionQueueEntry.SC, ItemLong -- 12
+}
+#typev request_cpp46 10 "%0INVALID_CID cid: %10!u!, sct: %11!u!, sc: %12!u!" //   LEVEL=TRACE_LEVEL_FATAL FLAGS=ETW_NVME FUNC=NvmRequest::complete
+{
+completionQueueEntry.CID, ItemLong -- 10
+completionQueueEntry.SCT, ItemLong -- 11
+completionQueueEntry.SC, ItemLong -- 12
+}
