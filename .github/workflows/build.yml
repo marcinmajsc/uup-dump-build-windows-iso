@@ -2,17 +2,20 @@ name: build
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 10 * * Mon' # every monday at 10:00.
+    inputs:
+
+      versions:
+        description: "Windows version to build"
+        default: "windows-10 windows-11old windows-11"
+        required: true
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
-    strategy:
-      matrix:
-        include:
-          - name: windows-11
-          - name: server-2022
-          - name: server-2025
     runs-on: windows-2022
     steps:
       - name: Checkout
@@ -27,7 +30,7 @@ jobs:
       # NB we are writing outside of the current working/job directory
       #    because it does not have sufficient available disk space.
       - name: Build
-        run: pwsh uup-dump-get-windows-iso.ps1 ${{ matrix.name }} c:/output
+        run: pwsh uup-dump-get-windows-iso.ps1 ${{ inputs.versions }} c:/output
 
       - name: Show available disk space after build
         run: Get-PSDrive -PSProvider FileSystem
