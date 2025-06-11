@@ -278,6 +278,7 @@ function Get-WindowsIso($name, $destinationDirectory) {
     $convertConfig = (Get-Content $buildDirectory/ConvertConfig.ini) `
         -replace '^(AutoExit\s*)=.*','$1=1' `
         -replace '^(ResetBase\s*)=.*','$1=1' `
+        -replace '^(wim2esd\s*)=.*','$1=1' `
         -replace '^(AddDrivers\s*)=.*','$1=1' `
         -replace '^(NetFx3\s*)=.*','$1=1' `
         -replace '^(Cleanup\s*)=.*','$1=1'
