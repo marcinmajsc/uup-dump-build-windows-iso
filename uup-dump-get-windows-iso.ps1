@@ -202,7 +202,7 @@ function Get-IsoWindowsImages($isoPath) {
     $isoImage = Mount-DiskImage $isoPath -PassThru
     try {
         $isoVolume = $isoImage | Get-Volume
-        $installPath = "$($isoVolume.DriveLetter):\sources\install.wim"
+        $installPath = "$($isoVolume.DriveLetter):\sources\install.esd"
         Write-Host "Getting Windows images from $installPath"
         Get-WindowsImage -ImagePath $installPath `
             | ForEach-Object {
