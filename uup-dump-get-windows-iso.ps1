@@ -310,6 +310,7 @@ function Get-WindowsIso($name, $destinationDirectory) {
     Pop-Location
 
     $sourceIsoPath = Resolve-Path $buildDirectory/*.iso
+    $IsoName = Split-Path $sourceIsoPath -leaf
 
     Write-Host "Getting the $sourceIsoPath checksum"
     $isoChecksum = (Get-FileHash -Algorithm SHA256 $sourceIsoPath).Hash.ToLowerInvariant()
@@ -338,8 +339,9 @@ function Get-WindowsIso($name, $destinationDirectory) {
             } | ConvertTo-Json -Depth 99) -replace '\\u0026','&'
         )
 
-    Write-Host "Moving the created $sourceIsoPath to $destinationIsoPath"
-    Move-Item -Force $sourceIsoPath $destinationIsoPath
+    Write-Host "Moving the created $sourceIsoPath to $destinationDirectory/$IsoName"
+    Move-Item -Force $sourceIsoPath "$destinationDirectory/$IsoName"
+    echo "ISO_NAME=$IsoName" >> $GITHUB_ENV
 
     Write-Host 'All Done.'
 }
