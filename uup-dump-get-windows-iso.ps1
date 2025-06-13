@@ -341,7 +341,8 @@ function Get-WindowsIso($name, $destinationDirectory) {
 
     Write-Host "Moving the created $sourceIsoPath to $destinationDirectory/$IsoName"
     Move-Item -Force $sourceIsoPath "$destinationDirectory/$IsoName"
-    echo "ISO_NAME=$IsoName" >> $GITHUB_ENV
+    Add-Content -Path ${env:GITHUB_ENV} -Value "ISO_NAME=$IsoName"
+    # echo "ISO_NAME=$IsoName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
     Write-Host 'All Done.'
 }
