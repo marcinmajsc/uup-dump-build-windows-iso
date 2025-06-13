@@ -1,4 +1,5 @@
 name: build
+run-name: Build ${{ inputs.versions }}
 
 on:
   workflow_dispatch:
