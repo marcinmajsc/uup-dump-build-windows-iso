@@ -43,11 +43,11 @@ jobs:
       - name: Upload artifact
         id: upload_artifact
         uses: actions/upload-artifact@v4
-        env:
-          ISO_NAME: ${{ steps.build.outputs.ISO_NAME }}
+        # env:
+        #  ISO_NAME: ${{ steps.build.outputs.ISO_NAME }}
         with:
-          name: ($env:ISO_NAME)
-          path: c:/output/*.
+          name: $(env.ISO_NAME)
+          path: c:/output/${{ inputs.versions }}/*.ISO
       
       - name: Set artifact_url
         id: set_artifact_url
