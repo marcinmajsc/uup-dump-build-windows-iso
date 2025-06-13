@@ -147,10 +147,10 @@ function Get-UupDumpIso($name, $target) {
             } else {
                 'RETAIL'
             }
-            if ($ring -ne $expectedRing) {
-                Write-Host "Skipping. Expected ring=$expectedRing. Got ring=$ring."
-                $result = $false
-            }
+            # if ($ring -ne $expectedRing) {
+            #     Write-Host "Skipping. Expected ring=$expectedRing. Got ring=$ring."
+            #     $result = $false
+            # }
             if ($langs -notcontains 'pl-pl') {
                 Write-Host "Skipping. Expected langs=pl-pl. Got langs=$($langs -join ',')."
                 $result = $false
@@ -311,6 +311,7 @@ function Get-WindowsIso($name, $destinationDirectory) {
     Pop-Location
 
     $sourceIsoPath = Resolve-Path $buildDirectory/*.iso
+    $IsoName = Split-Path $sourceIsoPath -leaf
 
     Write-Host "Getting the $sourceIsoPath checksum"
     $isoChecksum = (Get-FileHash -Algorithm SHA256 $sourceIsoPath).Hash.ToLowerInvariant()
@@ -339,8 +340,10 @@ function Get-WindowsIso($name, $destinationDirectory) {
             } | ConvertTo-Json -Depth 99) -replace '\\u0026','&'
         )
 
-    Write-Host "Moving the created $sourceIsoPath to $destinationIsoPath"
-    Move-Item -Force $sourceIsoPath $destinationIsoPath
+    Write-Host "Moving the created $sourceIsoPath to $destinationDirectory/$IsoName"
+    Move-Item -Force $sourceIsoPath "$destinationDirectory/$IsoName"
+    # Set-Content -Path ${env:GITHUB_ENV} -Value "ISO_NAME=$IsoName"
+    echo "ISO_NAME=$IsoName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
     Write-Host 'All Done.'
 }
