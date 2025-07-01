@@ -155,7 +155,7 @@ function Get-UupDumpIso($name, $target) {
                 Write-Host "Skipping. Expected langs=pl-pl. Got langs=$($langs -join ',')."
                 $result = $false
             }
-            if ($editions -notcontains $target.edition) {
+            if (($editions -notcontains $target.edition) -and ($editions -notcontains "core")) {
                 Write-Host "Skipping. Expected editions=$($target.edition). Got editions=$($editions -join ',')."
                 $result = $false
             }
@@ -174,13 +174,13 @@ function Get-UupDumpIso($name, $target) {
                 apiUrl = 'https://api.uupdump.net/get.php?' + (New-QueryString @{
                     id = $id
                     lang = 'pl-pl'
-                    edition = $target.edition
+                    edition = "core;" + $target.edition
                     #noLinks = '1' # do not return the files download urls.
                 })
                 downloadUrl = 'https://uupdump.net/download.php?' + (New-QueryString @{
                     id = $id
                     pack = 'pl-pl'
-                    edition = $target.edition
+                    edition = "core;" + $target.edition
                 })
                 # NB you must use the HTTP POST method to invoke this packageUrl
                 #    AND in the body you must include:
@@ -190,7 +190,7 @@ function Get-UupDumpIso($name, $target) {
                 downloadPackageUrl = 'https://uupdump.net/get.php?' + (New-QueryString @{
                     id = $id
                     pack = 'pl-pl'
-                    edition = $target.edition
+                    edition = "core;" + $target.edition
                 })
             }
         }
