@@ -169,18 +169,18 @@ function Get-UupDumpIso($name, $target) {
                 title = $_.Value.title
                 build = $_.Value.build
                 id = $id
-                edition = "core;" + $target.edition
+                edition = $target.edition
                 virtualEdition = $target.virtualEdition
                 apiUrl = 'https://api.uupdump.net/get.php?' + (New-QueryString @{
                     id = $id
                     lang = 'pl-pl'
-                    edition = $target.edition
+                    edition = "core;" + $target.edition
                     #noLinks = '1' # do not return the files download urls.
                 })
                 downloadUrl = 'https://uupdump.net/download.php?' + (New-QueryString @{
                     id = $id
                     pack = 'pl-pl'
-                    edition = $target.edition
+                    edition = "core;" + $target.edition
                 })
                 # NB you must use the HTTP POST method to invoke this packageUrl
                 #    AND in the body you must include:
@@ -190,7 +190,7 @@ function Get-UupDumpIso($name, $target) {
                 downloadPackageUrl = 'https://uupdump.net/get.php?' + (New-QueryString @{
                     id = $id
                     pack = 'pl-pl'
-                    edition = $target.edition
+                    edition = "core;" + $target.edition
                 })
             }
         }
