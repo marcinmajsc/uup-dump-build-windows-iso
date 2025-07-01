@@ -19,21 +19,21 @@ $TARGETS = @{
     # see https://en.wikipedia.org/wiki/Windows_10_version_history
     "windows-10" = @{
         search = "windows 10 19045 amd64" # aka 22H2.
-        edition = "core,Professional"
+        edition = "Professional"
         virtualEdition = $null
     }
     # see https://en.wikipedia.org/wiki/Windows_11
     # see https://en.wikipedia.org/wiki/Windows_11_version_history
     "windows-11old" = @{
         search = "windows 11 22631 amd64" # aka 23H2.
-        edition = "core,Professional"
+        edition = "Professional"
         virtualEdition = $null
     }
     # see https://en.wikipedia.org/wiki/Windows_11
     # see https://en.wikipedia.org/wiki/Windows_11_version_history
     "windows-11" = @{
         search = "windows 11 26100 amd64" # aka 24H2.
-        edition = "core,Professional"
+        edition = "Professional"
         virtualEdition = $null
     }
 }
@@ -155,7 +155,7 @@ function Get-UupDumpIso($name, $target) {
                 Write-Host "Skipping. Expected langs=pl-pl. Got langs=$($langs -join ',')."
                 $result = $false
             }
-            if ($editions -notcontains $target.edition) {
+            if (($editions -notcontains $target.edition) -and ($editions -notcontains "core")) {
                 Write-Host "Skipping. Expected editions=$($target.edition). Got editions=$($editions -join ',')."
                 $result = $false
             }
@@ -169,7 +169,7 @@ function Get-UupDumpIso($name, $target) {
                 title = $_.Value.title
                 build = $_.Value.build
                 id = $id
-                edition = $target.edition
+                edition = "core;" + $target.edition
                 virtualEdition = $target.virtualEdition
                 apiUrl = 'https://api.uupdump.net/get.php?' + (New-QueryString @{
                     id = $id
