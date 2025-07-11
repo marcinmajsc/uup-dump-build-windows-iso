@@ -10,7 +10,7 @@ on:
         options:
         - Windows 11 24H2
         - Windows 11 23H2
-        - windows 10 22H2
+        - Windows 10 22H2
         default: Windows 11 24H2
         required: true
 
@@ -88,8 +88,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "v${{ env.build }}.${{ github.run_number }}"
-          name: ${{ inputs.versions }}
+          tag_name: "v${{ env.build }}"
+          name: "${{ inputs.versions }} Pro (${{ env.build }})"
           body_path: summary.md
           draft: false
           prerelease: false
