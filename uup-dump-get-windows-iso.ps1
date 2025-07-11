@@ -328,6 +328,7 @@ function Get-WindowsIso($name, $destinationDirectory) {
             ([PSCustomObject]@{
                 name = $name
                 title = $iso.title
+                edition = $iso.edition
                 build = $iso.build
                 checksum = $isoChecksum
                 images = @($windowsImages)
