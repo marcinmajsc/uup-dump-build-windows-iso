@@ -224,6 +224,7 @@ function Get-IsoWindowsImages($isoPath) {
 
 function Get-WindowsIso($name, $destinationDirectory) {
     $iso = Get-UupDumpIso $name $TARGETS.$name
+    $verbuild = ($iso.title -split 'version\s*')[1] -split '[\s\(]' | Select-Object -First 1
 
     # ensure the build is a version number.
 #    if ($iso.build -notmatch '^\d+\.\d+$') {
@@ -330,6 +331,7 @@ function Get-WindowsIso($name, $destinationDirectory) {
                 title = $iso.title
                 edition = $edition -split '\s+' | Select-Object -Last 1
                 build = $iso.build
+                version = $verbuild
                 checksum = $isoChecksum
                 images = @($windowsImages)
                 uupDump = @{
