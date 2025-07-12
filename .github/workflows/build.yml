@@ -68,12 +68,20 @@ jobs:
           $iso = Get-Content (Resolve-Path c:/output/*.json) | ConvertFrom-Json
           $imageNames = $iso.images | ForEach-Object { $_.name }
           if ($imageNames.Count -gt 1) {
-            $first = $imageNames[0]
-            $rest = $imageNames[1..($imageNames.Count - 1)] -replace '^Windows 10\s*', ''
-            $finalImageName = $first + '/' + ($rest -join '/')
-          } else {
+            if ($imageNames[0] -match '^(Windows (10|11))\s*(.*)') {
+              $prefix = $matches[1]  # Windows 10 lub Windows 11
+              $first = $imageNames[0]
+              $rest = $imageNames[1..($imageNames.Count - 1)] | ForEach-Object { ($_ -replace "^$prefix\s*", '') }
+              $finalImageName = $first + '/' + ($rest -join '/')
+            } else {
+              $finalImageName = $imageNames -join '/'
+            }
+          } elseif ($imageNames.Count -eq 1) {
             $finalImageName = $imageNames[0]
+          } else {
+            $finalImageName = ''
           }
+
           Add-Content $env:GITHUB_STEP_SUMMARY @"
           | Property | Value |
           | :--- | :--- |
