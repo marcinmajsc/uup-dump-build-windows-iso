@@ -85,11 +85,11 @@ jobs:
           Add-Content $env:GITHUB_STEP_SUMMARY @"
           | Property | Value |
           | :--- | :--- |
-          | Name | $($iso.name) |
+          | Name | $($finalImageName) ${{ env.version }} (${{ env.build }}) |
           | Build | $($iso.build) |
           | Checksum | $($iso.checksum) |
           | Image Name | $finalImageName |
-          | Iso | [$($iso.name)]($env:artifact_url) |
+          | Iso | [$env:ISO_NAME]($env:artifact_url) |
           | UUP dump | [$($iso.title)]($($iso.uupDump.downloadUrl)) |
           "@
           # Save the GITHUB_STEP_SUMMARY contents to a file
@@ -98,7 +98,6 @@ jobs:
           echo "version=$($iso.version)" >> $env:GITHUB_ENV
           echo "name=$($iso.name)" >> $env:GITHUB_ENV
           echo "title=$($iso.title)" >> $env:GITHUB_ENV
-          echo "iso_name=($env:ISO_NAME)" >> $env:GITHUB_ENV
           echo "images=$($finalImageName)" >> $env:GITHUB_ENV
           echo "RUN_NAME=$($finalImageName) $($iso.version) ($($iso.build))" >> $GITHUB_ENV
       - name: Create Release
