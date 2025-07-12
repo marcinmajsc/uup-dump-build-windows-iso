@@ -1,5 +1,5 @@
 name: build
-run-name: Build ${{ env.images }} (${{ env.build }})
+run-name: Build ${{ inputs.versions }}
 
 on:
   workflow_dispatch:
@@ -87,10 +87,12 @@ jobs:
           # Save the GITHUB_STEP_SUMMARY contents to a file
           (Get-Content $env:GITHUB_STEP_SUMMARY) | Set-Content summary.md
           echo "build=$($iso.build)" >> $env:GITHUB_ENV
+          echo "edition=$($iso.edition)" >> $env:GITHUB_ENV
           echo "name=$($iso.name)" >> $env:GITHUB_ENV
           echo "title=$($iso.title)" >> $env:GITHUB_ENV
           echo "iso_name=($env:ISO_NAME)" >> $env:GITHUB_ENV
-          echo "images=($finalImageName)" >> $env:GITHUB_ENV
+          echo "images=$($finalImageName)" >> $env:GITHUB_ENV
+          echo "RUN_NAME=$($finalImageName) $($iso.edition) ($($iso.build))" >> $GITHUB_ENV
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2.3.2
@@ -98,7 +100,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: "v${{ env.build }}"
-          name: "${{ env.images }} (${{ env.build }})"
+          name: "${{ env.images }} ${{ env.edition }} (${{ env.build }})"
           body_path: summary.md
           draft: false
           prerelease: false
