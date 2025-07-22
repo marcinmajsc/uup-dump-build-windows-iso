@@ -1,4 +1,4 @@
-name: build
+name: Build Windows 11 Canary arm64
 run-name: Build ${{ inputs.versions }}
 
 on:
