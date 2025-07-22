@@ -3,16 +3,6 @@ run-name: Build ${{ inputs.versions }}
 
 on:
   workflow_dispatch:
-    inputs:
-      versions:
-        description: "Windows version to build"
-        type: choice
-        options:
-        - Windows 11 24H2
-        - Windows 11 23H2
-        - Windows 10 22H2
-        default: Windows 11 24H2
-        required: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,7 +10,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: windows-11-arm
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,17 +23,8 @@ jobs:
 
       # NB we are writing outside of the current working/job directory
       #    because it does not have sufficient available disk space.
-      - name: Build Windows 11 24H2
-        if: ${{ inputs.versions == 'Windows 11 24H2' }}
+      - name: Build Windows 11 Canary arm64
         run: pwsh uup-dump-get-windows-iso.ps1 windows-11 c:/output
-
-      - name: Build Windows 11 23H2
-        if: ${{ inputs.versions == 'Windows 11 23H2' }}
-        run: pwsh uup-dump-get-windows-iso.ps1 windows-11old c:/output
-
-      - name: Build Windows 10 22H2
-        if: ${{ inputs.versions == 'Windows 10 22H2' }}
-        run: pwsh uup-dump-get-windows-iso.ps1 windows-10 c:/output
 
       - name: Show available disk space after build
         run: Get-PSDrive -PSProvider FileSystem
