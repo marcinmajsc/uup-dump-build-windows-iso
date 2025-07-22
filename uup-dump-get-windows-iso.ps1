@@ -17,22 +17,8 @@ trap {
 $TARGETS = @{
     # see https://en.wikipedia.org/wiki/Windows_10
     # see https://en.wikipedia.org/wiki/Windows_10_version_history
-    "windows-10" = @{
-        search = "windows 10 19045 amd64" # aka 22H2.
-        edition = "Professional"
-        virtualEdition = $null
-    }
-    # see https://en.wikipedia.org/wiki/Windows_11
-    # see https://en.wikipedia.org/wiki/Windows_11_version_history
-    "windows-11old" = @{
-        search = "windows 11 22631 amd64" # aka 23H2.
-        edition = "Professional"
-        virtualEdition = $null
-    }
-    # see https://en.wikipedia.org/wiki/Windows_11
-    # see https://en.wikipedia.org/wiki/Windows_11_version_history
     "windows-11" = @{
-        search = "windows 11 26100 amd64" # aka 24H2.
+        search = "windows 11 27 arm64" # aka 24H2.
         edition = "Professional"
         virtualEdition = $null
     }
@@ -278,7 +264,6 @@ function Get-WindowsIso($name, $destinationDirectory) {
     $convertConfig = (Get-Content $buildDirectory/ConvertConfig.ini) `
         -replace '^(AutoExit\s*)=.*','$1=1' `
         -replace '^(ResetBase\s*)=.*','$1=1' `
-        -replace '^(AddDrivers\s*)=.*','$1=1' `
         -replace '^(NetFx3\s*)=.*','$1=1' `
         -replace '^(Cleanup\s*)=.*','$1=1'
     if ($iso.virtualEdition) {
@@ -291,9 +276,6 @@ function Get-WindowsIso($name, $destinationDirectory) {
         -Encoding ascii `
         -Path $buildDirectory/ConvertConfig.ini `
         -Value $convertConfig
-
-    Write-Host "Copy Dell drivers to $buildDirectory directory"	
-    Copy-Item -Path Drivers -Destination $buildDirectory/Drivers -Recurse
 
     Write-Host "Creating the $title iso file inside the $buildDirectory directory"
     Push-Location $buildDirectory
