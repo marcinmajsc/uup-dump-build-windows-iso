@@ -64,14 +64,6 @@ function Get-UupDumpIso($name, $target) {
             Write-Host "Processing $name $id ($uupDumpUrl)"
             $_
         } `
-        | Where-Object {
-            # ignore previews when they are not explicitly requested.
-            $result = $target.search -like '*preview*' -or $_.Value.title -notlike '*preview*'
-            if (!$result) {
-                Write-Host "Skipping. Expected preview=false. Got preview=true."
-            }
-            $result
-        } `
         | ForEach-Object {
             # get more information about the build. eg:
             #   "langs": {
