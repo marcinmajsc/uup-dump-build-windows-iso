@@ -18,7 +18,7 @@ $TARGETS = @{
     # see https://en.wikipedia.org/wiki/Windows_10
     # see https://en.wikipedia.org/wiki/Windows_10_version_history
     "windows-11" = @{
-        search = "windows 11 27 arm64" # aka 24H2.
+        search = "windows 11 arm64" # aka 24H2.
         edition = "Professional"
         virtualEdition = $null
     }
