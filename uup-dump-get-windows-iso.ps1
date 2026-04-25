@@ -149,6 +149,13 @@ function New-QueryString([hashtable]$parameters) {
   @($parameters.GetEnumerator() | ForEach-Object { "$($_.Key)=$([System.Net.WebUtility]::UrlEncode([string]$_.Value))" }) -join '&'
 }
 
+function Get-JsonObjectPropertyNames($value) {
+  if ($null -eq $value) { return @() }
+  if ($value -is [System.Collections.IDictionary]) { return @($value.Keys) }
+  if ($value -is [pscustomobject]) { return @($value.PSObject.Properties.Name) }
+  return @()
+}
+
 function Invoke-UupDumpApi([string]$name, [hashtable]$body) {
   for ($n = 0; $n -lt 15; ++$n) {
     if ($n) {
@@ -184,25 +191,31 @@ function Get-UupDumpIso($name, $target) {
       if ($result.response.updateInfo.build -ne $_.Value.build) {
         throw 'for some reason listlangs returned an unexpected build'
       }
-      $_.Value | Add-Member -NotePropertyMembers @{ langs = $result.response.langFancyNames; info = $result.response.updateInfo }
 
-      $langs = $_.Value.langs.PSObject.Properties.Name
-      $eds = if ($langs -contains $lang) {
-        Write-CleanLine "Getting the $name $id editions metadata"
-        $result = Invoke-UupDumpApi listeditions @{ id = $id; lang = $lang }
-        $result.response.editionFancyNames
-      } else {
+      $langs = @(Get-JsonObjectPropertyNames $result.response.langFancyNames)
+      if ($langs.Count -eq 0) {
         Write-CleanLine "Skipping.
-L3: Expected langs=$lang.
-L4: Got langs=$($langs -join ',')."
-        [PSCustomObject]@{}
+L3: No language packs are available for this UUP entry."
+      } else {
+        $_.Value | Add-Member -NotePropertyMembers @{ langs = $langs; info = $result.response.updateInfo }
+
+        $eds = if ($langs -contains $lang) {
+          Write-CleanLine "Getting the $name $id editions metadata"
+          $result = Invoke-UupDumpApi listeditions @{ id = $id; lang = $lang }
+          @(Get-JsonObjectPropertyNames $result.response.editionFancyNames)
+        } else {
+          Write-CleanLine "Skipping.
+L4: Expected langs=$lang.
+L5: Got langs=$($langs -join ',')."
+          @()
+        }
+        $_.Value | Add-Member -NotePropertyMembers @{ editions = $eds }
+        $_
       }
-      $_.Value | Add-Member -NotePropertyMembers @{ editions = $eds }
-      $_
     }
   | Where-Object {
-      $langs = $_.Value.langs.PSObject.Properties.Name
-      $editions = $_.Value.editions.PSObject.Properties.Name
+      $langs = @($_.Value.langs)
+      $editions = @($_.Value.editions)
       $res = $true
 
       if ($langs -notcontains $lang) {
@@ -212,7 +225,7 @@ L4: Got langs=$($langs -join ',')."
 
       if ($editions -notcontains $target.edition) {
         Write-CleanLine ("Skipping. Expected editions={0}.
-L5: Got editions={1}." -f $target.edition, ($editions -join ','))
+L6: Got editions={1}." -f $target.edition, ($editions -join ','))
         $res = $false
       }
 
