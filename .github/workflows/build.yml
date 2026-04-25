@@ -1,7 +1,7 @@
 name: Build Windows Server
 run-name: >
   ${{ inputs.versions }}
-  ${{ fromJSON('{"Datacenter":"DATACENTER","Datacenter Core":"DATACENTERCORE","Standard":"STANDARD","Standard Core":"STANDARDCORE","Datacenter Azure":"AZURE","Datacenter Azure Core":"AZURECORE","Azure Stack HCI":"AZUREHCI"}')[inputs.edition] }}
+  ${{ fromJSON('{"Datacenter":"DATACENTER","Datacenter Core":"DATACENTERCORE","Standard":"STANDARD","Standard Core":"STANDARDCORE","Multi":"MULTI"}')[inputs.edition] }}
   X64
   ${{ fromJSON('{
     "Czech (Czech Republic)":"CS","German (Germany)":"DE","English (United States)":"EN","Spanish (Spain)":"ES","French (France)":"FR","Hungarian (Hungary)":"HU",
@@ -9,7 +9,6 @@ run-name: >
     "Portuguese (Portugal)":"PT","Russian (Russia)":"RU","Swedish (Sweden)":"SV","Turkish (Turkey)":"TR","Chinese (Simplified, China)":"ZH","Chinese (Traditional, Taiwan)":"ZH"
   }')[inputs.language] }}
   ${{ inputs.esd && 'ESD' || '' }}
-  ${{ inputs.drivers && 'DRIVERS' || '' }}
   ${{ inputs.netfx3 && 'NETFX3' || '' }}
 
 on:
@@ -20,7 +19,6 @@ on:
         type: choice
         options:
           - Windows Server 2022
-          - Windows Server, version 23H2
           - Windows Server 2025
         default: Windows Server 2025
         required: true
@@ -32,9 +30,7 @@ on:
           - Datacenter
           - Standard Core
           - Standard
-          - Datacenter Azure Core
-          - Datacenter Azure
-          - Azure Stack HCI
+          - Multi
         default: Datacenter Core
         required: true
       language:
@@ -75,12 +71,6 @@ on:
         type: boolean
         required: true
         default: false
-      drivers:
-        description: "Add additional drivers"
-        type: boolean
-        required: true
-        default: false
-
 jobs:
   build:
     runs-on: windows-2025
@@ -115,7 +105,6 @@ jobs:
 
           $verMap = @{
             'Windows Server 2022'         = 'server-2022'
-            'Windows Server, version 23H2' = 'server-23h2'
             'Windows Server 2025'         = 'server-2025'
           }
 
@@ -124,15 +113,12 @@ jobs:
             'Datacenter'            = 'datacenter'
             'Standard Core'         = 'standard-core'
             'Standard'              = 'standard'
-            'Datacenter Azure Core' = 'datacenter-azure-core'
-            'Datacenter Azure'      = 'datacenter-azure'
-            'Azure Stack HCI'       = 'azure-stack-hci'
+            'Multi'                 = 'multi'
           }
 
           $supportedEditions = @{
-            'Windows Server 2022'          = @('Datacenter Core', 'Datacenter', 'Standard Core', 'Standard')
-            'Windows Server, version 23H2' = @('Datacenter Core', 'Azure Stack HCI')
-            'Windows Server 2025'          = @('Datacenter Core', 'Datacenter', 'Standard Core', 'Standard', 'Datacenter Azure Core', 'Datacenter Azure')
+            'Windows Server 2022' = @('Datacenter Core', 'Datacenter', 'Standard Core', 'Standard', 'Multi')
+            'Windows Server 2025' = @('Datacenter Core', 'Datacenter', 'Standard Core', 'Standard', 'Multi')
           }
 
           $langCode = $langMap['${{ inputs.language }}']
@@ -145,7 +131,6 @@ jobs:
 
           $opts = ''
           if ('${{ inputs.esd }}' -eq 'true')     { $opts += ' -esd' }
-          if ('${{ inputs.drivers }}' -eq 'true') { $opts += ' -drivers' }
           if ('${{ inputs.netfx3 }}' -eq 'true')  { $opts += ' -netfx3' }
           if (-not [string]::IsNullOrWhiteSpace('${{ inputs.revision }}')) {
             if ('${{ inputs.revision }}' -notmatch '^\d+$') { throw "Revision must contain digits only." }
@@ -215,7 +200,6 @@ jobs:
             # map short flags to full descriptions from workflow inputs
             $descMap = @{
               '-esd'     = 'Use ESD compression'
-              '-drivers' = 'Add additional drivers'
               '-netfx3'  = 'Add .NET Framework 3.5'
             }
             # split -> normalize -> map -> deduplicate
@@ -281,9 +265,7 @@ jobs:
             'Datacenter'            = 'DATACENTER'
             'Standard Core'         = 'STANDARDCORE'
             'Standard'              = 'STANDARD'
-            'Datacenter Azure Core' = 'AZURECORE'
-            'Datacenter Azure'      = 'AZURE'
-            'Azure Stack HCI'       = 'AZUREHCI'
+            'Multi'                 = 'MULTI'
           }
           $langTagMap = @{
             'cs-cz'='CS'; 'de-de'='DE'; 'en-us'='EN'; 'es-es'='ES'; 'fr-fr'='FR'; 'hu-hu'='HU'

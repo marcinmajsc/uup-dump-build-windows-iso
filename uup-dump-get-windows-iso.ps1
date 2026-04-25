@@ -1,14 +1,14 @@
 #!/usr/bin/pwsh
 
+[CmdletBinding()]
 param(
-  [ValidateSet("server-2022", "server-23h2", "server-2025")] [string]$windowsTargetName,
+  [ValidateSet("server-2022", "server-2025")] [string]$windowsTargetName,
   [string]$destinationDirectory = 'output',
   [ValidateSet("x64")] [string]$architecture = "x64",
-  [ValidateSet("standard", "standard-core", "datacenter", "datacenter-core", "datacenter-azure", "datacenter-azure-core", "azure-stack-hci")] [string]$edition = "datacenter-core",
+  [ValidateSet("standard", "standard-core", "datacenter", "datacenter-core", "multi")] [string]$edition = "datacenter-core",
   [ValidateSet("cs-cz", "de-de", "en-us", "es-es", "fr-fr", "hu-hu", "it-it", "ja-jp", "ko-kr", "nl-nl", "pl-pl", "pt-br", "pt-pt", "ru-ru", "sv-se", "tr-tr", "zh-cn", "zh-tw")]
   [string]$lang = "en-us",
   [switch]$esd,
-  [switch]$drivers,
   [switch]$netfx3,
   [ValidatePattern("^\d+$")] [string]$revision
 )
@@ -95,16 +95,15 @@ function Process-ProgressLine([string]$line) {
 # Basic metadata helpers
 # ------------------------------
 $arch = "amd64"
+$script:ServerEditions = @("SERVERDATACENTERCORE", "SERVERDATACENTER", "SERVERSTANDARDCORE", "SERVERSTANDARD")
 
-function Get-EditionName($e) {
+function Get-EditionNames($e) {
   switch ($e.ToLower()) {
-    "standard"              { "SERVERSTANDARD" }
-    "standard-core"         { "SERVERSTANDARDCORE" }
-    "datacenter"            { "SERVERDATACENTER" }
-    "datacenter-core"       { "SERVERDATACENTERCORE" }
-    "datacenter-azure"      { "SERVERTURBINE" }
-    "datacenter-azure-core" { "SERVERTURBINECORE" }
-    "azure-stack-hci"       { "SERVERAZURESTACKHCICOR" }
+    "standard"        { @("SERVERSTANDARD") }
+    "standard-core"   { @("SERVERSTANDARDCORE") }
+    "datacenter"      { @("SERVERDATACENTER") }
+    "datacenter-core" { @("SERVERDATACENTERCORE") }
+    "multi"           { $script:ServerEditions }
     default { throw "Unknown Windows Server edition: $e" }
   }
 }
@@ -115,33 +114,33 @@ function Get-EditionLabel($editionCode) {
     "SERVERSTANDARDCORE"    { "Windows Server Standard, Core" }
     "SERVERDATACENTER"      { "Windows Server Datacenter" }
     "SERVERDATACENTERCORE"  { "Windows Server Datacenter, Core" }
-    "SERVERTURBINE"         { "Windows Server Datacenter Azure" }
-    "SERVERTURBINECORE"     { "Windows Server Datacenter Azure, Core" }
-    "SERVERAZURESTACKHCICOR" { "Azure Stack HCI" }
     default { $editionCode }
   }
 }
 
+function Get-EditionSummary($editionCodes) {
+  $codes = @($editionCodes)
+  if ($codes.Count -eq $script:ServerEditions.Count -and -not @($script:ServerEditions | Where-Object { $codes -notcontains $_ })) {
+    return "Multi"
+  }
+  return (@($codes | ForEach-Object { Get-EditionLabel $_ }) -join "/")
+}
+
 $dotSystemRevision = if ([string]::IsNullOrWhiteSpace($revision)) { '' } else { ".$revision" }
+$targetEditions = @(Get-EditionNames $edition)
 
 $TARGETS = @{
   "server-2022" = @{
     search="server 20348$dotSystemRevision $arch"
-    edition=(Get-EditionName $edition)
+    editions=$targetEditions
     version="21H2"
-    supportedEditions=@("SERVERDATACENTERCORE", "SERVERDATACENTER", "SERVERSTANDARDCORE", "SERVERSTANDARD")
-  }
-  "server-23h2" = @{
-    search="windows server 25398$dotSystemRevision $arch"
-    edition=(Get-EditionName $edition)
-    version="23H2"
-    supportedEditions=@("SERVERDATACENTERCORE", "SERVERAZURESTACKHCICOR")
+    supportedEditions=$script:ServerEditions
   }
   "server-2025" = @{
     search="windows server 26100$dotSystemRevision $arch"
-    edition=(Get-EditionName $edition)
+    editions=$targetEditions
     version="2025"
-    supportedEditions=@("SERVERDATACENTERCORE", "SERVERDATACENTER", "SERVERSTANDARDCORE", "SERVERSTANDARD", "SERVERTURBINECORE", "SERVERTURBINE")
+    supportedEditions=$script:ServerEditions
   }
 }
 
@@ -223,9 +222,10 @@ L5: Got langs=$($langs -join ',')."
         $res = $false
       }
 
-      if ($editions -notcontains $target.edition) {
+      $missingEditions = @($target.editions | Where-Object { $editions -notcontains $_ })
+      if ($missingEditions.Count) {
         Write-CleanLine ("Skipping. Expected editions={0}.
-L6: Got editions={1}." -f $target.edition, ($editions -join ','))
+L6: Got editions={1}." -f ($target.editions -join ','), ($editions -join ','))
         $res = $false
       }
 
@@ -239,13 +239,13 @@ L6: Got editions={1}." -f $target.edition, ($editions -join ','))
         title              = $_.Value.title
         build              = $_.Value.build
         id                 = $id
-        edition            = $target.edition
-        editionLabel       = Get-EditionLabel $target.edition
+        edition            = $target.editions -join ';'
+        editionLabel       = Get-EditionSummary $target.editions
         version            = $target.version
         virtualEdition     = $target['virtualEdition']
-        apiUrl             = 'https://api.uupdump.net/get.php?' + (New-QueryString @{ id = $id; lang = $lang; edition = $target.edition })
-        downloadUrl        = 'https://uupdump.net/download.php?' + (New-QueryString @{ id = $id; pack = $lang; edition = $target.edition })
-        downloadPackageUrl = 'https://uupdump.net/get.php?' + (New-QueryString @{ id = $id; pack = $lang; edition = $target.edition })
+        apiUrl             = 'https://api.uupdump.net/get.php?' + (New-QueryString @{ id = $id; lang = $lang; edition = ($target.editions -join ';') })
+        downloadUrl        = 'https://uupdump.net/download.php?' + (New-QueryString @{ id = $id; pack = $lang; edition = ($target.editions -join ';') })
+        downloadPackageUrl = 'https://uupdump.net/get.php?' + (New-QueryString @{ id = $id; pack = $lang; edition = ($target.editions -join ';') })
       }
     }
 }
@@ -311,17 +311,18 @@ function Patch-Aria2-Flags {
 function Get-WindowsIso($name, $destinationDirectory) {
   $target = $TARGETS[$name]
   if (-not $target) { throw "Unknown Windows Server target: $name" }
-  if ($target.supportedEditions -notcontains $target.edition) {
+  $unsupported = @($target.editions | Where-Object { $target.supportedEditions -notcontains $_ })
+  if ($unsupported.Count) {
     $supported = $target.supportedEditions | ForEach-Object { Get-EditionLabel $_ }
-    throw "Edition '$(Get-EditionLabel $target.edition)' is not available for $name. Supported: $($supported -join ', ')."
+    throw "Edition '$(Get-EditionSummary $target.editions)' is not available for $name. Supported: $($supported -join ', ')."
   }
 
   $iso = Get-UupDumpIso $name $target
-  if (-not $iso) { throw "Can't find UUP for $name ($($target.search)), lang=$lang, edition=$($target.edition)." }
+  if (-not $iso) { throw "Can't find UUP for $name ($($target.search)), lang=$lang, edition=$($target.editions -join ';')." }
 
   $isoHasEdition    = $iso.PSObject.Properties.Name -contains 'edition' -and $iso.edition
   $hasVirtualMember = $iso.PSObject.Properties.Name -contains 'virtualEdition' -and $iso.virtualEdition
-  $effectiveEdition = if ($isoHasEdition) { Get-EditionLabel $iso.edition } else { Get-EditionLabel $target.edition }
+  $effectiveEdition = if ($isoHasEdition) { $iso.editionLabel } else { Get-EditionSummary $target.editions }
   $verbuild = if ($iso.version) { $iso.version } elseif ($iso.title -match 'version\s*([^\s\(]+)') { $matches[1] } else { $iso.build }
 
   $buildDirectory               = "$destinationDirectory/$name"
@@ -348,12 +349,6 @@ function Get-WindowsIso($name, $destinationDirectory) {
 
   $tag = ""
   if ($esd) { $convertConfig = $convertConfig -replace '^(wim2esd\s*)=.*', '$1=1'; $tag += ".E" }
-  if ($drivers) {
-    $convertConfig = $convertConfig -replace '^(AddDrivers\s*)=.*', '$1=1'
-    $tag += ".D"
-    Write-CleanLine "Copy Dell drivers to $buildDirectory directory"
-    Copy-Item -Path Drivers -Destination $buildDirectory/Drivers -Recurse
-  }
   if ($netfx3) { $convertConfig = $convertConfig -replace '^(NetFx3\s*)=.*', '$1=1'; $tag += ".N" }
   if ($hasVirtualMember) {
     $convertConfig = $convertConfig `

@@ -18,7 +18,6 @@ Additionally, for each release, packages are created for various systems and arc
 ## This supports the following:
 Windows Server Builds:
 * `server-2022`: Windows Server 2022 20348 (aka 21H2)
-* `server-23h2`: Windows Server, version 23H2 25398
 * `server-2025`: Windows Server 2025 26100
 
 
@@ -31,11 +30,9 @@ Edition:
 * `standard-core`: Windows Server Standard, Core
 * `datacenter`: Windows Server Datacenter
 * `datacenter-core`: Windows Server Datacenter, Core
-* `datacenter-azure`: Windows Server Datacenter Azure
-* `datacenter-azure-core`: Windows Server Datacenter Azure, Core
-* `azure-stack-hci`: Azure Stack HCI
+* `multi`: Datacenter Core + Datacenter + Standard Core + Standard
 
-Edition availability depends on the selected server target. Windows Server 2022 supports Standard/Datacenter and Core variants, Windows Server 2025 supports Standard/Datacenter and Azure variants, and Windows Server, version 23H2 supports Datacenter Core and Azure Stack HCI.
+Both server targets support Standard/Datacenter, Core variants, and `multi`.
 
 
 Language:
@@ -61,25 +58,24 @@ Language:
 
 Additional options:
 * `esd`: Use ESD compression
-* `drivers`: Add drivers from Drivers folder
 * `netfx3`: Add .NET Framework 3.5
 * `revision`: System Revision Number
 
 
 ## Usage
 
-Get the latest Windows Server 2025 Datacenter Core iso:
+Get the latest Windows Server 2025 multi-edition iso:
 
 ```bash
-powershell uup-dump-get-windows-iso.ps1 server-2025 c:/output -architecture x64 -edition datacenter-core -lang en-us -esd -drivers -netfx3
+powershell uup-dump-get-windows-iso.ps1 server-2025 c:/output -architecture x64 -edition multi -lang en-us -esd -netfx3
 ```
 
-When everything works correctly, you'll have the iso in the `output` directory at, e.g., `c:/output/26100.32690.260401-1700.GE_RELEASE_SVC_PROD3_SERVERDATACENTERCORE_OEMRET_X64FRE_EN-US.ISO`.
+When everything works correctly, you'll have the generated iso in the `output` directory.
 
 You can also download the system revision of your choice. For example, if you want to build Windows Server 2025 26100.32690 iso:
 
 ```bash
-powershell uup-dump-get-windows-iso.ps1 server-2025 c:/output -architecture x64 -edition datacenter-core -lang en-us -esd -drivers -netfx3 -revision 32690
+powershell uup-dump-get-windows-iso.ps1 server-2025 c:/output -architecture x64 -edition multi -lang en-us -esd -netfx3 -revision 32690
 ```
 
 
@@ -93,10 +89,9 @@ powershell uup-dump-get-windows-iso.ps1 server-2025 c:/output -architecture x64 
   |    |    |    |   .------------ CPU architecture
   |    |    |    |   |  .--------- Language
   |    |    |    |   |  |  .------ Image is compressed by ESD (optional)
-  |    |    |    |   |  |  | .---- Include additional drivers (optional)
-  |    |    |    |   |  |  | | .-- Include .NET Framework 3.5 (optional)
-__|__ _|__ _|__ _|_ _|_ |_ | | |
-26100.32690.2025.DATACENTERCORE.X64.EN.E.D.N
+  |    |    |    |   |  |  | .---- Include .NET Framework 3.5 (optional)
+__|__ _|__ _|__ _|_ _|_ |_ | |
+26100.32690.2025.MULTI.X64.EN.E.N
 ```
 
 ## Related Tools
