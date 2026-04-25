@@ -1,24 +1,21 @@
 #!/usr/bin/pwsh
 
 param(
-  [string]$windowsTargetName,
+  [ValidateSet("server-2022", "server-23h2", "server-2025")] [string]$windowsTargetName,
   [string]$destinationDirectory = 'output',
-  [ValidateSet("x64", "arm64")] [string]$architecture = "x64",
-  [ValidateSet("pro", "core", "multi", "home")] [string]$edition = "pro",
-  [ValidateSet("nb-no", "fr-ca", "fi-fi", "lv-lv", "es-es", "en-gb", "zh-tw", "th-th", "sv-se", "en-us", "es-mx", "bg-bg", "hr-hr", "pt-br", "el-gr", "cs-cz", "it-it", "sk-sk", "pl-pl", "sl-si", "neutral", "ja-jp", "et-ee", "ro-ro", "fr-fr", "pt-pt", "ar-sa", "lt-lt", "hu-hu", "da-dk", "zh-cn", "uk-ua", "tr-tr", "ru-ru", "nl-nl", "he-il", "ko-kr", "sr-latn-rs", "de-de")]
+  [ValidateSet("x64")] [string]$architecture = "x64",
+  [ValidateSet("standard", "standard-core", "datacenter", "datacenter-core", "datacenter-azure", "datacenter-azure-core", "azure-stack-hci")] [string]$edition = "datacenter-core",
+  [ValidateSet("cs-cz", "de-de", "en-us", "es-es", "fr-fr", "hu-hu", "it-it", "ja-jp", "ko-kr", "nl-nl", "pl-pl", "pt-br", "pt-pt", "ru-ru", "sv-se", "tr-tr", "zh-cn", "zh-tw")]
   [string]$lang = "en-us",
   [switch]$esd,
   [switch]$drivers,
   [switch]$netfx3,
-  [string]$revision
+  [ValidatePattern("^\d+$")] [string]$revision
 )
 
 Set-StrictMode -Version Latest
 $ProgressPreference = 'SilentlyContinue'
 $ErrorActionPreference = 'Stop'
-
-$preview  = $false
-$ringLower = $null
 
 trap {
   Write-Host "ERROR: $_"
@@ -97,35 +94,55 @@ function Process-ProgressLine([string]$line) {
 # ------------------------------
 # Basic metadata helpers
 # ------------------------------
-$arch = if ($architecture -eq "x64") { "amd64" } else { "arm64" }
-
-if ($windowsTargetName -match 'beta|dev|wif|canary') {
-  $preview = $true
-  $ringLower = @('beta','dev','wif','canary').Where({$windowsTargetName -match $_})[0]
-}
+$arch = "amd64"
 
 function Get-EditionName($e) {
   switch ($e.ToLower()) {
-    "core"  { "Core" }
-    "home"  { "Core" }
-    "multi" { "Multi" }
-    default { "Professional" }
+    "standard"              { "SERVERSTANDARD" }
+    "standard-core"         { "SERVERSTANDARDCORE" }
+    "datacenter"            { "SERVERDATACENTER" }
+    "datacenter-core"       { "SERVERDATACENTERCORE" }
+    "datacenter-azure"      { "SERVERTURBINE" }
+    "datacenter-azure-core" { "SERVERTURBINECORE" }
+    "azure-stack-hci"       { "SERVERAZURESTACKHCICOR" }
+    default { throw "Unknown Windows Server edition: $e" }
+  }
+}
+
+function Get-EditionLabel($editionCode) {
+  switch ($editionCode) {
+    "SERVERSTANDARD"        { "Windows Server Standard" }
+    "SERVERSTANDARDCORE"    { "Windows Server Standard, Core" }
+    "SERVERDATACENTER"      { "Windows Server Datacenter" }
+    "SERVERDATACENTERCORE"  { "Windows Server Datacenter, Core" }
+    "SERVERTURBINE"         { "Windows Server Datacenter Azure" }
+    "SERVERTURBINECORE"     { "Windows Server Datacenter Azure, Core" }
+    "SERVERAZURESTACKHCICOR" { "Azure Stack HCI" }
+    default { $editionCode }
   }
 }
 
 $dotSystemRevision = if ([string]::IsNullOrWhiteSpace($revision)) { '' } else { ".$revision" }
-$systemRevision = if ([string]::IsNullOrWhiteSpace($revision)) { '' } else { " $revision" }
 
 $TARGETS = @{
-  "windows-10"       = @{ search="windows 10 19045$dotSystemRevision $arch"; edition=(Get-EditionName $edition) }
-  "windows-11old"    = @{ search="windows 11 22631$dotSystemRevision $arch"; edition=(Get-EditionName $edition) }
-  "windows-11"       = @{ search="windows 11 26100$dotSystemRevision $arch"; edition=(Get-EditionName $edition) }
-  "windows-11new"    = @{ search="windows 11 26200$dotSystemRevision $arch"; edition=(Get-EditionName $edition) }
-  "windows-11beta"   = @{ search="windows 11 26120$dotSystemRevision $arch"; edition=(Get-EditionName $edition); ring="Beta" }
-  "windows-11dev"    = @{ search="windows 11 26220$dotSystemRevision $arch"; edition=(Get-EditionName $edition); ring="Wif" }
-  "windows-1126h1"   = @{ search="windows 11 28000$dotSystemRevision $arch"; edition=(Get-EditionName $edition) }
-  "windows-dev"      = @{ search="windows 11 26300$dotSystemRevision $arch"; edition=(Get-EditionName $edition); ring="Dev" }
-  "windows-canary"   = @{ search="windows 11$systemRevision $arch"; edition=(Get-EditionName $edition); ring="Canary" }
+  "server-2022" = @{
+    search="server 20348$dotSystemRevision $arch"
+    edition=(Get-EditionName $edition)
+    version="21H2"
+    supportedEditions=@("SERVERDATACENTERCORE", "SERVERDATACENTER", "SERVERSTANDARDCORE", "SERVERSTANDARD")
+  }
+  "server-23h2" = @{
+    search="windows server 25398$dotSystemRevision $arch"
+    edition=(Get-EditionName $edition)
+    version="23H2"
+    supportedEditions=@("SERVERDATACENTERCORE", "SERVERAZURESTACKHCICOR")
+  }
+  "server-2025" = @{
+    search="windows server 26100$dotSystemRevision $arch"
+    edition=(Get-EditionName $edition)
+    version="2025"
+    supportedEditions=@("SERVERDATACENTERCORE", "SERVERDATACENTER", "SERVERSTANDARDCORE", "SERVERSTANDARD", "SERVERTURBINECORE", "SERVERTURBINE")
+  }
 }
 
 function New-QueryString([hashtable]$parameters) {
@@ -160,18 +177,6 @@ function Get-UupDumpIso($name, $target) {
       Write-CleanLine "Processing $name $id ($uupDumpUrl)"
       $_
     }
-  | Where-Object {
-      if (!$preview) {
-        $ok = ($target.search -like '*preview*') -or ($_.Value.title -notlike '*preview*')
-        if (-not $ok) {
-          Write-CleanLine "Skipping.
-L1: Expected preview=false.
-L2: Got preview=true."
-        }
-        return $ok
-      }
-      $true
-    }
   | ForEach-Object {
       $id = $_.Value.uuid
       Write-CleanLine "Getting the $name $id langs metadata"
@@ -200,42 +205,14 @@ L4: Got langs=$($langs -join ',')."
       $editions = $_.Value.editions.PSObject.Properties.Name
       $res = $true
 
-      $expectedRing = if ($ringLower) { $ringLower.ToUpper() } else { 'RETAIL' }
-      if ($ringLower) {
-        $actual = ($_.Value.info.ring).ToUpper()
-        if ($ringLower -in @('dev','beta')) {
-          if ($actual -notin @($expectedRing, 'WIF', 'WIS')) {
-            Write-CleanLine "Skipping.
-L5: Expected ring match for $expectedRing, WIS or WIF. Got ring=$actual."
-            $res = $false
-          }
-        } else {
-          if ($actual -ne $expectedRing) {
-            Write-CleanLine "Skipping. Expected ring match for $expectedRing. Got ring=$actual."
-            $res = $false
-          }
-        }
-      }
-
       if ($langs -notcontains $lang) {
         Write-CleanLine "Skipping. Expected langs=$lang. Got langs=$($langs -join ',')."
         $res = $false
       }
 
-      if ((Get-EditionName $edition) -eq "Multi") {
-        if (($editions -notcontains "Professional") -and ($editions -notcontains "Core")) {
-          Write-CleanLine "Skipping.
-L6: Expected editions=Multi (Professional/Core). Got editions=$($editions -join ',')."
-          $res = $false
-        }
-      } elseif ($editions -notcontains (Get-EditionName $edition)) {
+      if ($editions -notcontains $target.edition) {
         Write-CleanLine ("Skipping. Expected editions={0}.
-L7: Got editions={1}." -f (Get-EditionName $edition), ($editions -join ','))
-        $res = $false
-      }
-
-      if (!$preview -and -not ($_.Value.title -match 'version')) {
-        Write-CleanLine "Skipping. Unexpected title format: missing 'version'."
+L5: Got editions={1}." -f $target.edition, ($editions -join ','))
         $res = $false
       }
 
@@ -250,10 +227,12 @@ L7: Got editions={1}." -f (Get-EditionName $edition), ($editions -join ','))
         build              = $_.Value.build
         id                 = $id
         edition            = $target.edition
+        editionLabel       = Get-EditionLabel $target.edition
+        version            = $target.version
         virtualEdition     = $target['virtualEdition']
-        apiUrl             = 'https://api.uupdump.net/get.php?' + (New-QueryString @{ id = $id; lang = $lang; edition = if ($edition -eq "multi") { "core;professional" } else { $target.edition } })
-        downloadUrl        = 'https://uupdump.net/download.php?' + (New-QueryString @{ id = $id; pack = $lang; edition = if ($edition -eq "multi") { "core;professional" } else { $target.edition } })
-        downloadPackageUrl = 'https://uupdump.net/get.php?' + (New-QueryString @{ id = $id; pack = $lang; edition = if ($edition -eq "multi") { "core;professional" } else { $target.edition } })
+        apiUrl             = 'https://api.uupdump.net/get.php?' + (New-QueryString @{ id = $id; lang = $lang; edition = $target.edition })
+        downloadUrl        = 'https://uupdump.net/download.php?' + (New-QueryString @{ id = $id; pack = $lang; edition = $target.edition })
+        downloadPackageUrl = 'https://uupdump.net/get.php?' + (New-QueryString @{ id = $id; pack = $lang; edition = $target.edition })
       }
     }
 }
@@ -317,25 +296,20 @@ function Patch-Aria2-Flags {
 }
 
 function Get-WindowsIso($name, $destinationDirectory) {
-  $iso = Get-UupDumpIso $name $TARGETS.$name
-  if (-not $iso) { throw "Can't find UUP for $name ($($TARGETS.$name.search)), lang=$lang." }
+  $target = $TARGETS[$name]
+  if (-not $target) { throw "Unknown Windows Server target: $name" }
+  if ($target.supportedEditions -notcontains $target.edition) {
+    $supported = $target.supportedEditions | ForEach-Object { Get-EditionLabel $_ }
+    throw "Edition '$(Get-EditionLabel $target.edition)' is not available for $name. Supported: $($supported -join ', ')."
+  }
+
+  $iso = Get-UupDumpIso $name $target
+  if (-not $iso) { throw "Can't find UUP for $name ($($target.search)), lang=$lang, edition=$($target.edition)." }
 
   $isoHasEdition    = $iso.PSObject.Properties.Name -contains 'edition' -and $iso.edition
   $hasVirtualMember = $iso.PSObject.Properties.Name -contains 'virtualEdition' -and $iso.virtualEdition
-  $effectiveEdition = if ($isoHasEdition) { $iso.edition } else { $TARGETS.$name.edition }
-
-  if (!$preview) {
-    if ($iso.title -match 'version') {
-      $parts = $iso.title -split 'version\s*'
-      if ($parts.Count -lt 2) { throw "Unexpected title format, split resulted in less than 2 parts: $($parts -join '|')" }
-      $verbuild = $parts[1] -split '[\s\(]' | Select-Object -First 1
-    } else {
-      Write-CleanLine "WARN: Unexpected title format: missing 'version'. Using build number fallback."
-      $verbuild = $iso.build
-    }
-  } else {
-    $verbuild = $ringLower.ToUpper()
-  }
+  $effectiveEdition = if ($isoHasEdition) { Get-EditionLabel $iso.edition } else { Get-EditionLabel $target.edition }
+  $verbuild = if ($iso.version) { $iso.version } elseif ($iso.title -match 'version\s*([^\s\(]+)') { $matches[1] } else { $iso.build }
 
   $buildDirectory               = "$destinationDirectory/$name"
   $destinationIsoPath           = "$buildDirectory.iso"
@@ -361,7 +335,7 @@ function Get-WindowsIso($name, $destinationDirectory) {
 
   $tag = ""
   if ($esd) { $convertConfig = $convertConfig -replace '^(wim2esd\s*)=.*', '$1=1'; $tag += ".E" }
-  if ($drivers -and $arch -ne "arm64") {
+  if ($drivers) {
     $convertConfig = $convertConfig -replace '^(AddDrivers\s*)=.*', '$1=1'
     $tag += ".D"
     Write-CleanLine "Copy Dell drivers to $buildDirectory directory"
@@ -430,6 +404,8 @@ function Get-WindowsIso($name, $destinationDirectory) {
       title   = $iso.title
       build   = $iso.build
       version = $verbuild
+      edition = $iso.edition
+      editionLabel = $iso.editionLabel
       tags    = $tag
       checksum = $isoChecksum
       images  = @($windowsImages)
