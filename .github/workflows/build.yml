@@ -110,6 +110,9 @@ on:
         required: true
         default: false
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ${{ fromJSON('{"x64":"windows-2025","arm64":"windows-11-arm"}')[inputs.architecture] }}
@@ -314,7 +317,7 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: softprops/action-gh-release@v2.6.1
+        uses: softprops/action-gh-release@v3.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
