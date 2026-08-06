@@ -71,12 +71,18 @@ on:
         type: boolean
         required: true
         default: false
+
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-2025
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Map inputs
         id: map
@@ -278,7 +284,7 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: softprops/action-gh-release@v2.6.1
+        uses: softprops/action-gh-release@v3.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
