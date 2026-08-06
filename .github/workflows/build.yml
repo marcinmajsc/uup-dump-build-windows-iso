@@ -1,91 +1,58 @@
-name: Build Windows
+name: Build Windows Server
 run-name: >
   ${{ inputs.versions }}
-  ${{ fromJSON('{"Pro":"PRO","Home":"HOME","Multi":"MULTI"}')[inputs.edition] }}
-  ${{ fromJSON('{"x64":"X64","arm64":"ARM64"}')[inputs.architecture] }}
+  ${{ fromJSON('{"Datacenter":"DATACENTER","Datacenter Core":"DATACENTERCORE","Standard":"STANDARD","Standard Core":"STANDARDCORE","Multi":"MULTI"}')[inputs.edition] }}
+  X64
   ${{ fromJSON('{
-    "Arabic (Saudi Arabia)":"AR","Bulgarian (Bulgaria)":"BG","Czech (Czech Republic)":"CS","Danish (Denmark)":"DA","German (Germany)":"DE","Greek (Greece)":"EL",
-    "English (United Kingdom)":"EN","English (United States)":"EN","Spanish (Spain)":"ES","Spanish (Mexico)":"ES","Estonian (Estonia)":"ET","Finnish (Finland)":"FI",
-    "French (Canada)":"FR","French (France)":"FR","Hebrew (Israel)":"HE","Croatian (Croatia)":"HR","Hungarian (Hungary)":"HU","Italian (Italy)":"IT",
-    "Japanese (Japan)":"JA","Korean (Korea)":"KO","Lithuanian (Lithuania)":"LT","Latvian (Latvia)":"LV","Norwegian Bokmål (Norway)":"NB",
-    "Dutch (Netherlands)":"NL","Polish (Poland)":"PL","Portuguese (Brazil)":"PT","Portuguese (Portugal)":"PT","Romanian (Romania)":"RO","Russian (Russia)":"RU",
-    "Slovak (Slovakia)":"SK","Slovenian (Slovenia)":"SL","Serbian (Latin, Serbia)":"SR","Swedish (Sweden)":"SV","Thai (Thailand)":"TH","Turkish (Turkey)":"TR",
-    "Ukrainian (Ukraine)":"UK","Chinese (Simplified, China)":"ZH","Chinese (Traditional, Taiwan)":"ZH"
+    "Czech (Czech Republic)":"CS","German (Germany)":"DE","English (United States)":"EN","Spanish (Spain)":"ES","French (France)":"FR","Hungarian (Hungary)":"HU",
+    "Italian (Italy)":"IT","Japanese (Japan)":"JA","Korean (Korea)":"KO","Dutch (Netherlands)":"NL","Polish (Poland)":"PL","Portuguese (Brazil)":"PT",
+    "Portuguese (Portugal)":"PT","Russian (Russia)":"RU","Swedish (Sweden)":"SV","Turkish (Turkey)":"TR","Chinese (Simplified, China)":"ZH","Chinese (Traditional, Taiwan)":"ZH"
   }')[inputs.language] }}
   ${{ inputs.esd && 'ESD' || '' }}
-  ${{ inputs.drivers && 'DRIVERS' || '' }}
   ${{ inputs.netfx3 && 'NETFX3' || '' }}
 
 on:
   workflow_dispatch:
     inputs:
-      architecture:
-        description: "Windows architecture to build"
-        type: choice
-        options: [x64, arm64]
-        default: x64
-        required: true
       versions:
-        description: "Windows version to build"
+        description: "Windows Server version to build"
         type: choice
         options:
-          - Windows 10 22H2
-          - Windows 11 23H2
-          - Windows 11 24H2
-          - Windows 11 24H2 BETA
-          - Windows 11 25H2
-          - Windows 11 25H2 BETA
-          - Windows 11 26H1
-          - Windows DEV
-          - Windows CANARY
-        default: Windows 11 25H2
+          - Windows Server 2022
+          - Windows Server 2025
+        default: Windows Server 2025
         required: true
       edition:
-        description: "Windows edition to build"
+        description: "Windows Server edition to build"
         type: choice
-        options: [Pro, Home, Multi]
-        default: Pro
+        options:
+          - Datacenter Core
+          - Datacenter
+          - Standard Core
+          - Standard
+          - Multi
+        default: Datacenter Core
         required: true
       language:
         description: "Language"
         type: choice
         options:
-          - Arabic (Saudi Arabia)
-          - Bulgarian (Bulgaria)
           - Czech (Czech Republic)
-          - Danish (Denmark)
           - German (Germany)
-          - Greek (Greece)
-          - English (United Kingdom)
           - English (United States)
           - Spanish (Spain)
-          - Spanish (Mexico)
-          - Estonian (Estonia)
-          - Finnish (Finland)
-          - French (Canada)
           - French (France)
-          - Hebrew (Israel)
-          - Croatian (Croatia)
           - Hungarian (Hungary)
           - Italian (Italy)
           - Japanese (Japan)
           - Korean (Korea)
-          - Lithuanian (Lithuania)
-          - Latvian (Latvia)
-          - Norwegian Bokmål (Norway)
           - Dutch (Netherlands)
           - Polish (Poland)
           - Portuguese (Brazil)
           - Portuguese (Portugal)
-          - Romanian (Romania)
           - Russian (Russia)
-          - Slovak (Slovakia)
-          - Slovenian (Slovenia)
-          - Serbian (Latin, Serbia)
           - Swedish (Sweden)
-          - Thai (Thailand)
           - Turkish (Turkey)
-          - Ukrainian (Ukraine)
           - Chinese (Simplified, China)
           - Chinese (Traditional, Taiwan)
         default: English (United States)
@@ -104,18 +71,13 @@ on:
         type: boolean
         required: true
         default: false
-      drivers:
-        description: "Add additional drivers (only for x64)"
-        type: boolean
-        required: true
-        default: false
 
 permissions:
   contents: write
 
 jobs:
   build:
-    runs-on: ${{ fromJSON('{"x64":"windows-2025","arm64":"windows-11-arm"}')[inputs.architecture] }}
+    runs-on: windows-2025
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -127,97 +89,87 @@ jobs:
         shell: pwsh
         run: |
           $langMap = @{
-            'Arabic (Saudi Arabia)'='ar-sa'
-            'Bulgarian (Bulgaria)'='bg-bg'
             'Czech (Czech Republic)'='cs-cz'
-            'Danish (Denmark)'='da-dk'
             'German (Germany)'='de-de'
-            'Greek (Greece)'='el-gr'
-            'English (United Kingdom)'='en-gb'
             'English (United States)'='en-us'
             'Spanish (Spain)'='es-es'
-            'Spanish (Mexico)'='es-mx'
-            'Estonian (Estonia)'='et-ee'
-            'Finnish (Finland)'='fi-fi'
-            'French (Canada)'='fr-ca'
             'French (France)'='fr-fr'
-            'Hebrew (Israel)'='he-il'
-            'Croatian (Croatia)'='hr-hr'
             'Hungarian (Hungary)'='hu-hu'
             'Italian (Italy)'='it-it'
             'Japanese (Japan)'='ja-jp'
             'Korean (Korea)'='ko-kr'
-            'Lithuanian (Lithuania)'='lt-lt'
-            'Latvian (Latvia)'='lv-lv'
-            'Norwegian Bokmål (Norway)'='nb-no'
             'Dutch (Netherlands)'='nl-nl'
             'Polish (Poland)'='pl-pl'
             'Portuguese (Brazil)'='pt-br'
             'Portuguese (Portugal)'='pt-pt'
-            'Romanian (Romania)'='ro-ro'
             'Russian (Russia)'='ru-ru'
-            'Slovak (Slovakia)'='sk-sk'
-            'Slovenian (Slovenia)'='sl-si'
-            'Serbian (Latin, Serbia)'='sr-latn-rs'
             'Swedish (Sweden)'='sv-se'
-            'Thai (Thailand)'='th-th'
             'Turkish (Turkey)'='tr-tr'
-            'Ukrainian (Ukraine)'='uk-ua'
             'Chinese (Simplified, China)'='zh-cn'
             'Chinese (Traditional, Taiwan)'='zh-tw'
           }
 
           $verMap = @{
-            'Windows 10 22H2'      = 'windows-10'
-            'Windows 11 23H2'      = 'windows-11old'
-            'Windows 11 24H2'      = 'windows-11'
-            'Windows 11 24H2 BETA' = 'windows-11beta'
-            'Windows 11 25H2'      = 'windows-11new'
-            'Windows 11 25H2 BETA' = 'windows-11dev'
-            'Windows 11 26H1'      = 'windows-1126h1'
-            'Windows DEV'          = 'windows-dev'
-            'Windows CANARY'       = 'windows-canary'
+            'Windows Server 2022'         = 'server-2022'
+            'Windows Server 2025'         = 'server-2025'
+          }
+
+          $editionMap = @{
+            'Datacenter Core'       = 'datacenter-core'
+            'Datacenter'            = 'datacenter'
+            'Standard Core'         = 'standard-core'
+            'Standard'              = 'standard'
+            'Multi'                 = 'multi'
+          }
+
+          $supportedEditions = @{
+            'Windows Server 2022' = @('Datacenter Core', 'Datacenter', 'Standard Core', 'Standard', 'Multi')
+            'Windows Server 2025' = @('Datacenter Core', 'Datacenter', 'Standard Core', 'Standard', 'Multi')
           }
 
           $langCode = $langMap['${{ inputs.language }}']
           $verCode  = $verMap['${{ inputs.versions }}']
+          $editionCode = $editionMap['${{ inputs.edition }}']
+
+          if ($supportedEditions['${{ inputs.versions }}'] -notcontains '${{ inputs.edition }}') {
+            throw "Edition '${{ inputs.edition }}' is not available for '${{ inputs.versions }}'. Supported: $($supportedEditions['${{ inputs.versions }}'] -join ', ')"
+          }
 
           $opts = ''
           if ('${{ inputs.esd }}' -eq 'true')     { $opts += ' -esd' }
-          if (('${{ inputs.drivers }}' -eq 'true') -and ('${{ inputs.architecture }}' -ne 'arm64')) {
-            $opts += ' -drivers'
-          }
           if ('${{ inputs.netfx3 }}' -eq 'true')  { $opts += ' -netfx3' }
           if (-not [string]::IsNullOrWhiteSpace('${{ inputs.revision }}')) {
+            if ('${{ inputs.revision }}' -notmatch '^\d+$') { throw "Revision must contain digits only." }
             $opts += ' -revision "${{ inputs.revision }}"'
           }
           $opts = $opts.Trim()
 
           echo "lang=$langCode"    >> $env:GITHUB_OUTPUT
           echo "version=$verCode"  >> $env:GITHUB_OUTPUT
+          echo "edition=$editionCode" >> $env:GITHUB_OUTPUT
           if ($opts) {
             echo "options=$opts"   >> $env:GITHUB_OUTPUT
           }
 
-      - name: Build Windows
+      - name: Build Windows Server
         id: build_windows
         shell: pwsh
         run: |
-          pwsh uup-dump-get-windows-iso.ps1 ${{ steps.map.outputs.version }} ${{ inputs.architecture == 'arm64' && 'c:/output' || 'd:/output' }} -architecture ${{ inputs.architecture }} -edition ${{ inputs.edition }} -lang ${{ steps.map.outputs.lang }} ${{ steps.map.outputs.options }}
+          pwsh uup-dump-get-windows-iso.ps1 ${{ steps.map.outputs.version }} d:/output -architecture x64 -edition ${{ steps.map.outputs.edition }} -lang ${{ steps.map.outputs.lang }} ${{ steps.map.outputs.options }}
           echo "iso_name=$env:ISO_NAME" >> $env:GITHUB_OUTPUT
 
       - name: Create split zip
         shell: pwsh
         run: |
-          7z a -tzip -mx=0 -v1950M -bsp2 "${{ inputs.architecture == 'arm64' && 'c:/output' || 'd:/output' }}/$($env:ISO_NAME).zip" "$((Get-Item -Path '${{ inputs.architecture == 'arm64' && 'C:/output' || 'D:/output' }}/*.ISO').FullName)"
-          Get-ChildItem "${{ inputs.architecture == 'arm64' && 'c:/output' || 'd:/output' }}/$($env:ISO_NAME).zip.*" | Sort-Object Name | ForEach-Object { Write-Host "Created: $($_.FullName)" }
+          7z a -tzip -mx=0 -v1950M -bsp2 "d:/output/$($env:ISO_NAME).zip" "$((Get-Item -Path 'D:/output/*.ISO').FullName)"
+          Get-ChildItem "d:/output/$($env:ISO_NAME).zip.*" | Sort-Object Name | ForEach-Object { Write-Host "Created: $($_.FullName)" }
 
       - name: Upload ISO artifact
         id: upload_iso_artifact
         uses: actions/upload-artifact@v7
         with:
           name: ${{ env.ISO_NAME }}
-          path: ${{ inputs.architecture == 'arm64' && 'c:/output/*.ISO' || 'd:/output/*.ISO' }}
+          path: d:/output/*.ISO
           if-no-files-found: error
 
       - name: Set artifact_url
@@ -229,10 +181,10 @@ jobs:
         id: build_summary
         shell: pwsh
         run: |
-          $iso = Get-Content (Resolve-Path '${{ inputs.architecture == 'arm64' && 'c:/output' || 'd:/output' }}/*.json') | ConvertFrom-Json
+          $iso = Get-Content (Resolve-Path 'd:/output/*.json') | ConvertFrom-Json
           $imageNames = $iso.images | ForEach-Object { $_.name }
           if ($imageNames.Count -gt 1) {
-            if ($imageNames[0] -match '^(Windows (10|11))\s*(.*)') {
+            if ($imageNames[0] -match '^(Windows Server(?:, version)?(?: \d{4})?)\s*(.*)') {
               $prefix = $matches[1]
               $first = $imageNames[0]
               $rest = $imageNames[1..($imageNames.Count - 1)] | ForEach-Object { ($_ -replace "^$prefix\s*", '') }
@@ -244,7 +196,7 @@ jobs:
             $finalImageName = $imageNames
           }
 
-          $parts = Get-ChildItem "${{ inputs.architecture == 'arm64' && 'C:/output' || 'D:/output' }}/$($env:ISO_NAME).zip.0*" | Sort-Object Name
+          $parts = Get-ChildItem "D:/output/$($env:ISO_NAME).zip.0*" | Sort-Object Name
           $partsList = ($parts | ForEach-Object { $_.Name }) -join '  <br/>'
 
           # Build config row only when there are any options
@@ -254,7 +206,6 @@ jobs:
             # map short flags to full descriptions from workflow inputs
             $descMap = @{
               '-esd'     = 'Use ESD compression'
-              '-drivers' = 'Add additional drivers'
               '-netfx3'  = 'Add .NET Framework 3.5'
             }
             # split -> normalize -> map -> deduplicate
@@ -277,7 +228,7 @@ jobs:
           | :--- | :--- |
           | Name | $finalImageName $($iso.version) |
           | Build | $($iso.build) |
-          | Architecture | ${{ inputs.architecture }} |
+          | Architecture | x64 |
           | Language | ${{ inputs.language }} |
           "@
 
@@ -315,7 +266,21 @@ jobs:
           echo "title=$($iso.title)" >> $env:GITHUB_ENV
           echo "images=$($finalImageName)" >> $env:GITHUB_ENV
           echo "iso_checksum=$($iso.checksum)" >> $env:GITHUB_ENV
-          echo "tagname=$($iso.build).$($iso.version).${{ fromJSON('{"Pro":"PRO","Home":"HOME","Multi":"MULTI"}')[inputs.edition] }}.${{ fromJSON('{"x64":"X64","arm64":"ARM64"}')[inputs.architecture] }}.${{ fromJSON('{"ar-sa":"AR","bg-bg":"BG","cs-cz":"CS","da-dk":"DA","de-de":"DE","el-gr":"EL","en-gb":"EN","en-us":"EN","es-es":"ES","es-mx":"ES","et-ee":"ET","fi-fi":"FI","fr-ca":"FR","fr-fr":"FR","he-il":"HE","hr-hr":"HR","hu-hu":"HU","it-it":"IT","ja-jp":"JA","ko-kr":"KO","lt-lt":"LT","lv-lv":"LV","nb-no":"NB","nl-nl":"NL","pl-pl":"PL","pt-br":"PT","pt-pt":"PT","ro-ro":"RO","ru-ru":"RU","sk-sk":"SK","sl-si":"SL","sr-latn-rs":"SR","sv-se":"SV","th-th":"TH","tr-tr":"TR","uk-ua":"UK","zh-cn":"ZH","zh-tw":"ZH"}')[steps.map.outputs.lang] }}$($iso.tags)" >> $env:GITHUB_ENV
+          $editionTagMap = @{
+            'Datacenter Core'       = 'DATACENTERCORE'
+            'Datacenter'            = 'DATACENTER'
+            'Standard Core'         = 'STANDARDCORE'
+            'Standard'              = 'STANDARD'
+            'Multi'                 = 'MULTI'
+          }
+          $langTagMap = @{
+            'cs-cz'='CS'; 'de-de'='DE'; 'en-us'='EN'; 'es-es'='ES'; 'fr-fr'='FR'; 'hu-hu'='HU'
+            'it-it'='IT'; 'ja-jp'='JA'; 'ko-kr'='KO'; 'nl-nl'='NL'; 'pl-pl'='PL'; 'pt-br'='PT'
+            'pt-pt'='PT'; 'ru-ru'='RU'; 'sv-se'='SV'; 'tr-tr'='TR'; 'zh-cn'='ZH'; 'zh-tw'='ZH'
+          }
+          $editionTag = $editionTagMap['${{ inputs.edition }}']
+          $langTag = $langTagMap['${{ steps.map.outputs.lang }}']
+          echo "tagname=$($iso.build).$($iso.version).$editionTag.X64.$langTag$($iso.tags)" >> $env:GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -324,12 +289,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: "${{ env.tagname }}"
-          name: "${{ env.images }} ${{ inputs.architecture}} ${{ env.version }} (${{ env.build }})"
+          name: "${{ env.images }} x64 ${{ env.version }} (${{ env.build }})"
           body_path: summary.md
           draft: false
-          prerelease: ${{ !contains(fromJson('["Windows 10 22H2","Windows 11 23H2","Windows 11 24H2","Windows 11 25H2","Windows 11 26H1"]'), inputs.versions) }}
+          prerelease: false
           files: |
-            ${{ inputs.architecture == 'arm64' && 'C:/output/*.zip.0*' || 'D:/output/*.zip.0*' }}
+            D:/output/*.zip.0*
 
       - name: Generate platform packages
         if: ${{ success() }}
@@ -349,8 +314,8 @@ jobs:
           $dist = Join-Path $ws "dist"
           New-Item -ItemType Directory -Force -Path $dist | Out-Null
 
-          $localParts = Get-ChildItem "${{ inputs.architecture == 'arm64' && 'C:/output' || 'D:/output' }}/${{ env.ISO_NAME }}.zip.0*" -File | Sort-Object Name
-          if (-not $localParts) { throw "No local split parts found in ${{ inputs.architecture == 'arm64' && 'C:/output' || 'D:/output' }}/${{ env.ISO_NAME }}.zip.0**" }
+          $localParts = Get-ChildItem "D:/output/${{ env.ISO_NAME }}.zip.0*" -File | Sort-Object Name
+          if (-not $localParts) { throw "No local split parts found in D:/output/${{ env.ISO_NAME }}.zip.0**" }
 
           $partsLines = @()
           foreach ($p in $localParts) {
