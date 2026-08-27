@@ -110,15 +110,17 @@ on:
         required: true
         default: false
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+permissions:
+  contents: write
 
 jobs:
   build:
-    runs-on: ${{ fromJSON('{"x64":"windows-2022","arm64":"windows-11-arm"}')[inputs.architecture] }}
+    runs-on: ${{ fromJSON('{"x64":"windows-2025","arm64":"windows-11-arm"}')[inputs.architecture] }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Map inputs
         id: map
@@ -201,21 +203,21 @@ jobs:
         id: build_windows
         shell: pwsh
         run: |
-          pwsh uup-dump-get-windows-iso.ps1 ${{ steps.map.outputs.version }} c:/output -architecture ${{ inputs.architecture }} -edition ${{ inputs.edition }} -lang ${{ steps.map.outputs.lang }} ${{ steps.map.outputs.options }}
+          pwsh uup-dump-get-windows-iso.ps1 ${{ steps.map.outputs.version }} ${{ inputs.architecture == 'arm64' && 'c:/output' || 'd:/output' }} -architecture ${{ inputs.architecture }} -edition ${{ inputs.edition }} -lang ${{ steps.map.outputs.lang }} ${{ steps.map.outputs.options }}
           echo "iso_name=$env:ISO_NAME" >> $env:GITHUB_OUTPUT
 
       - name: Create split zip
         shell: pwsh
         run: |
-          7z a -tzip -mx=0 -v1950M -bsp2 "c:/output/$($env:ISO_NAME).zip" "$((Get-Item -Path C:/output/*.ISO).FullName)"
-          Get-ChildItem "c:/output/$($env:ISO_NAME).zip.*" | Sort-Object Name | ForEach-Object { Write-Host "Created: $($_.FullName)" }
+          7z a -tzip -mx=0 -v1950M -bsp2 "${{ inputs.architecture == 'arm64' && 'c:/output' || 'd:/output' }}/$($env:ISO_NAME).zip" "$((Get-Item -Path '${{ inputs.architecture == 'arm64' && 'C:/output' || 'D:/output' }}/*.ISO').FullName)"
+          Get-ChildItem "${{ inputs.architecture == 'arm64' && 'c:/output' || 'd:/output' }}/$($env:ISO_NAME).zip.*" | Sort-Object Name | ForEach-Object { Write-Host "Created: $($_.FullName)" }
 
       - name: Upload ISO artifact
         id: upload_iso_artifact
         uses: actions/upload-artifact@v7
         with:
           name: ${{ env.ISO_NAME }}
-          path: c:/output/*.ISO
+          path: ${{ inputs.architecture == 'arm64' && 'c:/output/*.ISO' || 'd:/output/*.ISO' }}
           if-no-files-found: error
 
       - name: Set artifact_url
@@ -227,7 +229,7 @@ jobs:
         id: build_summary
         shell: pwsh
         run: |
-          $iso = Get-Content (Resolve-Path c:/output/*.json) | ConvertFrom-Json
+          $iso = Get-Content (Resolve-Path '${{ inputs.architecture == 'arm64' && 'c:/output' || 'd:/output' }}/*.json') | ConvertFrom-Json
           $imageNames = $iso.images | ForEach-Object { $_.name }
           if ($imageNames.Count -gt 1) {
             if ($imageNames[0] -match '^(Windows (10|11))\s*(.*)') {
@@ -242,7 +244,7 @@ jobs:
             $finalImageName = $imageNames
           }
 
-          $parts = Get-ChildItem "C:/output/$($env:ISO_NAME).zip.0*" | Sort-Object Name
+          $parts = Get-ChildItem "${{ inputs.architecture == 'arm64' && 'C:/output' || 'D:/output' }}/$($env:ISO_NAME).zip.0*" | Sort-Object Name
           $partsList = ($parts | ForEach-Object { $_.Name }) -join '  <br/>'
 
           # Build config row only when there are any options
@@ -317,7 +319,7 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: softprops/action-gh-release@v2.5.0
+        uses: softprops/action-gh-release@v3.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -327,7 +329,7 @@ jobs:
           draft: false
           prerelease: ${{ !contains(fromJson('["Windows 10 22H2","Windows 11 23H2","Windows 11 24H2","Windows 11 25H2","Windows 11 26H1"]'), inputs.versions) }}
           files: |
-            C:/output/*.zip.0*
+            ${{ inputs.architecture == 'arm64' && 'C:/output/*.zip.0*' || 'D:/output/*.zip.0*' }}
 
       - name: Generate platform packages
         if: ${{ success() }}
@@ -347,8 +349,8 @@ jobs:
           $dist = Join-Path $ws "dist"
           New-Item -ItemType Directory -Force -Path $dist | Out-Null
 
-          $localParts = Get-ChildItem "C:/output/${{ env.ISO_NAME }}.zip.0*" -File | Sort-Object Name
-          if (-not $localParts) { throw "No local split parts found in C:/output/${{ env.ISO_NAME }}.zip.0**" }
+          $localParts = Get-ChildItem "${{ inputs.architecture == 'arm64' && 'C:/output' || 'D:/output' }}/${{ env.ISO_NAME }}.zip.0*" -File | Sort-Object Name
+          if (-not $localParts) { throw "No local split parts found in ${{ inputs.architecture == 'arm64' && 'C:/output' || 'D:/output' }}/${{ env.ISO_NAME }}.zip.0**" }
 
           $partsLines = @()
           foreach ($p in $localParts) {
