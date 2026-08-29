@@ -118,7 +118,7 @@ jobs:
     runs-on: ${{ fromJSON('{"x64":"windows-2025","arm64":"windows-11-arm"}')[inputs.architecture] }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
@@ -214,7 +214,7 @@ jobs:
 
       - name: Upload ISO artifact
         id: upload_iso_artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: ${{ env.ISO_NAME }}
           path: ${{ inputs.architecture == 'arm64' && 'c:/output/*.ISO' || 'd:/output/*.ISO' }}
