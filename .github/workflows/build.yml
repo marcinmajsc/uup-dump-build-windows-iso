@@ -36,6 +36,7 @@ on:
           - Windows 11 25H2
           - Windows 11 25H2 BETA
           - Windows 11 26H1
+          - Windows 11 26H2 BETA
           - Windows DEV
           - Windows CANARY
         default: Windows 11 25H2
@@ -175,6 +176,7 @@ jobs:
             'Windows 11 25H2'      = 'windows-11new'
             'Windows 11 25H2 BETA' = 'windows-11dev'
             'Windows 11 26H1'      = 'windows-1126h1'
+            'Windows 11 26H2 BETA' = 'windows-1126h2'
             'Windows DEV'          = 'windows-dev'
             'Windows CANARY'       = 'windows-canary'
           }
